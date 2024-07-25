@@ -1,6 +1,6 @@
 import React from "react";
 import { Helmet } from "react-helmet";
-import customIcon from "../img/index-icon.png"
+import customIcon from "../../assets/icons/index-icon.png"
 
 const Favicon = () => {
     return(
