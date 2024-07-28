@@ -25,7 +25,6 @@ const Usuario = db.define('usuarios', {
     role: {
         type: DataTypes.STRING,
         allowNull: false,
-        defaultValue: 'client'
     },
     token: DataTypes.STRING,
     confirmado: DataTypes.BOOLEAN
