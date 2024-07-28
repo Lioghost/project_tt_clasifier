@@ -1,5 +1,5 @@
 import express from 'express'
-import usuarioRoutes from './routes/usuarioRoutes.js'
+import authRoutes from './routes/authRoutes.js'
 import db from './config/db.js'
 //import csurf from 'csurf'
 //import cookieParser from 'cookie-parser'
@@ -39,7 +39,7 @@ try {
 app.use( express.static('public') )
 
 
-app.use('/auth', usuarioRoutes)
+app.use('/auth', authRoutes)
 
 
 //Definir un puerto

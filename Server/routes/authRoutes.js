@@ -8,7 +8,7 @@ import { //formularioLogin,
          resetPassword, 
          //formularioRegistro,
          comprobarToken,
-         nuevoPassword } from "../controllers/usuarioController.js";
+         nuevoPassword } from "../controllers/authController.js";
 
 const router = express.Router();
 

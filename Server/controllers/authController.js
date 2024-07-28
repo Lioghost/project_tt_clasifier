@@ -5,18 +5,9 @@ import { generarJWT, generarID } from '../config/tokens.js'
 import { emailRegistro, emailOlvidePassword } from '../config/emails.js'
 
 
-/*
-const formularioLogin = (req, res) => {
-    //Es posible pasar informacion a la vista como un objeto, el primer parametro corresponde a que vista, y el segundo la infomación, la cual se pasa agregando un = al elemento del platilla
-    //Se usa auth, ya que en index se esta definiendo que las vistas se encuantran en la carpta "views"
-    res.render('auth/login', {
-        pagina: 'Iniciar Sesion',
-        csrfToken: req.csrfToken() //Se genera el Token de inicio de sesión
-    })
-}
-*/
-
 const autenticar = async (req, res) => {
+
+    //Probalmente si se usa req.csrfToken() se debe generar el Token desde este punto, sin embargo, no estoy completamente seguro y pasarlo al FrontEnd
 
     const { email, password } = req.body;
 
@@ -27,30 +18,35 @@ const autenticar = async (req, res) => {
     }
 
     //Comprobar si el usuario esta confirmado
-    if(!usuario.confirmado) {
-        
+    if(!usuario.confirmado)
         return res.status(400).json({msg: 'Tu cuenta no ha sido confirmada'}); //Se envia un mensaje de error en formato json
-    }
 
-    //Revisar el password
     //Se pasa el password de req.body obtenido anteriormente
     if(!usuario.verificarPassword(password)) {
-        
-        return res.status(400).json({msg: 'email o password incorrecto'}); //Se envia un mensaje de error en formato json
+        return res.status(400).json({msg: 'Email o password incorrecto'}); //Se envia un mensaje de error en formato json
     }
 
     //Autenticar al usuario
-    const token = generarJWT({id: usuario.id, nombre: usuario.nombre});
+    const token = generarJWT({id: usuario.id, name: usuario.name, role: usuario.role});
 
     console.log(token);
     //Almacenar en un cookie
     //Al habilitar cookie parser brinda acceso para poder escribir en lo cookies
     //Primer paramtro: nombre, segundo parametro el valor
-    return res.cookie('_token', token, {
+    res.cookie('_token', token, {
         httpOnly: true,  //Evita los ataques crostait, hace que un cookie no sea accesible desde la api de javascript
         //expires: 9000
         //secure: true
-    }).redirect('/')
+    });
+
+     // Redirigir según el rol del usuario
+    if (usuario.role === 'Admin') {
+        //return res.redirect('/admin/dashboard');
+        return res.status(200).json({msg: 'Bienvenido Administrador'});
+    } else {
+        //return res.redirect('/client/dashboard');
+        return res.status(200).json({msg: 'Bienvenido Cliente'});
+    }
 
 }
 
@@ -78,7 +74,7 @@ const formularioRegistro = (req, res) => {
 const registrar = async (req, res) => {
     
     //Extraer datos
-    const { name, username, email, password } = req.body
+    const { name, username, email, password, role } = req.body
     console.log(req.body)
     //Verificar existencia de usuario
     const existeUsuario = await Usuario.findOne({ where: { email } })
@@ -91,6 +87,7 @@ const registrar = async (req, res) => {
         username,
         email,
         password,
+        role: role || 'client',
         token: generarID()
     });
 
@@ -170,14 +167,13 @@ const comprobarToken = async (req, res) => {
 
     //Si el usuario es valido, continuar al siguiente middleware
     //Mostrar formulario para modificar el password
-    //Dejar vacio el action se manda a la misma url en html
     return res.status(200).json({msg: 'Usuario validado correctamente'});
 }
 
 const nuevoPassword = async (req, res) => {
 
-    const { token } = req.params;   //token recuperado de enlace para recuperar password
-    const { password } = req.body;  //Se recupera del formulario para ingresar nueva password
+    const { token } = req.params;   
+    const { password } = req.body; 
 
     //Identificar quien hace el cambio
     const usuario = await Usuario.findOne({where: {token}});
