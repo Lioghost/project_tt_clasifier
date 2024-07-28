@@ -1,0 +1,21 @@
+:root {
+    /* Colores */
+    --color-primary: #28B7D7;
+    --color-secondary: #075079;
+    --color-background: #f8f9fa;
+    --color-border: #e0e0e0;
+    --color-white: #FFF;
+  
+    /* Tipografía */
+    --font-family-base: 'Helvetica', sans-serif;
+  
+    /* Otros estilos globales */
+    --border-radius: 4px;
+    --transition-speed: 0.3s;
+}
+
+*{
+    padding: 0;
+    margin: 0;
+}
+  

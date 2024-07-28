@@ -1,0 +1,98 @@
+@import '../../styles/global.css';
+
+.header {
+    background-color: var(--color-background);
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--color-border);
+    position: sticky; /* Mantiene el header fijo al hacer scroll */
+    top: 0; /* Asegura que el header esté al tope de la página */
+    z-index: 1000; /* Asegura que el header esté sobre otros elementos */
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 1100px; /* Limita el ancho máximo para centrar el contenido */
+    margin: 0 auto; /* Centra el contenido horizontalmente */
+    flex-wrap: wrap; /* Permite que los elementos se envuelvan en pantallas pequeñas */
+}
+
+.header-logo {
+    height: 40px;
+    margin-right: auto;
+}
+
+.header-links {
+    display: flex;
+    gap: 15px;
+    margin-left: auto;
+    font-family: var(--font-family-base);
+    flex-wrap: wrap; /* Permite que los botones se envuelvan si es necesario */
+}
+
+.header-button {
+    text-decoration: none;
+    color: var(--color-primary);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.header-button:hover {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+}
+
+.header-button-register {
+    background-color: var(--color-primary);
+    border: none;
+    color: var(--color-white);
+}
+
+.header-button-register:hover {
+    background-color: var(--color-secondary);
+}
+
+/* Estilos responsivos para pantallas medianas y pequeñas */
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .header-logo {
+        margin-bottom: 10px; /* Agrega espacio debajo del logo */
+    }
+
+    .header-links {
+        flex-direction: column;
+        gap: 10px;
+        margin-left: 0;
+        width: 100%; /* Asegura que los botones ocupen todo el ancho disponible */
+        align-items: center; /* Centra los botones */
+    }
+
+    .header-button, .header-button-register {
+        width: 100%;
+        text-align: center;
+        padding: 10px 0; /* Ajusta el padding para un diseño más compacto */
+        font-size: 1em; /* Ajusta el tamaño del texto */
+    }
+}
+
+/* Estilos responsivos para pantallas muy pequeñas */
+@media (max-width: 480px) {
+    .header-button, .header-button-register {
+        padding: 8px 16px;
+        font-size: 0.9em;
+    }
+
+    .header-logo {
+        height: 30px;
+    }
+}
