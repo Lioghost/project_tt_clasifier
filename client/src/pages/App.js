@@ -4,6 +4,7 @@ import Favicon from '../components/common/favicon';
 import Header from '../components/header/header';
 import MainView from '../components/mainview/mainview';
 import Login from '../components/login/login';
+import Register from '../components/register/register';
 
 function App() {
   return (
@@ -14,7 +15,7 @@ function App() {
         <Routes>
           <Route path="/" element={<MainView />}/>
           <Route path="/login" element={<Login />}/>
-          <Route path="/register"/>
+          <Route path="/register" element={<Register />}/>
         </Routes>
       </div>
     </Router>

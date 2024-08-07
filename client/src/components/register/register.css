@@ -1,0 +1,143 @@
+@import '../../styles/global.css';
+
+.register-view {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 80px);
+    background-image: url("../../assets/img/background.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    padding: 20px;
+}
+
+.register-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 1100px;
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.register-form {
+    max-width: 550px;
+    width: 100%;
+    padding: 40px;
+    box-sizing: border-box;
+    font-family: var(--font-family-base);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    background: var(--color-white);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form {
+    width: 100%;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--color-secondary);
+    font-weight: bold;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Transición para suavizar el cambio de borde */
+}
+
+.form-group input::placeholder {
+    color: var(--color-placeholder);
+    opacity: 0.7;
+    font-style: italic;
+}
+
+/* Estilo para el borde del input cuando está enfocado */
+.form-group input:focus {
+    border-color: var(--color-primary); /* Cambia el color del borde al enfoque */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Añade una sombra alrededor del input */
+    outline: none; /* Remueve el borde de enfoque predeterminado del navegador */
+}
+
+.form-group .error-input {
+    border-color: var(--color-error); /* Color del borde cuando hay un error */
+}
+
+.register-button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color var(--transition-speed);
+}
+
+.register-button:hover {
+    background-color: var(--color-secondary);
+}
+
+.error-message {
+    color: var(--color-error); /* Asegúrate de que el texto sea visible */
+    display: block; /* Asegúrate de que el mensaje esté visible */
+    margin-top: 5px; /* Asegúrate de que haya margen para separarlo del input */
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+/* Estilos responsivos para pantallas medianas */
+@media (max-width: 1200px) {
+    .register-form {
+        max-width: 450px;
+    }
+}
+
+/* Estilos responsivos para pantallas pequeñas */
+@media (max-width: 800px) {
+    .register-form {
+        max-width: 350px;
+    }
+
+    .register-links {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%; /* Asegura que el contenedor ocupe el ancho completo */
+    }
+
+    .register-links a {
+        width: 100%; /* Asegura que los enlaces no se desborden */
+        text-align: center;
+        margin: 10px 0px 10px 0px;
+        box-sizing: border-box;
+    }
+}
+
+/* Estilos responsivos para pantallas extra pequeñas */
+@media (max-width: 500px) {
+    .register-form {
+        max-width: 300px;
+    }
+
+    .register-button {
+        padding: 8px 16px;
+    }
+}

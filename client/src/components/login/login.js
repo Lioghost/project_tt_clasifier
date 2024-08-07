@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "./login.css";
 import motorImage from '../../assets/img/motor-image.png';
 
@@ -53,7 +54,7 @@ const Login = () => {
                     </form>
                     <div className="login-links">
                         <a href="#forgot-password">Olvidé mi contraseña</a>
-                        <a href="#register">¿No tienes cuenta?</a>
+                        <Link to="/register">¿No tienes una cuenta?</Link>
                     </div>
                 </div>
             </div>
