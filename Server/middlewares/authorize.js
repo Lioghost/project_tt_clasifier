@@ -6,16 +6,16 @@ const authorize = (roles = []) => {
 
     return (req, res, next) => {
         
-        if (!req.user || !req.user.roles) {
+        if (!req.user || !req.user.role) {
           return res.status(403).json({ message: 'Access denied: No roles found.' });
         }
     
-        const userRoles = req.user.roles;
-        const hasAccess = allowedRoles.some(role => userRoles.includes(role));
+        const userRoles = req.user.role;
+        console.log(userRoles)
+        const hasAccess = roles.some(role => userRoles.includes(role));
         
-        if (!hasAccess) {
-          return res.status(403).json({ message: 'Access denied: Insufficient permissions.' });
-        }
+        if (!hasAccess)
+          return res.status(403).json( { message: 'Access denied: Insufficient permissions.' });
     
         next(); // El usuario tiene permiso, continúa con la siguiente función de middleware o controlador
     };
@@ -23,12 +23,6 @@ const authorize = (roles = []) => {
 };
 
 export default authorize
-
-
-
-
-
-
 
 
   

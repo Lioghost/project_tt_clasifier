@@ -39,14 +39,7 @@ const autenticar = async (req, res) => {
         //secure: true
     });
 
-     // Redirigir según el rol del usuario
-    if (usuario.role === 'Admin') {
-        //return res.redirect('/admin/dashboard');
-        return res.status(200).json({msg: 'Bienvenido Administrador'});
-    } else {
-        //return res.redirect('/client/dashboard');
-        return res.status(200).json({msg: 'Bienvenido Cliente'});
-    }
+    return res.status(200).json({id: usuario.id, msg: `Bienvenido ${usuario.name}`, role: usuario.role});
 
 }
 

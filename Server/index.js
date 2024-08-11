@@ -1,8 +1,10 @@
 import express from 'express'
 import authRoutes from './routes/authRoutes.js'
+import adminRoutes from './routes/adminRoutes.js'
+import sharedRoutes from './routes/sharedRoutes.js' 
 import db from './config/db.js'
 //import csurf from 'csurf'
-//import cookieParser from 'cookie-parser'
+import cookieParser from 'cookie-parser'
 import dotenv from 'dotenv'
 dotenv.config({path: '.env'})
 //Para habilitar los modulos, se coloca en el package.json un apartado '"type": "modul"'
@@ -15,7 +17,7 @@ app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
 
-//app.use(cookieParser());
+app.use(cookieParser());
 
 //Habilitar CSRF
 //Permite almacenar cookies en la memoria en lugar de la consola o tambien es común en localstorage
@@ -40,6 +42,8 @@ app.use( express.static('public') )
 
 
 app.use('/auth', authRoutes)
+app.use('/admin', adminRoutes)
+app.use('/shared', sharedRoutes)
 
 
 //Definir un puerto
