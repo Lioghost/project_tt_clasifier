@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import "./login.css";
 import motorImage from '../../assets/img/motor-image.png';
 
@@ -8,14 +7,36 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        
-        // Aquí va la lógica de validación
+
         if (!email || !password) {
             setErrorMessage('Correo o contraseña incorrectos.');
-        } else {
-            setErrorMessage('');
+            return;
+        }
+
+        try {
+            const response = await fetch('http://localhost:3000/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+                credentials: 'include', // Para incluir cookies
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                // Redirigir al usuario a la página principal o dashboard
+                console.log(data);
+                window.location.href = '/dashboard';
+            } else {
+                setErrorMessage(data.msg || 'Error al iniciar sesión.');
+            }
+        } catch (error) {
+            console.error('Error al conectar con el servidor:', error);
+            setErrorMessage('Error al conectar con el servidor.');
         }
     };
 
@@ -50,16 +71,12 @@ const Login = () => {
                             />
                         </div>
                         {errorMessage && <p className="error-message">{errorMessage}</p>}
-                        <button type="submit" className="login-button">Iniciar sesión</button>
+                        <button type="submit" className="login-button">Iniciar Sesión</button>
                     </form>
-                    <div className="login-links">
-                        <a href="#forgot-password">Olvidé mi contraseña</a>
-                        <Link to="/register">¿No tienes una cuenta?</Link>
-                    </div>
                 </div>
             </div>
         </div>
     );
-}
+};
 
 export default Login;

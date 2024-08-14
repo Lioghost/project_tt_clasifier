@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.get('/cuenta/:id', authenticate, authorize(['Admin', 'Client']), edit);
 
-router.post('/cuenta/:id', authenticate, authorize(['Admin', 'Client']), saveChanges);
+router.post('/cuenta/:id', authenticate, authorize(['Admin', 'Client']), saveChange);
 
 //router.get('/juntas', sharedController.juntas);
 

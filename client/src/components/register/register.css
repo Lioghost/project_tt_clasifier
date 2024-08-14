@@ -103,6 +103,41 @@
     font-size: 14px;
 }
 
+.success-message {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 20px;
+    color: var(--color-white);
+    background-color: var(--color-success); /* Define este color en tus variables de CSS */
+    border-radius: 5px;
+    text-align: center;
+    font-family: var(--font-family-base);
+    font-size: 16px;
+    font-weight: bold;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    animation: fadeInOut 3s forwards;
+}
+
+/* Animación para hacer que el mensaje aparezca y luego desaparezca gradualmente */
+@keyframes fadeInOut {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px); /* Empieza ligeramente por encima */
+    }
+    10% {
+        opacity: 1;
+        transform: translateY(0); /* Se coloca en su posición final */
+    }
+    90% {
+        opacity: 1; /* Se mantiene visible la mayor parte del tiempo */
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-10px); /* Se desvanece y se mueve hacia arriba */
+    }
+}
+
 /* Estilos responsivos para pantallas medianas */
 @media (max-width: 1200px) {
     .register-form {
