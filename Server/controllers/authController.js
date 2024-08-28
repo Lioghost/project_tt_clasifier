@@ -4,11 +4,13 @@ import Usuario from '../models/Usuario.js'
 import { generarJWT, generarID } from '../config/tokens.js'
 import { emailRegistro, emailOlvidePassword } from '../config/emails.js'
 
+const iniciarSesion = (req, res) => {
+    return res.status(200).json({msg: "Iniciar Sesión"});
+}
 
 const autenticar = async (req, res) => {
 
     //Probalmente si se usa req.csrfToken() se debe generar el Token desde este punto, sin embargo, no estoy completamente seguro y pasarlo al FrontEnd
-
     const { email, password } = req.body;
 
     //Comprobar si el usuario existe
@@ -43,11 +45,11 @@ const autenticar = async (req, res) => {
 
 }
 
-/*
 const cerrarSesion = (req, res) => {
     return res.clearCookie('_token').status(200).redirect('/auth/login')
 }
 
+/*
 const formularioRegistro = (req, res) => {
 
     console.log(req.csrfToken());   //""""req.csrfToken se registra en automatico gracias a csrf({cookie: true}) del index, es un token publico que se genera con una llave""" 
@@ -67,7 +69,7 @@ const formularioRegistro = (req, res) => {
 const registrar = async (req, res) => {
     
     //Extraer datos
-    const { name, username, email, password, role } = req.body
+    const { name, username, lastname, email, password, role } = req.body
     console.log(req.body)
     //Verificar existencia de usuario
     const existeUsuario = await Usuario.findOne({ where: { email } })
@@ -77,6 +79,7 @@ const registrar = async (req, res) => {
     //const usuario = await Usuario.create(req.body)
     const usuario = await Usuario.create({
         name,
+        lastname,
         username,
         email,
         password,
@@ -183,9 +186,9 @@ const nuevoPassword = async (req, res) => {
 
 
 export {
-    //formularioLogin,
+    iniciarSesion,
     autenticar,
-    //cerrarSesion,
+    cerrarSesion,
     //formularioRegistro,
     registrar,
     confirmar,

@@ -9,6 +9,10 @@ const Usuario = db.define('usuarios', {
         type: DataTypes.STRING,
         allowNull: false    //Indican que estos campos no pueden estar vacios
     },
+    lastname: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
     username: {
         type: DataTypes.STRING,
         allowNull: false,    //Indican que estos campos no pueden estar vacios
@@ -34,6 +38,12 @@ const Usuario = db.define('usuarios', {
         beforeCreate: async function(usuario) {     //Se le pasa el req.body, pero es nombrado como "usuario"
             const salt = await bcrypt.genSalt(10)
             usuario.password = await bcrypt.hash(usuario.password, salt);
+        },
+        beforeUpdate: async function(usuario) {
+            if(usuario.changed('password')) {
+                const salt = await bcrypt.genSalt(10)
+                usuario.password = await bcrypt.hash(usuario.password, salt);
+            }
         }
     },
     scopes: {   //Sirven para eliminar ciertos elementos durante que se hace una consulta a un modelo en especifico, como por ejemplo consultar existencia de un usuario

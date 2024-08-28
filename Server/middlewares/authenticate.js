@@ -3,7 +3,9 @@ import jwt from 'jsonwebtoken'
 const authenticate = async (req, res, next) => {
     
     console.log(req.cookies)
-    const token = req.cookies._token || req.header('Authorization').replace('Bearer ', '');
+    // Primero verifica si el encabezado Authorization está presente
+    const authHeader = req.header('Authorization');
+    const token = req.cookies._token || (authHeader && authHeader.replace('Bearer ', ''));
 
     if (!token)
         return res.status(401).json({ msg: 'Acceso denegado, no autenticado' });

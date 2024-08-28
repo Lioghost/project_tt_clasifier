@@ -1,7 +1,7 @@
 import express from "express";
-import { //formularioLogin,
+import { iniciarSesion,
          autenticar,
-         //cerrarSesion,
+         cerrarSesion,
          //formularioOlvidePassword, 
          registrar, 
          confirmar, 
@@ -12,10 +12,11 @@ import { //formularioLogin,
 
 const router = express.Router();
 
+router.get('/login', iniciarSesion);
 router.post('/login', autenticar);
 
 //Cerrar sesion
-//router.post('/cerrar-sesion', cerrarSesion)
+router.post('/cerrar-sesion', cerrarSesion)
 
 //router.get('/registro', formularioRegistro);
 router.post('/registro', registrar);

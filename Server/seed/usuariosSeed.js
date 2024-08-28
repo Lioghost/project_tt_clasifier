@@ -2,7 +2,8 @@ import bcrypt from 'bcrypt'
 
 const usuarios = [
     {
-        name: "leonel",
+        name: "goku",
+        lastname: "palacios",
         username: "ghost",
         email: "broly@gmail.com",
         password: bcrypt.hashSync("12345", 10),
@@ -10,7 +11,8 @@ const usuarios = [
         confirmado: 1
       },
       {
-        name: "emilio",
+        name: "broly",
+        lastname: "tamayo",
         username: "cyber-punk",
         email: "goku@gmail.com",
         password: bcrypt.hashSync("12345", 10),
