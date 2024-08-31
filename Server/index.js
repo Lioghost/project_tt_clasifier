@@ -1,3 +1,5 @@
+import cors from 'cors';
+
 import express from 'express'
 import authRoutes from './routes/authRoutes.js'
 import adminRoutes from './routes/adminRoutes.js'
@@ -17,6 +19,20 @@ const app = express()
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
+// Configuración CORS
+app.use(cors({
+    origin: 'http://localhost:4000', // Reemplaza con la URL de tu frontend
+    credentials: true, // Si necesitas enviar cookies o autenticación
+}));
+
+// Forzar la inclusión de Headers CORS en todas las respuestas
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4000');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Credentials', 'true'); // Permitir el envío de cookies
+    next();
+});
 
 app.use(cookieParser());
 
@@ -54,5 +70,3 @@ const port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log(`El servidor esta funcionando en el puerto ${port}`);
 });
-
-

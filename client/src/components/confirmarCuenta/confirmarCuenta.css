@@ -1,0 +1,103 @@
+@import '../../styles/global.css';
+
+.confirmacion-view {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 80px);
+    background-image: url("../../assets/img/background.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    padding: 20px;
+}
+
+.confirmacion-content {
+    max-width: 600px;
+    width: 100%;
+    padding: 40px;
+    box-sizing: border-box;
+    font-family: var(--font-family-base);
+    background: rgba(255, 255, 255, 0.9); /* Fondo semi-transparente */
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    animation: fadeIn 1.5s ease-in-out; /* Animación de entrada */
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.confirmacion-content h1 {
+    color: var(--color-primary);
+    margin-bottom: 20px;
+    font-size: 28px;
+    text-transform: uppercase;
+}
+
+.confirmacion-content p {
+    color: var(--color-secondary);
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+.confirmacion-content .error-message {
+    color: var(--color-error);
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+.confirmacion-content .success-message {
+    color: var(--color-success);
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+/* Botón para regresar o continuar */
+.confirmacion-button {
+    margin-top: 30px;
+    padding: 10px 20px;
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    font-size: 16px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+}
+
+.confirmacion-button:hover {
+    background-color: var(--color-secondary);
+}
+
+/* Estilos responsivos para pantallas medianas */
+@media (max-width: 1200px) {
+    .confirmacion-content {
+        max-width: 500px;
+    }
+}
+
+/* Estilos responsivos para pantallas pequeñas */
+@media (max-width: 800px) {
+    .confirmacion-content {
+        max-width: 400px;
+    }
+}
+
+/* Estilos responsivos para pantallas extra pequeñas */
+@media (max-width: 500px) {
+    .confirmacion-content {
+        max-width: 300px;
+        padding: 20px;
+    }
+}

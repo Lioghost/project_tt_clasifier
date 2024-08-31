@@ -74,7 +74,7 @@ const registrar = async (req, res) => {
     //Verificar existencia de usuario
     const existeUsuario = await Usuario.findOne({ where: { email } })
     if(existeUsuario)
-        return res.status(400).json({msg: 'El usuario ya esta Registrado'});
+        return res.status(400).json({msg: 'El usuario ya está registrado'});
 
     //const usuario = await Usuario.create(req.body)
     const usuario = await Usuario.create({
@@ -121,7 +121,6 @@ const confirmar = async (req, res) => {
     await usuario.save();       //Despues de moficar los datos, se guardan nuevamente en la BD
 
     return res.status(200).json({msg: 'La cuenta se confirmo correctamente'});
-
 }
 
 const resetPassword = async (req, res) => {

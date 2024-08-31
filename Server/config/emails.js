@@ -63,7 +63,7 @@ const emailRegistro = async (datos) => {
             </div>
             <div class="content">
               <p>Gracias por registrarte <b>${username}</b>. Por favor, confirma tu correo electrónico haciendo clic en el siguiente botón:</p>
-              <a href="${process.env.BACKEND_URL}:${3000}/auth/confirmar/${token}" class="button">Confirmar correo electrónico</a>
+              <a href="http://localhost:4000/auth/confirmar/${token}" class="button">Confirmar correo electrónico</a>
               <p>Si tu no creaste esta cuenta puedes ignorar este mensaje</p>
             </div>
           </div>
@@ -133,7 +133,7 @@ const emailOlvidePassword = async (datos) => {
             <div class="content">
               <p>Hola <b>${username}</b>, has solicitado restablecer tu password en GesketGenious.com</p>
               <p>Sigue el siguiente enlace para generar un password nuevo:</p>
-              <a href="${process.env.BACKEND_URL}:${3000}/auth/olvide-password/${token}" class="button">Restablecer Password</a>
+              <a href="http://localhost:4000/auth/olvide-password/${token}" class="button">Restablecer Password</a>
               <p>Si tu no solicitaste el cambio de password, puedes ignorar este mensaje</p>
             </div>
           </div>

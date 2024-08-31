@@ -32,10 +32,10 @@ const Register = () => {
 
         // Validación de nombres y apellidos
         if (!firstName) {
-            newErrors.firstName = 'El nombre es obligatorio.';
+            newErrors.name = 'El nombre es obligatorio.';  // Usamos 'name' porque así lo espera el backend
         }
         if (!lastName) {
-            newErrors.lastName = 'El apellido es obligatorio.';
+            newErrors.lastname = 'El apellido es obligatorio.';  // Usamos 'lastname' porque así lo espera el backend
         }
 
         // Validación de contraseña
@@ -63,10 +63,12 @@ const Register = () => {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        username,
-                        email,
-                        password,
-                        name: `${firstName} ${lastName}`,
+                        name: firstName,        // El campo 'name' coincide con el ID del input
+                        lastname: lastName,     // El campo 'lastname' coincide con el ID del input
+                        username,               // El campo 'username' coincide con el ID del input
+                        email,                  // El campo 'email' coincide con el ID del input
+                        password,               // El campo 'password' coincide con el ID del input
+                        role: 'Admin',          // Si el rol es dinámico, puedes cambiarlo aquí según sea necesario.
                     }),
                 });
 
@@ -138,7 +140,7 @@ const Register = () => {
                             {errors.email && <p className="error-message">{errors.email}</p>}
                         </div>
                         <div className="form-group">
-                            <label htmlFor="firstName" className={errors.firstName ? 'error' : ''}>Nombres:</label>
+                            <label htmlFor="firstName" className={errors.name ? 'error' : ''}>Nombres:</label>
                             <input 
                                 type="text" 
                                 id="firstName" 
@@ -146,12 +148,12 @@ const Register = () => {
                                 placeholder="Ingresa tus nombres aquí"
                                 value={firstName}
                                 onChange={(e) => setFirstName(e.target.value)}
-                                className={errors.firstName ? 'error-input' : ''}
+                                className={errors.name ? 'error-input' : ''}
                             />
-                            {errors.firstName && <p className="error-message">{errors.firstName}</p>}
+                            {errors.name && <p className="error-message">{errors.name}</p>}
                         </div>
                         <div className="form-group">
-                            <label htmlFor="lastName" className={errors.lastName ? 'error' : ''}>Apellidos:</label>
+                            <label htmlFor="lastName" className={errors.lastname ? 'error' : ''}>Apellidos:</label>
                             <input 
                                 type="text" 
                                 id="lastName" 
@@ -159,9 +161,9 @@ const Register = () => {
                                 placeholder="Ingresa tus apellidos aquí"
                                 value={lastName}
                                 onChange={(e) => setLastName(e.target.value)}
-                                className={errors.lastName ? 'error-input' : ''}
+                                className={errors.lastname ? 'error-input' : ''}
                             />
-                            {errors.lastName && <p className="error-message">{errors.lastName}</p>}
+                            {errors.lastname && <p className="error-message">{errors.lastname}</p>}
                         </div>
                         <div className="form-group">
                             <label htmlFor="password" className={errors.password ? 'error' : ''}>Contraseña:</label>
@@ -189,6 +191,7 @@ const Register = () => {
                             />
                             {errors.confirmPassword && <p className="error-message">{errors.confirmPassword}</p>}
                         </div>
+                        {errors.form && <p className="error-message">{errors.form}</p>}
                         <button type="submit" className="register-button">Enviar</button>
                     </form>
                 </div>
