@@ -12,12 +12,14 @@ function App() {
     <Router>
       <div className="App">
         <Favicon />
-        <Header />
         <Routes>
-          <Route path="/" element={<MainView />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/auth/confirmar/:token" element={<ConfirmarCuenta />} /> {/* Nueva ruta para confirmar cuenta */}
+          {/* Rutas que incluyen el Header */}
+          <Route path="/" element={<><Header /><MainView /></>} />
+          <Route path="/login" element={<><Header /><Login /></>} />
+          <Route path="/register" element={<><Header /><Register /></>} />
+          
+          {/* Ruta que no incluye el Header */}
+          <Route path="/auth/confirmar/:token" element={<ConfirmarCuenta />} /> {/* Confirmar cuenta sin Header */}
         </Routes>
       </div>
     </Router>
@@ -25,4 +27,3 @@ function App() {
 }
 
 export default App;
-

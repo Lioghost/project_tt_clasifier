@@ -4,12 +4,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: calc(100vh - 80px);
+    height: 100vh; /* Asegura que el contenedor cubra toda la altura de la pantalla */
     background-image: url("../../assets/img/background.png");
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
-    padding: 20px;
+    padding: 0; /* Elimina cualquier padding que pueda estar afectando */
 }
 
 .login-content {

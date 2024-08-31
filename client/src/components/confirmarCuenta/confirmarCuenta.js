@@ -5,41 +5,41 @@ import "./confirmarCuenta.css";
 const ConfirmarCuenta = () => {
     const { token } = useParams(); // Captura el token desde la URL
     const [mensaje, setMensaje] = useState('');
+    const [solicitudHecha, setSolicitudHecha] = useState(false); // Nuevo estado para controlar la solicitud
     const navigate = useNavigate(); // Para redirigir al usuario
 
     useEffect(() => {
+        if (solicitudHecha) return; // Evita que la solicitud se haga más de una vez
+
         const confirmarCuenta = async () => {
             try {
                 const response = await fetch(`http://localhost:3000/auth/confirmar/${token}`, {
                     method: 'GET',
                     credentials: 'include', // Incluir cookies si es necesario
                 });
-    
-                console.log('Response status:', response.status); // Verificar el código de estado
-                console.log('Response ok:', response.ok); // Verificar si response.ok es true
-    
-                const data = await response.json();
-                console.log('Response data:', data); // Verificar el contenido de la respuesta
-    
+
+                console.log('Response status:', response.status); // Verifica el código de estado
+                console.log('Response ok:', response.ok); // Verifica si response.ok es true
+
                 if (response.ok) {
+                    const data = await response.json();
                     setMensaje(data.msg || 'Cuenta confirmada exitosamente. Puedes iniciar sesión.');
+                    setSolicitudHecha(true); // Marca la solicitud como hecha
                 } else {
-                    setMensaje(data.msg || 'Hubo un error al confirmar tu cuenta.');
+                    setMensaje('Hubo un error al confirmar tu cuenta.');
                 }
             } catch (error) {
                 console.error('Error al conectar con el servidor:', error);
-                setMensaje(error.message || 'Hubo un error al conectar con el servidor.');
+                setMensaje('Hubo un error al conectar con el servidor.');
             }
         };
-    
+
         confirmarCuenta();
-    }, [token]);
+    }, [token, solicitudHecha]);
 
     const handleButtonClick = () => {
-        // Redirige al usuario a la página de inicio de sesión
         navigate('/login');
     };
-    
 
     return (
         <div className="confirmacion-view">

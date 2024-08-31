@@ -120,7 +120,7 @@ const confirmar = async (req, res) => {
     //Almacenmiento en la base datos
     await usuario.save();       //Despues de moficar los datos, se guardan nuevamente en la BD
 
-    return res.status(200).json({msg: 'La cuenta se confirmo correctamente'});
+    return res.status(200).json({msg: 'La cuenta se confirmó correctamente.'});
 }
 
 const resetPassword = async (req, res) => {
