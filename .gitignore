@@ -3,3 +3,6 @@ Server/node_modules/
 client/node_modules/
 
 .env
+
+public/idenfifier/*
+public/uploads/*

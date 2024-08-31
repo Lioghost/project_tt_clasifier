@@ -15,6 +15,6 @@ router.get('/dashboard', authenticate, authorize('Admin'), dashboard);
 router.get('/users', authenticate, authorize(['Admin']), users);
 
 // route to enable admin user
-router.put('/users/:id', authenticate, authorize(['Admin']), enable_admin_user);
+router.patch('/users/:id', authenticate, authorize(['Admin']), enable_admin_user);
 
 export default router

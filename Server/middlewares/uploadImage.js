@@ -5,11 +5,11 @@ import { generarID } from '../config/tokens.js'
 
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {      //Lugar donde se van a guradar los archivos
-        cb(null, './public/uploads/')    
+        cb(null, './public/identifier/')    
                     
     },
     filename: function(req, file, cb) { //Prmite nombrar el archivo a cargar con un Id único y evitar duplicados 
-        cb(null, generarID() +  path.extname(file.originalname) )
+        cb(null, generarID() + path.extname(file.originalname) )
     }
 })
 
