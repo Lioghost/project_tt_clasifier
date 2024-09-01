@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom"; // Importa Link para manejar la navegación
 import "./login.css";
 import motorImage from '../../assets/img/motor-image.png';
 
@@ -70,6 +71,9 @@ const Login = () => {
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                         </div>
+                        <div className="form-group">
+                            <Link to="/forgot-password" className="forgot-password-link">¿Olvidaste tu contraseña?</Link> {/* Enlace a la página de recuperar contraseña */}
+                        </div>
                         {errorMessage && <p className="error-message">{errorMessage}</p>}
                         <button type="submit" className="login-button">Iniciar sesión</button>
                     </form>
@@ -78,4 +82,5 @@ const Login = () => {
         </div>
     );
 };
+
 export default Login;
