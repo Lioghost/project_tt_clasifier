@@ -75,10 +75,6 @@
     outline: none; /* Remueve el borde de enfoque predeterminado del navegador */
 }
 
-.form-group .error-input {
-    border-color: var(--color-error); /* Color del borde cuando hay un error */
-}
-
 .register-button {
     width: 100%;
     padding: 10px;
@@ -93,6 +89,11 @@
 
 .register-button:hover {
     background-color: var(--color-secondary);
+}
+
+.form-group .error-input {
+    border-color: var(--color-error); /* Color del borde cuando hay un error */
+    margin-bottom: 20px;
 }
 
 .error-message {

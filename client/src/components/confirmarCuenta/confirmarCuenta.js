@@ -47,7 +47,7 @@ const ConfirmarCuenta = () => {
                 <h1>Confirmación de Cuenta</h1>
                 <p>{mensaje}</p>
                 <button className="confirmacion-button" onClick={handleButtonClick}>
-                    {mensaje.includes('exitosamente') ? 'Iniciar Sesión' : 'Regresar'}
+                    {mensaje.includes('exitosamente') ? 'Iniciar Sesión' : 'Volver al Inicio'}
                 </button>
             </div>
         </div>
