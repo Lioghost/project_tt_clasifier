@@ -1,0 +1,16 @@
+.logout-button {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-left: 10px;
+    transition: background-color 0.3s ease; /* Agrega la transición */
+    transition: color 0.3s ease; /* Agrega la transición */
+}
+
+.logout-button:hover {
+    background-color: var(--color-primary-dark);
+    color: var(--color-primary);
+}

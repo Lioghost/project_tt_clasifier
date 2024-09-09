@@ -36,6 +36,12 @@ app.use((req, res, next) => {
 
 app.use(cookieParser());
 
+// Middleware para deshabilitar el caché
+app.use((req, res, next) => {
+    res.setHeader('Cache-Control', 'no-store');
+    next();
+});
+
 //Habilitar CSRF
 //Permite almacenar cookies en la memoria en lugar de la consola o tambien es común en localstorage
 //Registra en automatico una funcion de csrfToken en cada "req" de las rutas porque se registra de forma global

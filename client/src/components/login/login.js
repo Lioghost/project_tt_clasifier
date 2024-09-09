@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom"; // Importa Link para manejar la navegación
+import React, { useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom"; // Importa Link para manejar la navegación
+import { AuthContext } from '../../context/AuthContext';
 import "./login.css";
 import motorImage from '../../assets/img/motor-image.png';
 
@@ -7,6 +8,8 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const { login } = useContext(AuthContext);
+    const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -27,14 +30,18 @@ const Login = () => {
             });
 
             const data = await response.json();
+            const { role } = data;
 
-            if (response.ok) {
-                // Redirigir al usuario a la página principal o dashboard
-                console.log(data);
-                window.location.href = '/dashboard';
+            if (response.ok && role === 'Cliente') {
+                login();
+                navigate('/client/dashboard');
+            } else if (response.ok && role === 'Admin'){
+                navigate('/admin/dashboard');
             } else {
                 setErrorMessage(data.msg || 'Error al iniciar sesión.');
             }
+
+
         } catch (error) {
             console.error('Error al conectar con el servidor:', error);
             setErrorMessage('Error al conectar con el servidor.');

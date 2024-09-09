@@ -1,0 +1,14 @@
+.admin-dashboard {
+    padding: 20px;
+    background-color: var(--color-background);
+    border-radius: var(--border-radius);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.admin-dashboard h1 {
+    color: var(--color-primary);
+}
+
+.admin-dashboard p {
+    color: var(--color-secondary);
+}
