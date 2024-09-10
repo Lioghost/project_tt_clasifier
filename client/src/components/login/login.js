@@ -36,6 +36,7 @@ const Login = () => {
                 login();
                 navigate('/client/dashboard');
             } else if (response.ok && role === 'Admin'){
+                login();
                 navigate('/admin/dashboard');
             } else {
                 setErrorMessage(data.msg || 'Error al iniciar sesión.');
