@@ -9,8 +9,8 @@ const router = express.Router();
 
 
 // Ruta para el dashboard del cliente
-router.get('/dashboard', authenticate, authorize('Cliente'), dashboard);
+router.get('/dashboard', authenticate, authorize('Client'), dashboard);
 
-router.post('/unknowk-juntas', authenticate, authorize('Cliente'), upload.single('image'), sendJuntasDesconocidas);
+router.post('/unknown-juntas', authenticate, authorize('Client'), upload.single('imagen'), sendJuntasDesconocidas);
 
 export default router

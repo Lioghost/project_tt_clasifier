@@ -1,23 +1,20 @@
+import JuntaDesconocida from "../models/JuntaDesconocida.js";
 
 const dashboard = (req, res) => {
     // La función aquí simplemente confirma que el usuario tiene acceso.
     return res.status(200).json({ msg: 'Acceso al dashboard permitido Client' });
 };
 
-const sendJuntasDesconocidas = (req, res) => {
+const sendJuntasDesconocidas = async (req, res, next) => {
     
-    try {
-        console.log(req.file);  //req.file lo registra multer y ya se tiene acceso en el req, y res
-         
+    try { 
         //Almacenar la imagen y publicar la propiedad
-        const test_image = req.file.filename
-        console.log(test_image)
-        //await propiedad.save()
+        const new_junta = await JuntaDesconocida.create({
+            message: req.body.message,
+            image: req.file.filename
+        })
 
-        //res.redirect('/mis-propiedades') No se ejecuta porque se esta ejecutando codigo javascript en propiedad
-            //init de dropzone, por lo que se podria decir estamos trabajando aparte
-            //se tiene que enviar al usuario al siguiente middleware o regresarlo al codigo a través de next()
-        next()
+        return res.status(200).json({msg: 'Imagen subida correctamente', msg2: req.body.message}) //Se envia respuesta al usuario
 
     } catch (error) {
         //Para debuggear

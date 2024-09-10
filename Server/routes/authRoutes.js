@@ -20,9 +20,6 @@ router.post('/login', autenticar);
 //Cerrar sesion
 router.post('/cerrar-sesion', cerrarSesion)
 
-// Verificar autenticación
-router.get('/check-auth', authenticate, checkAuth);
-
 //router.get('/registro', formularioRegistro);
 router.post('/registro', registrar);
 

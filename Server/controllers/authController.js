@@ -46,7 +46,7 @@ const autenticar = async (req, res) => {
 }
 
 const cerrarSesion = (req, res) => {
-    res.clearCookie('_token');
+
     return res.clearCookie('_token').status(200).redirect('/auth/login')
 }
 
@@ -183,14 +183,6 @@ const nuevoPassword = async (req, res) => {
 
     return res.status(200).json({msg: 'El PASSWORD se he guardado correctamente'});
 }
-
-const checkAuth = (req, res) => {
-    if (req.user) {
-        return res.status(200).json({ msg: 'Usuario autenticado' });
-    } else {
-        return res.status(401).json({ msg: 'Usuario no autenticado' });
-    }
-};
 
 
 export {
