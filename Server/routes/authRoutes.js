@@ -8,8 +8,7 @@ import { iniciarSesion,
          resetPassword, 
          //formularioRegistro,
          comprobarToken,
-         nuevoPassword,
-        checkAuth } from "../controllers/authController.js";
+         nuevoPassword } from "../controllers/authController.js";
 import authenticate from "../middlewares/authenticate.js";
 
 const router = express.Router();

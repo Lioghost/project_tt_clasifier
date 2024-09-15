@@ -84,11 +84,12 @@ const registrar = async (req, res) => {
         username,
         email,
         password,
-        role: role || 'client',
+        role: role || 'Client',
         token: generarID()
     });
 
     //Envia email de confirmación
+    console.log("holaaaa")
     //Funcion en emails.js
     emailRegistro({
         username: usuario.username,
@@ -195,6 +196,5 @@ export {
     //formularioOlvidePassword,
     resetPassword,
     comprobarToken,
-    nuevoPassword,
-    checkAuth
+    nuevoPassword
 }
