@@ -233,4 +233,3 @@ const AdministrarCuenta = () => {
 };
 
 export default AdministrarCuenta;
-

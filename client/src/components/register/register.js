@@ -71,8 +71,7 @@ const Register = () => {
                         lastname: lastName,     // El campo 'lastname' coincide con el ID del input
                         username,               // El campo 'username' coincide con el ID del input
                         email,                  // El campo 'email' coincide con el ID del input
-                        password,               // El campo 'password' coincide con el ID del input
-                        role: 'Admin',          // Si el rol es dinámico, puedes cambiarlo aquí según sea necesario.
+                        password                // El campo 'password' coincide con el ID del input
                     }),
                 });
 
