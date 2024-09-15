@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, NavLink } from 'react-router-dom';
 import './Dashboard.css';
 import LogoutButton from '../logout/LogoutButton';
 import { AuthContext } from '../../context/AuthContext';
@@ -35,10 +35,10 @@ const ClientDashboard = () => {
             <nav className="sidebar-nav">
               <ul>
                 <li className="sidebar-header"><img src={logo} alt="GasketGenius" className="header-logo-dashboard" /></li>
-                <li><a href="/client/dashboard">Inicio</a></li>
+                <li><NavLink to="/client/dashboard">Inicio</NavLink></li> 
                 <li><a href="/client/catalogo">Catálogo</a></li>
                 <li><a href="/client/identificador">Identificador</a></li>
-                <li><a href="/client/administrar_cuenta">Administrar cuenta</a></li>
+                <li><NavLink to="/client/cuenta">Administrar cuenta</NavLink></li>
               </ul>
             </nav>
           </aside>
@@ -88,7 +88,7 @@ const ClientDashboard = () => {
               </div>
               <div className="card">
                 <img src={accountImg} alt="Administrar cuenta" />
-                <a href="/client/cuenta">Administrar cuenta</a>
+                <NavLink to="/client/cuenta">Administrar cuenta</NavLink>
               </div>
             </section>
           </main>

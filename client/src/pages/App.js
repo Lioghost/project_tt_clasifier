@@ -36,8 +36,8 @@ function App() {
                   <Route path="/client/dashboard" element={<ProtectedRoute><ClientDashboard /></ProtectedRoute>} />
                   <Route path="/admin/dashboard" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
 
-                  <Route path="/admin/cuenta" element={<AdministrarCuenta />} /> 
-
+                  <Route path="/admin/cuenta" element={<ProtectedRoute><AdministrarCuenta /></ProtectedRoute>} /> 
+                  <Route path="/client/cuenta" element={<ProtectedRoute><AdministrarCuenta /></ProtectedRoute>} /> 
               </Routes>
           </AuthProvider>
       </Router>

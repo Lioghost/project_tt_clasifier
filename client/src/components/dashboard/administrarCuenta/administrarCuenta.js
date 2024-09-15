@@ -192,7 +192,7 @@ const AdministrarCuenta = () => {
                                     <input 
                                         type="password" 
                                         name="password" 
-                                        placeholder={formData.password || ''} 
+                                        placeholder={formData.password || '************'} 
                                         onChange={handleChange} 
                                         disabled={!isEditing}
                                     />
