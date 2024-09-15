@@ -1,0 +1,140 @@
+.account-management {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    padding-top: 2rem;
+  }
+  
+  .account-details {
+    display: flex;
+    justify-content: space-between;
+    background-color: #fff; /* Cambiado a blanco para un diseño más limpio */
+    padding: 2rem;
+    border-radius: 10px;
+    width: 32rem; /* Ligera ampliación del ancho */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave para destacarse */
+}
+  
+  .account-left {
+    text-align: center;
+    flex-basis: 20%;
+    margin-right: 50px;
+  }
+  
+  .user-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-top: 1rem;
+  }
+  
+  .account-center {
+    flex-basis: 60%;
+    display: block;
+    text-align: left; /* Añadido para alinear el texto a la izquierda */
+  }
+  
+  .account-info {
+    margin-bottom: 1.2rem;
+  }
+
+/* Ajustar margen inferior de los inputs para evitar superposiciones */
+input {
+    width: 100%;
+    padding: 0.8rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    transition: background-color 0.3s, border-color 0.3s;
+    color: #333;
+    outline: none;
+    margin-bottom: 1rem; /* Agrega un margen inferior para separar el input del mensaje */
+}
+
+/* Cuando los inputs están habilitados para edición */
+input:focus {
+    background-color: #fff;
+    border-color: var(--color-primary); /* Color del borde cuando está activo */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+input:disabled {
+    background-color: #e9ecef;
+    border-color: #dee2e6;
+    color: #6c757d;
+}
+
+/* Estilo para los mensajes de error */
+.error-message-admin-account {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 0.3rem; /* Espacio entre el input y el mensaje de error */
+    margin-bottom: 1rem; /* Espacio adicional debajo del mensaje */
+    display: block; /* Asegura que se mantenga en bloque */
+}
+  
+/* Estilo para las etiquetas */
+label {
+    font-weight: 600;
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+/* Contenedor para hacer más visualmente atractivo */
+.account-info {
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+  
+  p {
+    font-size: 1rem;
+    color: #666;
+  }
+  
+  .account-right {
+    flex-basis: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+
+/* Botón de edición */
+.edit-button {
+    background: none;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    color: var(--color-primary);
+    transition: color 0.3s;
+}
+
+.edit-button:hover {
+    color: var(--color-primary-hover); /* Cambio de color en hover */
+}
+  
+/* Botón guardar */
+.save-button {
+    margin-top: 2rem;
+    padding: 0.8rem 2rem;
+    background-color: var(--color-primary-disabled);
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+
+.save-button.active {
+    background-color: var(--color-primary); /* Color más fuerte */
+}
+
+.save-button:disabled {
+    background-color: #e0e0e0; /* Color más claro para el estado deshabilitado */
+    cursor: not-allowed;
+}

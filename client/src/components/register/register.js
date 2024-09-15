@@ -18,8 +18,8 @@ const Register = () => {
         // Validación de nombre de usuario
         if (!username) {
             newErrors.username = 'El nombre de usuario es obligatorio.';
-        } else if (username.length < 4) {
-            newErrors.username = 'El nombre de usuario debe tener al menos 4 caracteres.';
+        } else if (username === "Usuario" || username.length < 4 || username.length > 20) {
+            newErrors.username = 'El nombre de usuario debe tener entre 4 y 20 caracteres, y ser diferente a Usuario';
         }
 
         // Validación de correo
@@ -33,16 +33,20 @@ const Register = () => {
         // Validación de nombres y apellidos
         if (!firstName) {
             newErrors.name = 'El nombre es obligatorio.';  // Usamos 'name' porque así lo espera el backend
+        } else if (firstName.length < 4 || firstName.length > 20) {
+            newErrors.name = 'El nombre debe tener entre 4 y 20 caracteres.';
         }
         if (!lastName) {
             newErrors.lastname = 'El apellido es obligatorio.';  // Usamos 'lastname' porque así lo espera el backend
+        } else if (lastName.length < 4 || lastName.length > 20) {
+            newErrors.lastname = 'El apellido debe tener entre 4 y 20 caracteres.';
         }
 
         // Validación de contraseña
         if (!password) {
             newErrors.password = 'La contraseña es obligatoria.';
-        } else if (password.length < 12) {
-            newErrors.password = 'La contraseña debe ser mínimo de 12 dígitos.';
+        } else if (password.length < 12 || password.length > 25) {
+            newErrors.password = 'La contraseña debe tener entre 12 y 25 dígitos.';
         }
 
         // Validación de confirmación de contraseña

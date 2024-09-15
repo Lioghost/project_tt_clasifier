@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, NavLink } from 'react-router-dom';
 import './Dashboard.css';
 import LogoutButton from '../logout/LogoutButton';
 import { AuthContext } from '../../context/AuthContext';
@@ -39,10 +39,10 @@ const AdminDashboard = () => {
         <nav className="sidebar-nav">
           <ul>
             <li className="sidebar-header"><img src={logo} alt="GasketGenius" className="header-logo-dashboard" /></li>
-            <li><a href="/admin/dashboard">Inicio</a></li>
+            <li><NavLink to="/admin/dashboard">Inicio</NavLink></li> 
             <li><a href="/admin/catalogo">Catálogo</a></li>
             <li><a href="/admin/identificador">Identificador</a></li>
-            <li><a href="/admin/administrar_cuenta">Administrar cuenta</a></li>
+            <li><NavLink to="/admin/cuenta">Administrar cuenta</NavLink></li>
             <li><a href="/admin/juntas">Administrar juntas</a></li>
             <li><a href="/admin/motores">Administrar motores</a></li>
             <li><a href="/admin/autos">Administrar autos</a></li>
@@ -97,7 +97,7 @@ const AdminDashboard = () => {
           </div>
           <div className="card">
             <img src={accountImg} alt="Administrar cuenta" />
-            <a href="/admin/cuenta">Administrar cuenta</a>
+            <NavLink to="/admin/cuenta">Administrar cuenta</NavLink>
           </div>
           <div className="card">
             <img src={meetingsImg} alt="Administrar juntas" />

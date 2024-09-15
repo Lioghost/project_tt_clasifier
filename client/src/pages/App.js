@@ -10,6 +10,9 @@ import ForgotPassword from '../components/forgotPassword/forgotPassword'; // Imp
 import ResetPassword from '../components/ResetPassword/resetPassword' // Importa el nuevo componente
 import ClientDashboard from '../components/dashboard/ClientDashboard';
 import AdminDashboard from '../components/dashboard/AdminDashboard';
+
+import AdministrarCuenta from '../components/dashboard/administrarCuenta/administrarCuenta';
+
 import { AuthProvider } from '../context/AuthContext';
 import ProtectedRoute from '../components/ProtectedRoute';
 
@@ -32,6 +35,9 @@ function App() {
                   {/* Rutas de los Dashboard */}
                   <Route path="/client/dashboard" element={<ProtectedRoute><ClientDashboard /></ProtectedRoute>} />
                   <Route path="/admin/dashboard" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
+
+                  <Route path="/admin/cuenta" element={<AdministrarCuenta />} /> 
+
               </Routes>
           </AuthProvider>
       </Router>
