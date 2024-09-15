@@ -32,7 +32,7 @@ const Login = () => {
             const data = await response.json();
             const { role } = data;
 
-            if (response.ok && role === 'Cliente') {
+            if (response.ok && role === 'Client') {
                 login();
                 navigate('/client/dashboard');
             } else if (response.ok && role === 'Admin'){

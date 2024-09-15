@@ -18,6 +18,15 @@ const usuarios = [
         password: bcrypt.hashSync("12345", 10),
         role: "Client",
         confirmado: 1
+      },
+      {
+        name: "Daniel Olmos",
+        lastname: "Gutiérrez",
+        username: "DanielOlmos123",
+        email: "lotsaparrot93@gmail.com",
+        password: bcrypt.hashSync("MineZero_123", 10),
+        role: "Client",
+        confirmado: 1
       }
 ]
 
