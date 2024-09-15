@@ -15,6 +15,7 @@ const autenticar = async (req, res) => {
 
     //Comprobar si el usuario existe
     const usuario = await Usuario.findOne({where: {email}});
+    
     if(!usuario) {
         return res.status(400).json({msg: 'El usuario no existe'}); //Se envia un mensaje de error en formato json
     }
@@ -41,7 +42,7 @@ const autenticar = async (req, res) => {
         //secure: true
     });
 
-    return res.status(200).json({id: usuario.id, msg: `Bienvenido ${usuario.name}`, role: usuario.role});
+    return res.status(200).json({id: usuario.id, name: usuario.name, lastname: usuario.lastname, username: usuario.username, role: usuario.role});
 
 }
 

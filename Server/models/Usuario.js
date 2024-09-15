@@ -49,7 +49,7 @@ const Usuario = db.define('usuarios', {
     scopes: {   //Sirven para eliminar ciertos elementos durante que se hace una consulta a un modelo en especifico, como por ejemplo consultar existencia de un usuario
         eliminarPassword: {
             attributes: {
-                exclude: ['password', 'token', 'confirmado', 'createdAt', 'updatedAt', 'role']
+                exclude: ['password', 'token', 'confirmado', 'createdAt', 'updatedAt']
             }
         }
     }
