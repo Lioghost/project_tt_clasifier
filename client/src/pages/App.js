@@ -10,8 +10,10 @@ import ForgotPassword from '../components/forgotPassword/forgotPassword'; // Imp
 import ResetPassword from '../components/ResetPassword/resetPassword' // Importa el nuevo componente
 import ClientDashboard from '../components/dashboard/ClientDashboard';
 import AdminDashboard from '../components/dashboard/AdminDashboard';
+import NotAuthorized from '../components/notAuthorized/notAuthorized';
 
-import AdministrarCuenta from '../components/dashboard/administrarCuenta/administrarCuenta';
+import AdministrarCuentaAdmin from '../components/dashboard/administrarCuenta/administrarCuentaAdmin';
+import AdministrarCuentaClient from '../components/dashboard/administrarCuenta/administrarCuentaClient';
 
 import { AuthProvider } from '../context/AuthContext';
 import ProtectedRoute from '../components/ProtectedRoute';
@@ -33,11 +35,14 @@ function App() {
                   <Route path="/auth/olvide-password/:token" element={<ResetPassword />} /> {/* Nueva ruta para restablecer contraseña */}
                   
                   {/* Rutas de los Dashboard */}
-                  <Route path="/admin/dashboard" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
-                  <Route path="/client/dashboard" element={<ProtectedRoute><ClientDashboard /></ProtectedRoute>} />
+                  <Route path="/admin/dashboard" element={<ProtectedRoute roles={['Admin']}><AdminDashboard /></ProtectedRoute>} />
+                  <Route path="/client/dashboard" element={<ProtectedRoute roles={['Client']}><ClientDashboard /></ProtectedRoute>} />
+                    
+                  {/* Rutas de administrar cuenta */}
+                  <Route path="/admin/cuenta" element={<ProtectedRoute roles={['Admin']}><AdministrarCuentaAdmin /></ProtectedRoute>} />
+                  <Route path="/client/cuenta" element={<ProtectedRoute roles={['Client']}><AdministrarCuentaClient /></ProtectedRoute>} />
 
-                  <Route path="/admin/cuenta" element={<ProtectedRoute><AdministrarCuenta /></ProtectedRoute>} /> 
-                  <Route path="/client/cuenta" element={<ProtectedRoute><AdministrarCuenta /></ProtectedRoute>} /> 
+                  <Route path="/not-authorized" element={<NotAuthorized />} />
               </Routes>
           </AuthProvider>
       </Router>

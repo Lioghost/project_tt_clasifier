@@ -7,7 +7,7 @@ import { AuthContext } from '../../../context/AuthContext';
 import logo from "../../../assets/img/header-logo.png";
 import profile from "../../../assets/img/profile.png";
 
-const AdministrarCuenta = () => {
+const AdministrarCuentaAdmin = () => {
     const { isAuthenticated, user } = useContext(AuthContext);
     const navigate = useNavigate();
     
@@ -16,7 +16,7 @@ const AdministrarCuenta = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [formData, setFormData] = useState({
         name: user?.name || '',
-        lastName: user?.lastName || '',
+        lastname: user?.lastname || '',
         username: user?.username || '',
         password: '',
         confirmPassword: ''
@@ -58,8 +58,8 @@ const AdministrarCuenta = () => {
         }
 
         // Validación para los apellidos: mayor a 4 y menor a 20 caracteres
-        if (formData.lastName.length < 4 || formData.lastName.length > 20) {
-            newErrors.lastName = 'Los apellidos deben tener entre 4 y 20 caracteres';
+        if (formData.lastname.length < 4 || formData.lastname.length > 20) {
+            newErrors.lastname = 'Los apellidos deben tener entre 4 y 20 caracteres';
         }
 
         // Validar que el nombre de usuario no sea "Usuario" y tenga entre 4 y 20 caracteres válidos
@@ -169,12 +169,12 @@ const AdministrarCuenta = () => {
                                     <label>Apellidos</label>
                                     <input 
                                         type="text" 
-                                        name="lastName" 
-                                        placeholder={formData.lastName || 'Apellido'} 
+                                        name="lastname" 
+                                        placeholder={formData.lastname || 'Apellido'} 
                                         onChange={handleChange} 
                                         disabled={!isEditing}
                                     />
-                                    {errors.lastName && <p className="error-message">{errors.lastName}</p>}
+                                    {errors.lastname && <p className="error-message">{errors.lastname}</p>}
                                 </div>
                                 <div className="account-info">
                                     <label>Usuario</label>
@@ -232,4 +232,4 @@ const AdministrarCuenta = () => {
     );
 };
 
-export default AdministrarCuenta;
+export default AdministrarCuentaAdmin;

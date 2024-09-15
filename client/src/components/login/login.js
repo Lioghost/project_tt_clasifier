@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom"; // Importa Link para manejar la navegación
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from '../../context/AuthContext';
 import "./login.css";
 import motorImage from '../../assets/img/motor-image.png';
@@ -26,23 +26,22 @@ const Login = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ email, password }),
-                credentials: 'include', // Para incluir cookies
+                credentials: 'include',
             });
 
             const data = await response.json();
             const { role } = data;
 
-            if (response.ok && role === 'Client') {
-                login();
-                navigate('/client/dashboard');
-            } else if (response.ok && role === 'Admin'){
-                login();
-                navigate('/admin/dashboard');
+            if (response.ok) {
+                login(data);
+                if (role === 'Client') {
+                    navigate('/client/dashboard');
+                } else if (role === 'Admin') {
+                    navigate('/admin/dashboard');
+                }
             } else {
                 setErrorMessage(data.msg || 'Error al iniciar sesión.');
             }
-
-
         } catch (error) {
             console.error('Error al conectar con el servidor:', error);
             setErrorMessage('Error al conectar con el servidor.');
@@ -80,7 +79,7 @@ const Login = () => {
                             />
                         </div>
                         <div className="form-group">
-                            <Link to="/forgot-password" className="forgot-password-link">¿Olvidaste tu contraseña?</Link> {/* Enlace a la página de recuperar contraseña */}
+                            <Link to="/forgot-password" className="forgot-password-link">¿Olvidaste tu contraseña?</Link>
                         </div>
                         {errorMessage && <p className="error-message">{errorMessage}</p>}
                         <button type="submit" className="login-button">Iniciar sesión</button>
