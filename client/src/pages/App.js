@@ -33,11 +33,11 @@ function App() {
                   <Route path="/auth/olvide-password/:token" element={<ResetPassword />} /> {/* Nueva ruta para restablecer contraseña */}
                   
                   {/* Rutas de los Dashboard */}
-                  <Route path="/client/dashboard" element={<ProtectedRoute><ClientDashboard /></ProtectedRoute>} />
-                  <Route path="/admin/dashboard" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
+                  <Route path="/admin/dashboard" element={<ProtectedRoute roles={['Admin']}><AdminDashboard /></ProtectedRoute>} />
+                  <Route path="/client/dashboard" element={<ProtectedRoute roles={['Client']}><ClientDashboard /></ProtectedRoute>} />
 
-                  <Route path="/admin/cuenta" element={<ProtectedRoute><AdministrarCuenta /></ProtectedRoute>} /> 
-                  <Route path="/client/cuenta" element={<ProtectedRoute><AdministrarCuenta /></ProtectedRoute>} /> 
+                  <Route path="/admin/cuenta" element={<ProtectedRoute roles={['Admin']}><AdministrarCuenta /></ProtectedRoute>} /> 
+                  <Route path="/client/cuenta" element={<ProtectedRoute roles={['Client']}><AdministrarCuenta /></ProtectedRoute>} /> 
               </Routes>
           </AuthProvider>
       </Router>
