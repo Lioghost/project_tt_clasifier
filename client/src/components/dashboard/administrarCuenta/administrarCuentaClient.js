@@ -8,13 +8,14 @@ import logo from "../../../assets/img/header-logo.png";
 import profile from "../../../assets/img/profile.png";
 
 const AdministrarCuentaClient = () => {
-    const { isAuthenticated, user } = useContext(AuthContext);
+    const { isAuthenticated, user, updateUser } = useContext(AuthContext);
     const navigate = useNavigate();
     
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [formData, setFormData] = useState({
+        id : user?.id || 0,
         name: user?.name || '',
         lastname: user?.lastname || '',
         username: user?.username || '',
@@ -22,12 +23,15 @@ const AdministrarCuentaClient = () => {
         confirmPassword: ''
     });
     const [errors, setErrors] = useState({});
+    const [isSaving, setIsSaving] = useState(false);
+    const [message, setMessage] = useState('');
 
     useEffect(() => {
         if (!isAuthenticated) {
             navigate('/login');
         }
-    }, [isAuthenticated, navigate]);
+        updateUser(user?.id);
+    }, [isAuthenticated, navigate, updateUser, user?.id]);
 
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
@@ -52,22 +56,18 @@ const AdministrarCuentaClient = () => {
     const validateForm = () => {
         const newErrors = {};
 
-        // Validación para el nombre: mayor a 4 y menor a 20 caracteres
         if (formData.name.length < 4 || formData.name.length > 20) {
             newErrors.name = 'El nombre debe tener entre 4 y 20 caracteres';
         }
 
-        // Validación para los apellidos: mayor a 4 y menor a 20 caracteres
         if (formData.lastname.length < 4 || formData.lastname.length > 20) {
             newErrors.lastname = 'Los apellidos deben tener entre 4 y 20 caracteres';
         }
 
-        // Validar que el nombre de usuario no sea "Usuario" y tenga entre 4 y 20 caracteres válidos
         if (formData.username === "Usuario" || formData.username.length < 4 || formData.username.length > 20) {
             newErrors.username = 'El nombre de usuario debe tener entre 4 y 20 caracteres válidos, y diferente a Usuario';
         }
 
-        // Validación para la contraseña: entre 12 y 25 caracteres
         if (formData.password && (formData.password.length < 12 || formData.password.length > 25)) {
             newErrors.password = 'La contraseña debe tener entre 12 y 25 caracteres';
         }
@@ -85,11 +85,51 @@ const AdministrarCuentaClient = () => {
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleSave = () => {
+    const handleSave = async () => {
         if (validateForm()) {
-            // Aquí podrías hacer una llamada a la API para guardar los cambios
-            console.log("Datos guardados:", formData);
-            setIsEditing(false); // Después de guardar, vuelve a desactivar la edición
+            setIsSaving(true);
+            setMessage('');
+
+            const role = localStorage.getItem('role');
+            const token = localStorage.getItem('token');
+
+
+            try {
+                const payload = {
+                    name: formData.name,
+                    lastname: formData.lastname,
+                    username: formData.username
+                };
+
+                if (formData.password) {
+                    payload.password = formData.password;
+                }
+
+                const response = await fetch(`http://localhost:3000/shared/cuenta/${formData.id}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Role': role,
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(payload),
+                });
+
+                if (response.ok) {
+                    console.log("Datos guardados:", formData);
+                    setIsEditing(false);
+                    setMessage('Datos guardados exitosamente');
+                } else {
+                    const data = await response.json();
+                    console.log("Errores de validación del servidor:", data);
+                    setMessage('Error al guardar los datos');
+                }
+            } catch (error) {
+                console.error('Error al conectar con el servidor:', error);
+                setMessage('Error al conectar con el servidor');
+            } finally {
+                setIsSaving(false);
+            }
         } else {
             console.log("Errores de validación:", errors);
         }
@@ -118,15 +158,15 @@ const AdministrarCuentaClient = () => {
                     </div>
 
                     <div className={`profile ${isDropdownOpen ? 'isDropdownOpen' : ''}`} onClick={handleClick}>
-                        <span>{user?.name || "Nombre del administrador"}</span>
-                        <img src={profile} alt="Usuario administrador" className="img-profile" />
+                        <span>{user?.username || "Nombre de usuario del cliente"}</span>
+                        <img src={profile} alt="Usuario cliente" className="img-profile" />
 
                         {isDropdownOpen && (
                             <div className="profile-dropdown">
                                 <div className="profile-dropdown-content">
-                                    <img src={profile} alt="Usuario administrador" className="img-profile-dropdown" />
+                                    <img src={profile} alt="Usuario cliente" className="img-profile-dropdown" />
                                     <div className="profile-dropdown-text">
-                                        <p className="profile-name">{user?.name || "Nombre del administrador"}</p>
+                                        <p className="profile-name">{user?.name || "Nombre del cliente"}</p>
                                         <p className="profile-email">{user?.email || "Correo del usuario"}</p>
                                     </div>
                                 </div>
@@ -148,13 +188,13 @@ const AdministrarCuentaClient = () => {
                                 <img src={profile} alt="Perfil del usuario" className="user-avatar" />
                             </div>
 
-                            <div className="account-center">
+                            <form className="account-center" onSubmit={(e) => { e.preventDefault(); handleSave(); }}>
                                 <div className="account-info">
                                     <label>Nombre</label>
                                     <input 
                                         type="text" 
                                         name="name" 
-                                        placeholder={formData.name || 'Nombre'} 
+                                        value={formData.name} 
                                         onChange={handleChange} 
                                         disabled={!isEditing}
                                     />
@@ -165,7 +205,7 @@ const AdministrarCuentaClient = () => {
                                     <input 
                                         type="text" 
                                         name="lastname" 
-                                        placeholder={formData.lastname || 'Apellido'} 
+                                        value={formData.lastname} 
                                         onChange={handleChange} 
                                         disabled={!isEditing}
                                     />
@@ -176,7 +216,7 @@ const AdministrarCuentaClient = () => {
                                     <input 
                                         type="text" 
                                         name="username" 
-                                        placeholder={formData.username || 'Usuario'} 
+                                        value={formData.username} 
                                         onChange={handleChange} 
                                         disabled={!isEditing}
                                     />
@@ -206,20 +246,21 @@ const AdministrarCuentaClient = () => {
                                         {errors.confirmPassword && <p className="error-message">{errors.confirmPassword}</p>}
                                     </div>
                                 )}
-                            </div>
+                            </form>
 
                             <div className="account-right">
-                                <button className="edit-button" onClick={handleEdit} disabled={isEditing}>Editar</button>
+                                <button type='button' className="edit-button" onClick={handleEdit} disabled={isEditing}>Editar</button>
                             </div>
                         </div>
 
                         <button 
                             className={`save-button ${isEditing ? 'active' : ''}`} 
                             onClick={handleSave} 
-                            disabled={!isEditing}
+                            disabled={!isEditing || isSaving}
                         >
-                            Guardar
+                            {isSaving ? 'Guardando...' : 'Guardar'}
                         </button>
+                        {message && <p className="error-message">{message}</p>}
                     </div>
                 </section>
             </main>

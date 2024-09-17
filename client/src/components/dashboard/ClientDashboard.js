@@ -52,7 +52,7 @@ const ClientDashboard = () => {
               </div>
     
               <div className={`profile ${isDropdownOpen ? 'isDropdownOpen' : ''}`} onClick={handleClick}>
-                <span>{user?.name || "Nombre del cliente"}</span>
+                <span>{user?.username || "Nombre de usuario del cliente"}</span>
                 <img src={profile} alt="Usuario cliente" className="img-profile" />
     
                 {isDropdownOpen && (

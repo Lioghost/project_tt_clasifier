@@ -42,7 +42,7 @@ const autenticar = async (req, res) => {
         //secure: true
     });
 
-    return res.status(200).json({id: usuario.id, name: usuario.name, lastname: usuario.lastname, username: usuario.username, role: usuario.role, email: usuario.email});    
+    return res.status(200).json({id: usuario.id, name: usuario.name, lastname: usuario.lastname, username: usuario.username, role: usuario.role, email: usuario.email, token: token});    
 
 }
 

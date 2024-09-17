@@ -61,7 +61,7 @@ const AdminDashboard = () => {
           </div>
 
           <div className={`profile ${isDropdownOpen ? 'isDropdownOpen' : ''}`} onClick={handleClick}>
-            <span>{user?.name || "Nombre del administrador"}</span>
+            <span>{user?.username || "Nombre de usuario del administrador"}</span>
             <img src={profile} alt="Usuario administrador" className="img-profile" />
 
             {isDropdownOpen && (

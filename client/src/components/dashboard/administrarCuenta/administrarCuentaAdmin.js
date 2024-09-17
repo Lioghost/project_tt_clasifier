@@ -15,6 +15,7 @@ const AdministrarCuentaAdmin = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [formData, setFormData] = useState({
+        id : user?.id || 0,
         name: user?.name || '',
         lastname: user?.lastname || '',
         username: user?.username || '',
@@ -123,7 +124,7 @@ const AdministrarCuentaAdmin = () => {
                     </div>
 
                     <div className={`profile ${isDropdownOpen ? 'isDropdownOpen' : ''}`} onClick={handleClick}>
-                        <span>{user?.name || "Nombre del administrador"}</span>
+                        <span>{user?.username || "Nombre de usuario del administrador"}</span>
                         <img src={profile} alt="Usuario administrador" className="img-profile" />
 
                         {isDropdownOpen && (

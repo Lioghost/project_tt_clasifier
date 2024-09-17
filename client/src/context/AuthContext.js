@@ -23,6 +23,8 @@ const AuthProvider = ({ children }) => {
     const login = (userData) => {
         setIsAuthenticated(true);
         setUser(userData);
+        localStorage.setItem('role', userData.role); // Guardar el role en el localStorage
+        localStorage.setItem('token', userData.token); // Guardar el token en el localStorage
     };
 
     const logout = () => {
@@ -30,11 +32,35 @@ const AuthProvider = ({ children }) => {
         setUser(null);
         localStorage.removeItem('isAuthenticated');
         localStorage.removeItem('user');
+        localStorage.removeItem('role'); // Eliminar el role del localStorage
+        localStorage.removeItem('token'); // Eliminar el token del localStorage
         navigate('/login');
     };
 
+    const updateUser = async (id) => {
+        try {
+            const response = await fetch(`http://localhost:3000/shared/cuenta/${id}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch user data');
+            }
+
+            const updatedUser = await response.json();
+            setUser(updatedUser);
+            localStorage.setItem('user', JSON.stringify(updatedUser));
+        } catch (error) {
+            console.error('Error updating user:', error);
+        }
+    };
+
     return (
-        <AuthContext.Provider value={{ isAuthenticated, user, login, logout }}>
+        <AuthContext.Provider value={{ isAuthenticated, user, login, logout, updateUser }}>
             {children}
         </AuthContext.Provider>
     );

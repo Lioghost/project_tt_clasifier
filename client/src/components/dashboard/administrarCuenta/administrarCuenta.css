@@ -120,6 +120,7 @@ label {
 /* Botón guardar */
 .save-button {
     margin-top: 2rem;
+    margin-bottom: 2rem;
     padding: 0.8rem 2rem;
     background-color: var(--color-primary-disabled);
     border: none;
