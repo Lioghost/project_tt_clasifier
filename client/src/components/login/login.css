@@ -46,44 +46,6 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.form{
-    width: 100%;
-}
-
-.form-group {
-    margin-bottom: 15px;
-    width: 100%;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
-    color: var(--color-secondary);
-    font-weight: bold;
-}
-
-.form-group input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-    transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease; /* Transición para suavizar el cambio de borde */
-}
-
-.form-group input::placeholder {
-    color: var(--color-placeholder);
-    opacity: 0.7;
-    font-style: italic;
-}
-
-/* Estilo para el borde del input cuando está enfocado */
-.form-group input:focus {
-    border-color: var(--color-primary); /* Cambia el color del borde al enfoque */
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Añade una sombra alrededor del input */
-    outline: none; /* Remueve el borde de enfoque predeterminado del navegador */
-}
-
 .login-button {
     width: 100%;
     padding: 10px;
@@ -115,7 +77,7 @@
     text-decoration: underline;
 }
 
-.error-message {
+.error-message-login {
     color: var(--color-error);
     margin-top: -10px;
     margin-bottom: 15px;

@@ -37,44 +37,6 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.form {
-    width: 100%;
-}
-
-.form-group {
-    margin-bottom: 15px;
-    width: 100%;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
-    color: var(--color-secondary);
-    font-weight: bold;
-}
-
-.form-group input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-    transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease; /* Transición para suavizar el cambio de borde */
-}
-
-.form-group input::placeholder {
-    color: var(--color-placeholder);
-    opacity: 0.7;
-    font-style: italic;
-}
-
-/* Estilo para el borde del input cuando está enfocado */
-.form-group input:focus {
-    border-color: var(--color-primary); /* Cambia el color del borde al enfoque */
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Añade una sombra alrededor del input */
-    outline: none; /* Remueve el borde de enfoque predeterminado del navegador */
-}
-
 .register-button {
     width: 100%;
     padding: 10px;
@@ -96,15 +58,35 @@
     margin-bottom: 20px;
 }
 
-.error-message {
+.error-message-register {
     color: var(--color-error); /* Asegúrate de que el texto sea visible */
     display: block; /* Asegúrate de que el mensaje esté visible */
-    margin-top: 5px; /* Asegúrate de que haya margen para separarlo del input */
     margin-bottom: 15px;
     font-size: 14px;
 }
 
-.success-message {
+.send-success-message-register {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: auto;
+    max-width: 90%;
+    padding: 15px;
+    color: var(--color-white);
+    background-color: var(--color-success); /* Define este color en tus variables de CSS */
+    border-radius: 5px;
+    text-align: center;
+    font-family: var(--font-family-base);
+    font-size: 16px;
+    font-weight: bold;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    animation: fadeInOut 3s forwards;
+    z-index: 1000; /* Asegura que esté por encima de otros elementos */
+}
+
+.send-error-message-register {
     position: fixed;
     top: 50%;
     left: 50%;

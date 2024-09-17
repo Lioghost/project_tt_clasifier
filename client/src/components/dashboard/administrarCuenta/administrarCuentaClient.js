@@ -24,7 +24,8 @@ const AdministrarCuentaClient = () => {
     });
     const [errors, setErrors] = useState({});
     const [isSaving, setIsSaving] = useState(false);
-    const [message, setMessage] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
     useEffect(() => {
         if (!isAuthenticated) {
@@ -34,13 +35,14 @@ const AdministrarCuentaClient = () => {
     }, [isAuthenticated, navigate, updateUser, user?.id]);
 
     useEffect(() => {
-        if (message) {
+    if (successMessage || errorMessage) {
             const timer = setTimeout(() => {
-                setMessage('');
+                setSuccessMessage('');
+                setErrorMessage('');
             }, 3000);
             return () => clearTimeout(timer);
         }
-    }, [message]);
+    }, [successMessage, errorMessage]);
 
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
@@ -97,7 +99,8 @@ const AdministrarCuentaClient = () => {
     const handleSave = async () => {
         if (validateForm()) {
             setIsSaving(true);
-            setMessage('');
+            setSuccessMessage('');
+            setErrorMessage('');
 
             const role = localStorage.getItem('role');
             const token = localStorage.getItem('token');
@@ -126,15 +129,17 @@ const AdministrarCuentaClient = () => {
                 if (response.ok) {
                     console.log("Datos guardados:", formData);
                     setIsEditing(false);
-                    setMessage('Datos guardados exitosamente');
+                    setSuccessMessage('Datos guardados exitosamente');
+                    setErrorMessage('');
                 } else {
                     const data = await response.json();
                     console.log("Errores de validación del servidor:", data);
-                    setMessage('Error al guardar los datos');
+                    setSuccessMessage('');
+                    setErrorMessage('Error al guardar los datos');
                 }
             } catch (error) {
                 console.error('Error al conectar con el servidor:', error);
-                setMessage('Error al conectar con el servidor');
+                setErrorMessage('Error al conectar con el servidor');
             } finally {
                 setIsSaving(false);
             }
@@ -268,7 +273,8 @@ const AdministrarCuentaClient = () => {
                         >
                             {isSaving ? 'Guardando...' : 'Guardar'}
                         </button>
-                        {message && <p className="error-message">{message}</p>}
+                        {errorMessage && <div className="send-error-message-account">{errorMessage}</div>}
+                        {successMessage && <div className="send-success-message-account">{successMessage}</div>}
                     </div>
                 </section>
             </main>

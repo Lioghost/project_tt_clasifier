@@ -10,6 +10,7 @@ const Register = () => {
     const [lastName, setLastName] = useState('');
     const [errors, setErrors] = useState({});
     const [successMessage, setSuccessMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -79,18 +80,22 @@ const Register = () => {
 
                 if (response.ok) {
                     setSuccessMessage('Registro exitoso. Por favor, revisa tu correo para confirmar tu cuenta.');
+                    setErrorMessage('');
 
                     // Mostrar el mensaje de éxito durante 3 segundos y luego ocultarlo
                     setTimeout(() => {
                         setSuccessMessage('');
+                        setErrorMessage('');
                         resetForm();
                     }, 3000);
                 } else {
                     setErrors({ form: data.msg || 'Error al registrar usuario.' });
+                    setSuccessMessage('');
+                    setErrorMessage('Error al conectar con nuestro servidor.');
                 }
             } catch (error) {
                 console.error('Error al conectar con el servidor:', error);
-                setErrors({ form: 'Error al conectar con el servidor.' });
+                setErrorMessage('Error al conectar con nuestro el servidor');
             }
         }
     };
@@ -109,11 +114,8 @@ const Register = () => {
     return (
         <div className="register-view">
             <div className="register-content">
-                {successMessage && (
-                    <div className="success-message">
-                        {successMessage}
-                    </div>
-                )}
+            {errorMessage && <div className="send-error-message-account">{errorMessage}</div>}
+            {successMessage && <div className="send-success-message-account">{successMessage}</div>}
                 <div className="register-form">
                     <form className="form" onSubmit={handleSubmit}>
                         <div className="form-group">
@@ -127,7 +129,7 @@ const Register = () => {
                                 onChange={(e) => setUsername(e.target.value)}
                                 className={errors.username ? 'error-input' : ''}
                             />
-                            {errors.username && <p className="error-message">{errors.username}</p>}
+                            {errors.username && <p className="error-message-register">{errors.username}</p>}
                         </div>
                         <div className="form-group">
                             <label htmlFor="email" className={errors.email ? 'error' : ''}>Correo:</label>
@@ -140,7 +142,7 @@ const Register = () => {
                                 onChange={(e) => setEmail(e.target.value)}
                                 className={errors.email ? 'error-input' : ''}
                             />
-                            {errors.email && <p className="error-message">{errors.email}</p>}
+                            {errors.email && <p className="error-message-register">{errors.email}</p>}
                         </div>
                         <div className="form-group">
                             <label htmlFor="firstName" className={errors.name ? 'error' : ''}>Nombres:</label>
@@ -153,7 +155,7 @@ const Register = () => {
                                 onChange={(e) => setFirstName(e.target.value)}
                                 className={errors.name ? 'error-input' : ''}
                             />
-                            {errors.name && <p className="error-message">{errors.name}</p>}
+                            {errors.name && <p className="error-message-register">{errors.name}</p>}
                         </div>
                         <div className="form-group">
                             <label htmlFor="lastName" className={errors.lastname ? 'error' : ''}>Apellidos:</label>
@@ -166,7 +168,7 @@ const Register = () => {
                                 onChange={(e) => setLastName(e.target.value)}
                                 className={errors.lastname ? 'error-input' : ''}
                             />
-                            {errors.lastname && <p className="error-message">{errors.lastname}</p>}
+                            {errors.lastname && <p className="error-message-register">{errors.lastname}</p>}
                         </div>
                         <div className="form-group">
                             <label htmlFor="password" className={errors.password ? 'error' : ''}>Contraseña:</label>
@@ -179,7 +181,7 @@ const Register = () => {
                                 onChange={(e) => setPassword(e.target.value)}
                                 className={errors.password ? 'error-input' : ''}
                             />
-                            {errors.password && <p className="error-message">{errors.password}</p>}
+                            {errors.password && <p className="error-message-register">{errors.password}</p>}
                         </div>
                         <div className="form-group">
                             <label htmlFor="confirmPassword" className={errors.confirmPassword ? 'error' : ''}>Confirmar contraseña:</label>
@@ -192,9 +194,9 @@ const Register = () => {
                                 onChange={(e) => setConfirmPassword(e.target.value)}
                                 className={errors.confirmPassword ? 'error-input' : ''}
                             />
-                            {errors.confirmPassword && <p className="error-message">{errors.confirmPassword}</p>}
+                            {errors.confirmPassword && <p className="error-message-register">{errors.confirmPassword}</p>}
                         </div>
-                        {errors.form && <p className="error-message">{errors.form}</p>}
+                        {errors.form && <p className="error-message-register">{errors.form}</p>}
                         <button type="submit" className="register-button">Enviar</button>
                     </form>
                 </div>
