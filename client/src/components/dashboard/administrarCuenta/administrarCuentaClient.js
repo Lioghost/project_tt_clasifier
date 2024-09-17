@@ -33,6 +33,15 @@ const AdministrarCuentaClient = () => {
         updateUser(user?.id);
     }, [isAuthenticated, navigate, updateUser, user?.id]);
 
+    useEffect(() => {
+        if (message) {
+            const timer = setTimeout(() => {
+                setMessage('');
+            }, 3000);
+            return () => clearTimeout(timer);
+        }
+    }, [message]);
+
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
@@ -92,7 +101,6 @@ const AdministrarCuentaClient = () => {
 
             const role = localStorage.getItem('role');
             const token = localStorage.getItem('token');
-
 
             try {
                 const payload = {
