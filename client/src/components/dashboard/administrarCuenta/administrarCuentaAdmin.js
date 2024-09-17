@@ -149,10 +149,15 @@ const AdministrarCuentaAdmin = () => {
                 <nav className="sidebar-nav">
                     <ul>
                         <li className="sidebar-header"><img src={logo} alt="GasketGenius" className="header-logo-dashboard" /></li>
-                        <li><a href="/admin/dashboard">Inicio</a></li>
+                        <li><NavLink to="/admin/dashboard">Inicio</NavLink></li> 
+                        <li><a href="/admin/catalogo">Catálogo</a></li>
+                        <li><a href="/admin/identificador">Identificador</a></li>
+                        <li><NavLink to="/admin/cuenta">Administrar cuenta</NavLink></li>
+                        <li><a href="/admin/juntas">Administrar juntas</a></li>
+                        <li><a href="/admin/motores">Administrar motores</a></li>
+                        <li><a href="/admin/autos">Administrar autos</a></li>
                         <li><a href="/admin/marcas">Administrar marcas</a></li>
                         <li><a href="/admin/usuarios">Administrar usuarios</a></li>
-                        <li><NavLink to="/admin/cuenta">Administrar cuenta</NavLink></li>
                     </ul>
                 </nav>
             </aside>

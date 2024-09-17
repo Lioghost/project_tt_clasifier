@@ -87,38 +87,38 @@ const AdminDashboard = () => {
         </section>
 
         <section className="cards">
-          <div className="card">
+          <a className="card" href="/admin/catalogo">
             <img src={catalogImg} alt="Catálogo" />
-            <a href="/admin/catalogo">Catálogo</a>
-          </div>
-          <div className="card">
+            <span>Catálogo</span>
+          </a>
+          <a className="card" href="/admin/identificador">
             <img src={identifierImg} alt="Identificador" />
-            <a href="/admin/identificador">Identificador</a>
-          </div>
-          <div className="card">
+            <span>Identificador</span>
+          </a>
+          <NavLink className="card" to="/admin/cuenta">
             <img src={accountImg} alt="Administrar cuenta" />
-            <NavLink to="/admin/cuenta">Administrar cuenta</NavLink>
-          </div>
-          <div className="card">
+            <span>Administrar cuenta</span>
+          </NavLink>
+          <a className="card" href="/admin/juntas">
             <img src={meetingsImg} alt="Administrar juntas" />
-            <a href="/admin/juntas">Administrar juntas</a>
-          </div>
-          <div className="card">
+            <span>Administrar juntas</span>
+          </a>
+          <a className="card" href="/admin/motores">
             <img src={motorsImg} alt="Administrar motores" />
-            <a href="/admin/motores">Administrar motores</a>
-          </div>
-          <div className="card">
+            <span>Administrar motores</span>
+          </a>
+          <a className="card" href="/admin/autos">
             <img src={carsImg} alt="Administrar autos" />
-            <a href="/admin/autos">Administrar autos</a>
-          </div>
-          <div className="card">
+            <span >Administrar autos</span>
+          </a>
+          <a className="card" href="/admin/marcas">
             <img src={brandsImg} alt="Administrar marcas" />
-            <a href="/admin/marcas">Administrar marcas</a>
-          </div>
-          <div className="card">
+            <span>Administrar marcas</span>
+          </a>
+          <a className="card" href="/admin/usuarios">
             <img src={accountImg} alt="Administrar usuarios" />
-            <a href="/admin/usuarios">Administrar usuarios</a>
-          </div>
+            <span>Administrar usuarios</span>
+          </a>
         </section>
       </main>
     </div>

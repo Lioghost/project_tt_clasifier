@@ -78,18 +78,18 @@ const ClientDashboard = () => {
             </section>
     
             <section className="cards">
-              <div className="card">
+              <a className="card" href="/client/catalogo">
                 <img src={catalogImg} alt="Catálogo" />
-                <a href="/client/catalogo">Catálogo</a>
-              </div>
-              <div className="card">
+                <span>Catálogo</span>
+              </a>
+              <a className="card" href="/client/identificador">
                 <img src={identifierImg} alt="Identificador" />
-                <a href="/client/identificador">Identificador</a>
-              </div>
-              <div className="card">
+                <span>Identificador</span>
+              </a>
+              <a className="card" href="/client/cuenta">
                 <img src={accountImg} alt="Administrar cuenta" />
-                <NavLink to="/client/cuenta">Administrar cuenta</NavLink>
-              </div>
+                <span >Catálogo</span>
+              </a>
             </section>
           </main>
         </div>

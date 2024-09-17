@@ -5,8 +5,11 @@
     text-decoration: none;
     font-size: 14px;
     margin-top: 10px;
+    text-decoration: underline transparent;
+    transition: text-decoration var(--transition-speed) ease;
 }
 
 .logout-button:hover {
-    text-decoration: underline;
+    text-decoration-color: var(--color-primary);
+    cursor: pointer;
 }

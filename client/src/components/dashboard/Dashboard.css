@@ -109,6 +109,11 @@
     align-items: center;
     position: relative;
     cursor: pointer;
+    transition: color var(--transition-speed);
+}
+
+.profile:hover{
+    color: var(--color-primary);
 }
 
 .profile span {
@@ -139,7 +144,7 @@
     opacity: 0;
     visibility: hidden;
     transform: translateY(-20px);
-    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+    transition: opacity var(--transition-speed) ease, transform var(--transition-speed) ease, visibility var(--transition-speed);
 }
 
 /* Mostrar el dropdown cuando esté abierto (controlado con clase isDropdownOpen) */
@@ -216,9 +221,11 @@
 }
 
 .card {
+    display: block;
     background-color: var(--color-white);
     padding: 15px;
     text-align: center;
+    text-decoration: none;
     border-radius: var(--border-radius);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform var(--transition-speed) ease;
@@ -230,9 +237,8 @@
     margin-bottom: 10px;
 }
 
-.card a {
+.card span {
     display: block;
-    text-decoration: none;
     color: var(--color-secondary);
     font-weight: bold;
     font-size: var(--font-size-base);

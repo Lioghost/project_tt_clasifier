@@ -25,9 +25,9 @@ function App() {
               <Favicon />
               <Routes>
                   {/* Rutas que incluyen el Header */}
-                  <Route path="/" element={<><Header /><MainView /></>} />
-                  <Route path="/login" element={<><Header /><Login /></>} />
-                  <Route path="/register" element={<><Header /><Register /></>} />
+                  <Route path="/" element={<><ProtectedRoute roles={['Visitante']}><Header /><MainView /></ProtectedRoute></>} />
+                  <Route path="/login" element={<><ProtectedRoute roles={['Visitante']}><Header /><Login /></ProtectedRoute></>} />
+                  <Route path="/register" element={<><ProtectedRoute roles={['Visitante']}><Header /><Register /></ProtectedRoute></>} />
                   
                   {/* Ruta que no incluye el Header */}
                   <Route path="/auth/confirmar/:token" element={<ConfirmarCuenta />} /> {/* Confirmar cuenta sin Header */}

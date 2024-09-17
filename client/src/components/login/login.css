@@ -66,7 +66,7 @@
     border: 1px solid #ccc;
     border-radius: 5px;
     box-sizing: border-box;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Transición para suavizar el cambio de borde */
+    transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease; /* Transición para suavizar el cambio de borde */
 }
 
 .form-group input::placeholder {
@@ -105,7 +105,7 @@
     color: var(--color-primary);
     text-decoration: none;
     font-size: 14px;
-    transition: color 0.3s ease;
+    transition: color var(--transition-speed) ease;
 }
 
 .forgot-password-link:hover {

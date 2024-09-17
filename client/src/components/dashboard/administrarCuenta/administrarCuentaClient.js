@@ -149,7 +149,7 @@ const AdministrarCuentaClient = () => {
                 <nav className="sidebar-nav">
                     <ul>
                         <li className="sidebar-header"><img src={logo} alt="GasketGenius" className="header-logo-dashboard" /></li>
-                        <li><a href="/client/dashboard">Inicio</a></li>
+                        <li><NavLink to="/client/dashboard">Inicio</NavLink></li>
                         <li><a href="/client/catalogo">Catálogo</a></li>
                         <li><a href="/client/identificador">Identificador</a></li>
                         <li><NavLink to="/client/cuenta">Administrar cuenta</NavLink></li>
