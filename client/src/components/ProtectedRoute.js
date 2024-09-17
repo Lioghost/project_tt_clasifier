@@ -17,7 +17,7 @@ const ProtectedRoute = ({ children, roles }) => {
         '/not-authorized'
     ];
 
-    // Comprobar si la URL actual no está en la lista de rutas válidas
+    // Comprobar si la URL actual está en la lista de rutas válidas
     const isValidRoute = visitantRoutes.includes(location.pathname);
 
     if (!isAuthenticated && roles.includes('Visitante')) {
@@ -29,11 +29,7 @@ const ProtectedRoute = ({ children, roles }) => {
         } else if (userRole === 'Client') {
             return <Navigate to="/client/dashboard" />;
         }
-    }
-
-    if (!isAuthenticated) {
-        return <Navigate to="/login" />;
-    }
+    } 
 
     if (roles && !roles.includes(user.role)) {
         return <Navigate to="/not-authorized" />;

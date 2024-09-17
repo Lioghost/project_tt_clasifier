@@ -11,8 +11,6 @@ const Login = () => {
     const { login } = useContext(AuthContext);
     const navigate = useNavigate();
 
-    
-
     const handleSubmit = async (event) => {
         event.preventDefault();
 

@@ -1,0 +1,52 @@
+/* notFound.css */
+.not-found-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: url('../../assets/img/background.png') no-repeat center center;
+    background-size: cover;
+    font-family: var(--font-family-base);
+}
+
+.not-found-content {
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent background */
+    padding: 2em;
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--color-border);
+}
+
+.not-found-icon {
+    font-size: 4em;
+    margin-bottom: 0.5em;
+    color: var(--color-error);
+}
+
+.not-found-title {
+    font-size: 2em;
+    margin-bottom: 0.5em;
+    color: var(--color-secondary);
+}
+
+.not-found-message {
+    font-size: 1.2em;
+    margin-bottom: 1em;
+    color: var(--color-placeholder);
+}
+
+.not-found-button {
+    padding: 0.5em 1em;
+    font-size: 1em;
+    color: var(--color-white);
+    background-color: var(--color-primary);
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background-color var(--transition-speed);
+}
+
+.not-found-button:hover {
+    background-color: var(--color-primary-disabled);
+}

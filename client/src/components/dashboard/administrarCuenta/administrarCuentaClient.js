@@ -206,7 +206,7 @@ const AdministrarCuentaClient = () => {
                                         onChange={handleChange} 
                                         disabled={!isEditing}
                                     />
-                                    {errors.name && <p className="error-message-admin-account">{errors.name}</p>}
+                                    {errors.name && <p className="error-message-account">{errors.name}</p>}
                                 </div>
                                 <div className="account-info">
                                     <label>Apellidos</label>
@@ -217,7 +217,7 @@ const AdministrarCuentaClient = () => {
                                         onChange={handleChange} 
                                         disabled={!isEditing}
                                     />
-                                    {errors.lastname && <p className="error-message">{errors.lastname}</p>}
+                                    {errors.lastname && <p className="error-message-account">{errors.lastname}</p>}
                                 </div>
                                 <div className="account-info">
                                     <label>Usuario</label>
@@ -228,7 +228,7 @@ const AdministrarCuentaClient = () => {
                                         onChange={handleChange} 
                                         disabled={!isEditing}
                                     />
-                                    {errors.username && <p className="error-message">{errors.username}</p>}
+                                    {errors.username && <p className="error-message-account">{errors.username}</p>}
                                 </div>
                                 <div className="account-info">
                                     <label>Contraseña</label>
@@ -239,7 +239,7 @@ const AdministrarCuentaClient = () => {
                                         onChange={handleChange} 
                                         disabled={!isEditing}
                                     />
-                                    {errors.password && <p className="error-message">{errors.password}</p>}
+                                    {errors.password && <p className="error-message-account">{errors.password}</p>}
                                 </div>
                                 {isEditing && (
                                     <div className="account-info">
@@ -251,7 +251,7 @@ const AdministrarCuentaClient = () => {
                                             onChange={handleChange} 
                                             disabled={!isEditing}
                                         />
-                                        {errors.confirmPassword && <p className="error-message">{errors.confirmPassword}</p>}
+                                        {errors.confirmPassword && <p className="error-message-account">{errors.confirmPassword}</p>}
                                     </div>
                                 )}
                             </form>

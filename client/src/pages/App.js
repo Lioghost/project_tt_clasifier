@@ -11,6 +11,7 @@ import ResetPassword from '../components/ResetPassword/resetPassword' // Importa
 import ClientDashboard from '../components/dashboard/ClientDashboard';
 import AdminDashboard from '../components/dashboard/AdminDashboard';
 import NotAuthorized from '../components/notAuthorized/notAuthorized';
+import NotFound from '../components/notFound/notFound';
 
 import AdministrarCuentaAdmin from '../components/dashboard/administrarCuenta/administrarCuentaAdmin';
 import AdministrarCuentaClient from '../components/dashboard/administrarCuenta/administrarCuentaClient';
@@ -43,6 +44,7 @@ function App() {
                   <Route path="/client/cuenta" element={<ProtectedRoute roles={['Client']}><AdministrarCuentaClient /></ProtectedRoute>} />
 
                   <Route path="/not-authorized" element={<NotAuthorized />} />
+                  <Route path="*" element={<NotFound />} />
               </Routes>
           </AuthProvider>
       </Router>
