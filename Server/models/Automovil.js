@@ -7,11 +7,6 @@ const Automovil = db.define('automoviles', {
         autoIncrement: true,
         primaryKey: true
     },
-    marca: {
-        type: DataTypes.STRING,
-        allowNull: false,    //Indican que estos campos no pueden estar vacios
-        unique: true
-    },
     submarca: {
         type: DataTypes.STRING,
         allowNull: false
