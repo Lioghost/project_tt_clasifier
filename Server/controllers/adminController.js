@@ -157,6 +157,24 @@ const autoDelete = async (req, res) => {
     }   
 }
 
+const autoUpdate = async (req, res) => {
+    try {
+        const { id } = req.params;
+        if (!id) 
+            return res.status(400).json({ msj: "ID inválido!" });
+
+        const automovil = await Automovil.findByPk(id);
+
+        if (!automovil)
+            return res.status(404).json({ msj: "Automovil no encontrada" });
+
+        const autoUpdate = await automovil.update(req.body);
+        return res.status(200).json({ msj: "Marca actualizada exitosamente", data: autoUpdate });
+    } catch (error) {
+        return res.status(500).json({ msj: "Error al actualizar", error: error.message });
+    }
+}
+
 export {
     dashboard,
     users,
@@ -167,5 +185,6 @@ export {
     marcaDelete,
     automoviles,
     autoCreate,
-    autoDelete
+    autoDelete,
+    autoUpdate
 }

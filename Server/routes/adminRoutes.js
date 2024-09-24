@@ -9,7 +9,8 @@ import {
     marcaDelete,
     automoviles,
     autoCreate,
-    autoDelete
+    autoDelete,
+    autoUpdate
 } from "../controllers/adminController.js";
 import authenticate from "../middlewares/authenticate.js";
 import authorize from "../middlewares/authorize.js";
@@ -39,7 +40,7 @@ router.get('/autos', authenticate, authorize(['Admin']), automoviles);
 
 router.post('/autos', authenticate, authorize(['Admin']), autoCreate);
 
-//router.patch('/auto/:id', authenticate, authorize(['Admin']), updateAuto);
+router.patch('/autos/:id', authenticate, authorize(['Admin']), autoUpdate);
 
 router.delete('/autos/:id', authenticate, authorize(['Admin']), autoDelete);
 
