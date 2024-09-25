@@ -67,16 +67,27 @@ const marcaCreate = async (req, res) => {
 const marcaUpdate = async (req, res) => {
     try {
         const { id } = req.params;
-        if (!id) 
+        const { marca: newMarca } = req.body;
+
+        if (!id) {
             return res.status(400).json({ msj: "ID inválido!" });
+        }
 
         const marca = await Marca.findByPk(id);
 
-        if (!marca)
+        if (!marca) {
             return res.status(404).json({ msj: "Marca no encontrada" });
+        }
 
-        marca = await marca.update({marca: req.body.marca || marca.marca});
-        return res.status(200).json({ msj: "Marca actualizada exitosamente", data: marca });
+        if (newMarca) {
+            const existingMarca = await Marca.findOne({ where: { marca: newMarca } });
+            if (existingMarca) {
+                return res.status(400).json({ msj: "El nombre de la marca ya existe" });
+            }
+        }
+
+        const updatedMarca = await marca.update({ marca: newMarca || marca.marca });
+        return res.status(200).json({ msj: "Marca actualizada exitosamente", data: updatedMarca });
     } catch (error) {
         return res.status(500).json({ msj: "Error al actualizar", error: error.message });
     }

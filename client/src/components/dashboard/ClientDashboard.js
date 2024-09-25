@@ -31,20 +31,7 @@ const ClientDashboard = () => {
 
     return (
         <div className="dashboard">
-          <aside className={`sidebar ${isSidebarOpen ? 'active' : ''}`}>
-            <nav className="sidebar-nav">
-              <ul>
-                <li className="sidebar-header"><img src={logo} alt="GasketGenius" className="header-logo-dashboard" /></li>
-                <li><NavLink to="/client/dashboard">Inicio</NavLink></li> 
-                <li><a href="/client/catalogo">Catálogo</a></li>
-                <li><a href="/client/identificador">Identificador</a></li>
-                <li><NavLink to="/client/cuenta">Administrar cuenta</NavLink></li>
-              </ul>
-            </nav>
-          </aside>
-    
-          <main className={`main-content-dashboard ${isSidebarOpen ? 'sidebar-active' : ''}`}>
-            <header className="header-dashboard">
+          <header className="header-dashboard">
               <div className="hamburger-menu" onClick={toggleSidebar} aria-expanded={isSidebarOpen ? "true" : "false"}>
                 <div></div>
                 <div></div>
@@ -72,24 +59,37 @@ const ClientDashboard = () => {
     
               </div>
             </header>
+
+          <aside className={`sidebar ${isSidebarOpen ? 'active' : ''}`}>
+            <nav className="sidebar-nav">
+              <ul>
+                <li className="sidebar-header"><img src={logo} alt="GasketGenius" className="header-logo-dashboard" /></li>
+                <li><NavLink to="/client/dashboard">Inicio</NavLink></li> 
+                <li><NavLink to="/client/catalogo">Catálogo</NavLink></li>
+                <li><NavLink to="/client/identificador">Identificador</NavLink></li>
+                <li><NavLink to="/client/cuenta">Administrar cuenta</NavLink></li>
+              </ul>
+            </nav>
+          </aside>
     
+          <main className={`main-content-dashboard ${isSidebarOpen ? 'sidebar-active' : ''}`}>
             <section className="welcome-message">
               <h1>¡Bienvenido al panel cliente!</h1>
             </section>
     
             <section className="cards">
-              <a className="card" href="/client/catalogo">
+              <NavLink className="card" to="/client/catalogo">
                 <img src={catalogImg} alt="Catálogo" />
                 <span>Catálogo</span>
-              </a>
-              <a className="card" href="/client/identificador">
+              </NavLink>
+              <NavLink className="card" to="/client/identificador">
                 <img src={identifierImg} alt="Identificador" />
                 <span>Identificador</span>
-              </a>
-              <a className="card" href="/client/cuenta">
+              </NavLink>
+              <NavLink className="card" to="/client/cuenta">
                 <img src={accountImg} alt="Administrar cuenta" />
-                <span >Catálogo</span>
-              </a>
+                <span >Administrar cuenta</span>
+              </NavLink>
             </section>
           </main>
         </div>

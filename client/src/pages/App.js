@@ -8,6 +8,7 @@ import Register from '../components/register/register';
 import ConfirmarCuenta from '../components/confirmarCuenta/confirmarCuenta'; // Importa el componente de confirmación
 import ForgotPassword from '../components/forgotPassword/forgotPassword'; // Importa el nuevo componente
 import ResetPassword from '../components/ResetPassword/resetPassword' // Importa el nuevo componente
+
 import ClientDashboard from '../components/dashboard/ClientDashboard';
 import AdminDashboard from '../components/dashboard/AdminDashboard';
 import NotAuthorized from '../components/notAuthorized/notAuthorized';
@@ -15,6 +16,8 @@ import NotFound from '../components/notFound/notFound';
 
 import AdministrarCuentaAdmin from '../components/dashboard/administrarCuenta/administrarCuentaAdmin';
 import AdministrarCuentaClient from '../components/dashboard/administrarCuenta/administrarCuentaClient';
+
+import AdministrarMarcasAdmin from '../components/dashboard/administrarMarcas/administrarMarcasAdmin';
 
 import { AuthProvider } from '../context/AuthContext';
 import ProtectedRoute from '../components/ProtectedRoute';
@@ -25,7 +28,7 @@ function App() {
           <AuthProvider>
               <Favicon />
               <Routes>
-                  {/* Rutas que incluyen el Header */}
+                  {/* Rutas del visitante */}
                   <Route path="/" element={<><ProtectedRoute roles={['Visitante']}><Header /><MainView /></ProtectedRoute></>} />
                   <Route path="/login" element={<><ProtectedRoute roles={['Visitante']}><Header /><Login /></ProtectedRoute></>} />
                   <Route path="/register" element={<><ProtectedRoute roles={['Visitante']}><Header /><Register /></ProtectedRoute></>} />
@@ -42,6 +45,21 @@ function App() {
                   {/* Rutas de administrar cuenta */}
                   <Route path="/admin/cuenta" element={<ProtectedRoute roles={['Admin']}><AdministrarCuentaAdmin /></ProtectedRoute>} />
                   <Route path="/client/cuenta" element={<ProtectedRoute roles={['Client']}><AdministrarCuentaClient /></ProtectedRoute>} />
+
+                  {/* Rutas de catálogo */}
+                  <Route path="/admin/catalogo" element={<ProtectedRoute roles={['Admin']}><AdministrarCuentaAdmin /></ProtectedRoute>} />
+                  <Route path="/client/catalogo" element={<ProtectedRoute roles={['Client']}><AdministrarCuentaClient /></ProtectedRoute>} />
+
+                  {/* Rutas de identificador */}
+                  <Route path="/admin/identificador" element={<ProtectedRoute roles={['Admin']}><AdministrarCuentaAdmin /></ProtectedRoute>} />
+                  <Route path="/client/identificador" element={<ProtectedRoute roles={['Client']}><AdministrarCuentaClient /></ProtectedRoute>} />
+
+                  {/* Rutas restantes del administrador */}
+                  <Route path="/admin/juntas" element={<ProtectedRoute roles={['Admin']}><AdministrarCuentaAdmin /></ProtectedRoute>} />
+                  <Route path="/admin/motores" element={<ProtectedRoute roles={['Admin']}><AdministrarCuentaAdmin /></ProtectedRoute>} />
+                  <Route path="/admin/autos" element={<ProtectedRoute roles={['Admin']}><AdministrarCuentaAdmin /></ProtectedRoute>} />
+                  <Route path="/admin/marcas" element={<ProtectedRoute roles={['Admin']}><AdministrarMarcasAdmin /></ProtectedRoute>} />
+                  <Route path="/admin/usuarios" element={<ProtectedRoute roles={['Admin']}><AdministrarCuentaAdmin /></ProtectedRoute>} />
 
                   <Route path="/not-authorized" element={<NotAuthorized />} />
                   <Route path="*" element={<NotFound />} />

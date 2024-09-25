@@ -150,47 +150,45 @@ const AdministrarCuentaClient = () => {
 
     return (
         <div className="dashboard">
+            <header className="header-dashboard">
+                <div className="hamburger-menu" onClick={toggleSidebar} aria-expanded={isSidebarOpen ? "true" : "false"}>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+                <div className={`profile ${isDropdownOpen ? 'isDropdownOpen' : ''}`} onClick={handleClick}>
+                    <span>{user?.username || "Nombre de usuario del cliente"}</span>
+                    <img src={profile} alt="Usuario cliente" className="img-profile" />
+                    {isDropdownOpen && (
+                        <div className="profile-dropdown">
+                            <div className="profile-dropdown-content">
+                                <img src={profile} alt="Usuario cliente" className="img-profile-dropdown" />
+                                <div className="profile-dropdown-text">
+                                    <p className="profile-name">{user?.name || "Nombre del cliente"}</p>
+                                    <p className="profile-email">{user?.email || "Correo del usuario"}</p>
+                                </div>
+                            </div>
+                            <div className="logout-button">
+                                <LogoutButton />
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </header>
+
             <aside className={`sidebar ${isSidebarOpen ? 'active' : ''}`}>
                 <nav className="sidebar-nav">
                     <ul>
                         <li className="sidebar-header"><img src={logo} alt="GasketGenius" className="header-logo-dashboard" /></li>
-                        <li><NavLink to="/client/dashboard">Inicio</NavLink></li>
-                        <li><a href="/client/catalogo">Catálogo</a></li>
-                        <li><a href="/client/identificador">Identificador</a></li>
+                        <li><NavLink to="/client/dashboard">Inicio</NavLink></li> 
+                        <li><NavLink to="/client/catalogo">Catálogo</NavLink></li>
+                        <li><NavLink to="/client/identificador">Identificador</NavLink></li>
                         <li><NavLink to="/client/cuenta">Administrar cuenta</NavLink></li>
                     </ul>
                 </nav>
             </aside>
 
             <main className={`main-content-dashboard ${isSidebarOpen ? 'sidebar-active' : ''}`}>
-                <header className="header-dashboard">
-                    <div className="hamburger-menu" onClick={toggleSidebar} aria-expanded={isSidebarOpen ? "true" : "false"}>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                    </div>
-
-                    <div className={`profile ${isDropdownOpen ? 'isDropdownOpen' : ''}`} onClick={handleClick}>
-                        <span>{user?.username || "Nombre de usuario del cliente"}</span>
-                        <img src={profile} alt="Usuario cliente" className="img-profile" />
-
-                        {isDropdownOpen && (
-                            <div className="profile-dropdown">
-                                <div className="profile-dropdown-content">
-                                    <img src={profile} alt="Usuario cliente" className="img-profile-dropdown" />
-                                    <div className="profile-dropdown-text">
-                                        <p className="profile-name">{user?.name || "Nombre del cliente"}</p>
-                                        <p className="profile-email">{user?.email || "Correo del usuario"}</p>
-                                    </div>
-                                </div>
-                                <div className="logout-button">
-                                    <LogoutButton />
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                </header>
-
                 <section className="welcome-message">
                     <h1>Administrar cuenta</h1>
 

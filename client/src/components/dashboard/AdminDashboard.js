@@ -35,25 +35,7 @@ const AdminDashboard = () => {
 
   return (
     <div className="dashboard">
-      <aside className={`sidebar ${isSidebarOpen ? 'active' : ''}`}>
-        <nav className="sidebar-nav">
-          <ul>
-            <li className="sidebar-header"><img src={logo} alt="GasketGenius" className="header-logo-dashboard" /></li>
-            <li><NavLink to="/admin/dashboard">Inicio</NavLink></li> 
-            <li><a href="/admin/catalogo">Catálogo</a></li>
-            <li><a href="/admin/identificador">Identificador</a></li>
-            <li><NavLink to="/admin/cuenta">Administrar cuenta</NavLink></li>
-            <li><a href="/admin/juntas">Administrar juntas</a></li>
-            <li><a href="/admin/motores">Administrar motores</a></li>
-            <li><a href="/admin/autos">Administrar autos</a></li>
-            <li><a href="/admin/marcas">Administrar marcas</a></li>
-            <li><a href="/admin/usuarios">Administrar usuarios</a></li>
-          </ul>
-        </nav>
-      </aside>
-
-      <main className={`main-content-dashboard ${isSidebarOpen ? 'sidebar-active' : ''}`}>
-        <header className="header-dashboard">
+      <header className="header-dashboard">
           <div className="hamburger-menu" onClick={toggleSidebar} aria-expanded={isSidebarOpen ? "true" : "false"}>
             <div></div>
             <div></div>
@@ -80,45 +62,63 @@ const AdminDashboard = () => {
             )}
 
           </div>
-        </header>
+      </header>
 
+      <aside className={`sidebar ${isSidebarOpen ? 'active' : ''}`}>
+        <nav className="sidebar-nav">
+          <ul>
+            <li className="sidebar-header"><img src={logo} alt="GasketGenius" className="header-logo-dashboard" /></li>
+            <li><NavLink to="/admin/dashboard">Inicio</NavLink></li> 
+            <li><NavLink to="/admin/catalogo">Catálogo</NavLink></li>
+            <li><NavLink to="/admin/identificador">Identificador</NavLink></li>
+            <li><NavLink to="/admin/cuenta">Administrar cuenta</NavLink></li>
+            <li><NavLink to="/admin/juntas">Administrar juntas</NavLink></li>
+            <li><NavLink to="/admin/motores">Administrar motores</NavLink></li>
+            <li><NavLink to="/admin/autos">Administrar autos</NavLink></li>
+            <li><NavLink to="/admin/marcas">Administrar marcas</NavLink></li>
+            <li><NavLink to="/admin/usuarios">Administrar usuarios</NavLink></li>
+          </ul>
+        </nav>
+      </aside>
+
+      <main className={`main-content-dashboard ${isSidebarOpen ? 'sidebar-active' : ''}`}>
         <section className="welcome-message">
           <h1>¡Bienvenido al panel de administración!</h1>
         </section>
 
         <section className="cards">
-          <a className="card" href="/admin/catalogo">
+          <NavLink className="card" to="/admin/catalogo">
             <img src={catalogImg} alt="Catálogo" />
             <span>Catálogo</span>
-          </a>
-          <a className="card" href="/admin/identificador">
+          </NavLink>
+          <NavLink className="card" to="/admin/identificador">
             <img src={identifierImg} alt="Identificador" />
             <span>Identificador</span>
-          </a>
+          </NavLink>
           <NavLink className="card" to="/admin/cuenta">
             <img src={accountImg} alt="Administrar cuenta" />
             <span>Administrar cuenta</span>
           </NavLink>
-          <a className="card" href="/admin/juntas">
+          <NavLink className="card" to="/admin/juntas">
             <img src={meetingsImg} alt="Administrar juntas" />
             <span>Administrar juntas</span>
-          </a>
-          <a className="card" href="/admin/motores">
+          </NavLink>
+          <NavLink className="card" to="/admin/motores">
             <img src={motorsImg} alt="Administrar motores" />
             <span>Administrar motores</span>
-          </a>
-          <a className="card" href="/admin/autos">
+          </NavLink>
+          <NavLink className="card" to="/admin/autos">
             <img src={carsImg} alt="Administrar autos" />
             <span >Administrar autos</span>
-          </a>
-          <a className="card" href="/admin/marcas">
+          </NavLink>
+          <NavLink className="card" to="/admin/marcas">
             <img src={brandsImg} alt="Administrar marcas" />
             <span>Administrar marcas</span>
-          </a>
-          <a className="card" href="/admin/usuarios">
+          </NavLink>
+          <NavLink className="card" to="/admin/usuarios">
             <img src={accountImg} alt="Administrar usuarios" />
             <span>Administrar usuarios</span>
-          </a>
+          </NavLink>
         </section>
       </main>
     </div>

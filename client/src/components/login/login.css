@@ -79,10 +79,10 @@
 
 .error-message-login {
     color: var(--color-error);
-    margin-top: -10px;
-    margin-bottom: 15px;
+    margin-top: 5px;
+    margin-bottom: 5px;
     font-size: 14px;
-    display: none; /* Ocultar el mensaje por defecto */
+    display: block; /* Ocultar el mensaje por defecto */
 }
 
 /* Estilos responsivos para pantallas medianas */

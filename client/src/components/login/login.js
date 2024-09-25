@@ -77,11 +77,11 @@ const Login = () => {
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                             />
+                            {errorMessage && <p className="error-message-login">{errorMessage}</p>}
                         </div>
                         <div className="form-group">
                             <Link to="/forgot-password" className="forgot-password-link">¿Olvidaste tu contraseña?</Link>
                         </div>
-                        {errorMessage && <p className="error-message-login">{errorMessage}</p>}
                         <button type="submit" className="login-button">Iniciar sesión</button>
                     </form>
                 </div>

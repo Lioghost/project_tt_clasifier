@@ -150,52 +150,50 @@ const AdministrarCuentaAdmin = () => {
 
     return (
         <div className="dashboard">
+            <header className="header-dashboard">
+                <div className="hamburger-menu" onClick={toggleSidebar} aria-expanded={isSidebarOpen ? "true" : "false"}>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+                <div className={`profile ${isDropdownOpen ? 'isDropdownOpen' : ''}`} onClick={handleClick}>
+                    <span>{user?.username || "Nombre de usuario del administrador"}</span>
+                    <img src={profile} alt="Usuario administrador" className="img-profile" />
+                    {isDropdownOpen && (
+                        <div className="profile-dropdown">
+                            <div className="profile-dropdown-content">
+                                <img src={profile} alt="Usuario administrador" className="img-profile-dropdown" />
+                                <div className="profile-dropdown-text">
+                                    <p className="profile-name">{user?.name || "Nombre del administrador"}</p>
+                                    <p className="profile-email">{user?.email || "Correo del usuario"}</p>
+                                </div>
+                            </div>
+                            <div className="logout-button">
+                                <LogoutButton />
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </header>
+
             <aside className={`sidebar ${isSidebarOpen ? 'active' : ''}`}>
                 <nav className="sidebar-nav">
                     <ul>
                         <li className="sidebar-header"><img src={logo} alt="GasketGenius" className="header-logo-dashboard" /></li>
                         <li><NavLink to="/admin/dashboard">Inicio</NavLink></li> 
-                        <li><a href="/admin/catalogo">Catálogo</a></li>
-                        <li><a href="/admin/identificador">Identificador</a></li>
+                        <li><NavLink to="/admin/catalogo">Catálogo</NavLink></li>
+                        <li><NavLink to="/admin/identificador">Identificador</NavLink></li>
                         <li><NavLink to="/admin/cuenta">Administrar cuenta</NavLink></li>
-                        <li><a href="/admin/juntas">Administrar juntas</a></li>
-                        <li><a href="/admin/motores">Administrar motores</a></li>
-                        <li><a href="/admin/autos">Administrar autos</a></li>
-                        <li><a href="/admin/marcas">Administrar marcas</a></li>
-                        <li><a href="/admin/usuarios">Administrar usuarios</a></li>
+                        <li><NavLink to="/admin/juntas">Administrar juntas</NavLink></li>
+                        <li><NavLink to="/admin/motores">Administrar motores</NavLink></li>
+                        <li><NavLink to="/admin/autos">Administrar autos</NavLink></li>
+                        <li><NavLink to="/admin/marcas">Administrar marcas</NavLink></li>
+                        <li><NavLink to="/admin/usuarios">Administrar usuarios</NavLink></li>
                     </ul>
                 </nav>
             </aside>
 
             <main className={`main-content-dashboard ${isSidebarOpen ? 'sidebar-active' : ''}`}>
-                <header className="header-dashboard">
-                    <div className="hamburger-menu" onClick={toggleSidebar} aria-expanded={isSidebarOpen ? "true" : "false"}>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                    </div>
-
-                    <div className={`profile ${isDropdownOpen ? 'isDropdownOpen' : ''}`} onClick={handleClick}>
-                        <span>{user?.username || "Nombre de usuario del administrador"}</span>
-                        <img src={profile} alt="Usuario administrador" className="img-profile" />
-
-                        {isDropdownOpen && (
-                            <div className="profile-dropdown">
-                                <div className="profile-dropdown-content">
-                                    <img src={profile} alt="Usuario administrador" className="img-profile-dropdown" />
-                                    <div className="profile-dropdown-text">
-                                        <p className="profile-name">{user?.name || "Nombre del administrador"}</p>
-                                        <p className="profile-email">{user?.email || "Correo del usuario"}</p>
-                                    </div>
-                                </div>
-                                <div className="logout-button">
-                                    <LogoutButton />
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                </header>
-
                 <section className="welcome-message">
                     <h1>Administrar cuenta</h1>
 
