@@ -3,8 +3,7 @@ import db from '../config/db.js'
 
 const Motor = db.define('motores', {
     id_motor: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
+        type: DataTypes.STRING,
         primaryKey: true
     },
     numero_litros: {
@@ -28,21 +27,21 @@ const Motor = db.define('motores', {
         allowNull: false,
     },
     info_adicional: {
-        type: DataTypes.STRING,
+        type: DataTypes.JSON,
         allowNull: false,
     },
     range_year_i: {
         type: DataTypes.STRING(4),
         allowNull: false,
         validate: {
-            isIn: true
+            isNumeric: true
         }
     },
     range_year_f: {
         type: DataTypes.STRING(4),
         allowNull: false,
         validate: {
-            isIn: true
+            isNumeric: true
         }
     },
 });
