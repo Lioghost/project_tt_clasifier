@@ -107,24 +107,6 @@
     z-index: 1000; /* Asegura que esté por encima de otros elementos */
 }
 
-@keyframes fadeInOut {
-    0% {
-        opacity: 0;
-        transform: translate(-50%, -60%); /* Empieza ligeramente por encima */
-    }
-    10% {
-        opacity: 1;
-        transform: translate(-50%, -50%); /* Se coloca en su posición final */
-    }
-    90% {
-        opacity: 1; /* Se mantiene visible la mayor parte del tiempo */
-    }
-    100% {
-        opacity: 0;
-        transform: translate(-50%, -60%); /* Se desvanece y se mueve hacia arriba */
-    }
-}
-
 /* Estilos responsivos para pantallas medianas */
 @media (max-width: 1200px) {
     .register-form {

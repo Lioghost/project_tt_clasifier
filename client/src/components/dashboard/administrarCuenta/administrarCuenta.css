@@ -8,7 +8,8 @@
 
 .account-details {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column; /* Cambiado a columna para mejor alineación */
+  align-items: center;
   background-color: var(--color-white); /* Cambiado a blanco para un diseño más limpio */
   padding: 2rem;
   border-radius: 10px;
@@ -18,8 +19,7 @@
 
 .account-left {
   text-align: center;
-  flex-basis: 20%;
-  margin-right: 50px;
+  margin-bottom: 1.5rem; /* Añadido margen inferior */
 }
 
 .user-avatar {
@@ -30,8 +30,7 @@
 }
 
 .account-center {
-  flex-basis: 60%;
-  display: block;
+  width: 100%; /* Asegura que el formulario ocupe todo el ancho disponible */
   text-align: left; /* Añadido para alinear el texto a la izquierda */
 }
 
@@ -117,24 +116,6 @@ input:disabled {
   z-index: 1000; /* Asegura que esté por encima de otros elementos */
 }
 
-@keyframes fadeInOut {
-  0% {
-      opacity: 0;
-      transform: translate(-50%, -60%); /* Empieza ligeramente por encima */
-  }
-  10% {
-      opacity: 1;
-      transform: translate(-50%, -50%); /* Se coloca en su posición final */
-  }
-  90% {
-      opacity: 1; /* Se mantiene visible la mayor parte del tiempo */
-  }
-  100% {
-      opacity: 0;
-      transform: translate(-50%, -60%); /* Se desvanece y se mueve hacia arriba */
-  }
-}
-
 /* Estilo para las etiquetas */
 label {
   font-weight: 600;
@@ -156,33 +137,11 @@ p {
   color: #666;
 }
 
-.account-right {
-  flex-basis: 20%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-}
-
-/* Botón de edición */
-.edit-button {
-  background: none;
-  border: none;
-  font-size: 1rem;
-  cursor: pointer;
-  color: var(--color-primary);
-  transition: color var(--transition-speed);
-}
-
-.edit-button:hover {
-  color: var(--color-primary-hover); /* Cambio de color en hover */
-}
-
-/* Botón guardar */
+/* Botón guardar o editar */
 .save-button {
   margin-top: 2rem;
-  margin-bottom: 2rem;
   padding: 0.8rem 2rem;
-  background-color: var(--color-primary-disabled);
+  background-color: var(--color-success);
   border: none;
   border-radius: 5px;
   color: var(--color-white);
@@ -195,21 +154,14 @@ p {
   background-color: var(--color-primary); /* Color más fuerte */
 }
 
-.save-button:disabled {
-  background-color: var(--color-border); /* Color más claro para el estado deshabilitado */
-  cursor: not-allowed;
+.save-button:hover {
+  background-color: var(--color-secondary); /* Color más fuerte */
 }
 
 /* Estilos responsivos para pantallas medianas */
 @media (max-width: 1200px) {
   .account-details {
-      flex-direction: column;
-      align-items: center;
       width: 28rem;
-  }
-  .account-left, .account-center, .account-right {
-      flex-basis: 100%;
-      margin-right: 0;
   }
 }
 

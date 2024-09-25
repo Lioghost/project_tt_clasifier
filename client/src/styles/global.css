@@ -69,4 +69,21 @@ body, html {
     outline: none; /* Remueve el borde de enfoque predeterminado del navegador */
 }
 
+@keyframes fadeInOut {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -60%); /* Empieza ligeramente por encima */
+    }
+    10% {
+        opacity: 1;
+        transform: translate(-50%, -50%); /* Se coloca en su posición final */
+    }
+    90% {
+        opacity: 1; /* Se mantiene visible la mayor parte del tiempo */
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -60%); /* Se desvanece y se mueve hacia arriba */
+    }
+  }
   

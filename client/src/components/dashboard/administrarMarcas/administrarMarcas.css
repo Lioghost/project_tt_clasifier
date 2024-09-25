@@ -109,50 +109,7 @@
     display: block; /* Asegura que se mantenga en bloque */
 }
 
-.get-error-message-brand {
-    position: fixed;
-    margin-top: 150px;
-    top: 25%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: auto;
-    max-width: 90%;
-    padding: 15px;
-    color: var(--color-white);
-    background-color: var(--color-error); /* Define este color en tus variables de CSS */
-    border-radius: 5px;
-    text-align: center;
-    font-family: var(--font-family-base);
-    font-size: 16px;
-    font-weight: bold;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    opacity: 0;
-    animation: fadeInOut 3s forwards;
-    z-index: 1000; /* Asegura que esté por encima de otros elementos */
-}
-
-.get-success-message-brand {
-    position: fixed;
-    top: 25%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: auto;
-    max-width: 90%;
-    padding: 15px;
-    color: var(--color-white);
-    background-color: var(--color-success); /* Define este color en tus variables de CSS */
-    border-radius: 5px;
-    text-align: center;
-    font-family: var(--font-family-base);
-    font-size: 16px;
-    font-weight: bold;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    opacity: 0;
-    animation: fadeInOut 3s forwards;
-    z-index: 1000; /* Asegura que esté por encima de otros elementos */
-}
-
-.delete-error-message-brand {
+.get-error-message-brand, .delete-error-message-brand, .add-error-message-brand, .edit-error-message-brand {
     position: fixed;
     top: 25%;
     left: 50%;
@@ -173,7 +130,7 @@
     z-index: 1000; /* Asegura que esté por encima de otros elementos */
 }
 
-.delete-success-message-brand {
+.get-success-message-brand, .delete-success-message-brand, .add-success-message-brand, .edit-success-message-brand {
     position: fixed;
     top: 25%;
     left: 50%;
@@ -192,108 +149,6 @@
     opacity: 0;
     animation: fadeInOut 3s forwards;
     z-index: 1000; /* Asegura que esté por encima de otros elementos */
-}
-
-.add-error-message-brand {
-    position: fixed;
-    top: 25%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: auto;
-    max-width: 90%;
-    padding: 15px;
-    color: var(--color-white);
-    background-color: var(--color-error); /* Define este color en tus variables de CSS */
-    border-radius: 5px;
-    text-align: center;
-    font-family: var(--font-family-base);
-    font-size: 16px;
-    font-weight: bold;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    opacity: 0;
-    animation: fadeInOut 3s forwards;
-    z-index: 1100; /* Asegura que esté por encima de la ventana modal */
-}
-
-.add-success-message-brand {
-    position: fixed;
-    top: 25%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: auto;
-    max-width: 90%;
-    padding: 15px;
-    color: var(--color-white);
-    background-color: var(--color-success); /* Define este color en tus variables de CSS */
-    border-radius: 5px;
-    text-align: center;
-    font-family: var(--font-family-base);
-    font-size: 16px;
-    font-weight: bold;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    opacity: 0;
-    animation: fadeInOut 3s forwards;
-    z-index: 1100; /* Asegura que esté por encima de la ventana modal */
-}
-
-.edit-error-message-brand {
-    position: fixed;
-    top: 25%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: auto;
-    max-width: 90%;
-    padding: 15px;
-    color: var(--color-white);
-    background-color: var(--color-error); /* Define este color en tus variables de CSS */
-    border-radius: 5px;
-    text-align: center;
-    font-family: var(--font-family-base);
-    font-size: 16px;
-    font-weight: bold;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    opacity: 0;
-    animation: fadeInOut 3s forwards;
-    z-index: 1100; /* Asegura que esté por encima de la ventana modal */
-}
-
-.edit-success-message-brand {
-    position: fixed;
-    top: 25%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: auto;
-    max-width: 90%;
-    padding: 15px;
-    color: var(--color-white);
-    background-color: var(--color-success); /* Define este color en tus variables de CSS */
-    border-radius: 5px;
-    text-align: center;
-    font-family: var(--font-family-base);
-    font-size: 16px;
-    font-weight: bold;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    opacity: 0;
-    animation: fadeInOut 3s forwards;
-    z-index: 1000; /* Asegura que esté por encima de otros elementos */
-}
-
-@keyframes fadeInOut {
-    0% {
-        opacity: 0;
-        transform: translate(-50%, -60%); /* Empieza ligeramente por encima */
-    }
-    10% {
-        opacity: 1;
-        transform: translate(-50%, -50%); /* Se coloca en su posición final */
-    }
-    90% {
-        opacity: 1; /* Se mantiene visible la mayor parte del tiempo */
-    }
-    100% {
-        opacity: 0;
-        transform: translate(-50%, -60%); /* Se desvanece y se mueve hacia arriba */
-    }
 }
 
 .confirm-delete-modal-overlay {

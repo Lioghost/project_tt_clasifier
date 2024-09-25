@@ -52,10 +52,6 @@ const AdministrarCuentaClient = () => {
         setIsDropdownOpen(!isDropdownOpen);
     };
 
-    const handleEdit = () => {
-        setIsEditing(true);
-    };
-
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prevState => ({
@@ -97,54 +93,58 @@ const AdministrarCuentaClient = () => {
     };
 
     const handleSave = async () => {
-        if (validateForm()) {
-            setIsSaving(true);
-            setSuccessMessage('');
-            setErrorMessage('');
+        if (isEditing) {
+            if (validateForm()) {
+                setIsSaving(true);
+                setSuccessMessage('');
+                setErrorMessage('');
 
-            const role = localStorage.getItem('role');
-            const token = localStorage.getItem('token');
+                const role = localStorage.getItem('role');
+                const token = localStorage.getItem('token');
 
-            try {
-                const payload = {
-                    name: formData.name,
-                    lastname: formData.lastname,
-                    username: formData.username
-                };
+                try {
+                    const payload = {
+                        name: formData.name,
+                        lastname: formData.lastname,
+                        username: formData.username
+                    };
 
-                if (formData.password) {
-                    payload.password = formData.password;
+                    if (formData.password) {
+                        payload.password = formData.password;
+                    }
+
+                    const response = await fetch(`http://localhost:3000/shared/cuenta/${formData.id}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Role': role,
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify(payload),
+                    });
+
+                    if (response.ok) {
+                        console.log("Datos guardados:", formData);
+                        setIsEditing(false);
+                        setSuccessMessage('Datos guardados exitosamente');
+                        setErrorMessage('');
+                    } else {
+                        const data = await response.json();
+                        console.log("Errores de validación del servidor:", data);
+                        setSuccessMessage('');
+                        setErrorMessage('Error al guardar los datos');
+                    }
+                } catch (error) {
+                    console.error('Error al conectar con el servidor:', error);
+                    setErrorMessage('Error al conectar con el servidor');
+                } finally {
+                    setIsSaving(false);
                 }
-
-                const response = await fetch(`http://localhost:3000/shared/cuenta/${formData.id}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Role': role,
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify(payload),
-                });
-
-                if (response.ok) {
-                    console.log("Datos guardados:", formData);
-                    setIsEditing(false);
-                    setSuccessMessage('Datos guardados exitosamente');
-                    setErrorMessage('');
-                } else {
-                    const data = await response.json();
-                    console.log("Errores de validación del servidor:", data);
-                    setSuccessMessage('');
-                    setErrorMessage('Error al guardar los datos');
-                }
-            } catch (error) {
-                console.error('Error al conectar con el servidor:', error);
-                setErrorMessage('Error al conectar con el servidor');
-            } finally {
-                setIsSaving(false);
+            } else {
+                console.log("Errores de validación:", errors);
             }
         } else {
-            console.log("Errores de validación:", errors);
+            setIsEditing(true);
         }
     };
 
@@ -259,18 +259,17 @@ const AdministrarCuentaClient = () => {
                                 )}
                             </form>
 
-                            <div className="account-right">
-                                <button type='button' className="edit-button" onClick={handleEdit} disabled={isEditing}>Editar</button>
-                            </div>
+                            <button 
+                                className={`save-button ${isEditing ? 'active' : ''}`} 
+                                onClick={handleSave} 
+                                disabled={isSaving}
+                            >
+                                {isSaving ? 'Guardando...' : isEditing ? 'Guardar' : 'Editar'}
+                            </button>     
+
                         </div>
 
-                        <button 
-                            className={`save-button ${isEditing ? 'active' : ''}`} 
-                            onClick={handleSave} 
-                            disabled={!isEditing || isSaving}
-                        >
-                            {isSaving ? 'Guardando...' : 'Guardar'}
-                        </button>
+                        
                         {errorMessage && <div className="send-error-message-account">{errorMessage}</div>}
                         {successMessage && <div className="send-success-message-account">{successMessage}</div>}
                     </div>
