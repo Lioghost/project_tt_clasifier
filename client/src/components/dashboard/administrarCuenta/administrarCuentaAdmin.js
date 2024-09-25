@@ -52,10 +52,6 @@ const AdministrarCuentaAdmin = () => {
         setIsDropdownOpen(!isDropdownOpen);
     };
 
-    const handleEdit = () => {
-        setIsEditing(true);
-    };
-
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prevState => ({
