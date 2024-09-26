@@ -14,10 +14,13 @@ import {
     motores,
     motorCreate,
     motorUpdate,
-    motorDelete
+    motorDelete,
+    generateJuntasId,
+    juntaCreate
 } from "../controllers/adminController.js";
 import authenticate from "../middlewares/authenticate.js";
 import authorize from "../middlewares/authorize.js";
+import upload from "../middlewares/uploadImage.js";
 const router = express.Router();
 
 // Ruta para el dashboard del cliente
@@ -56,5 +59,10 @@ router.post('/motor', authenticate, authorize(['Admin']), motorCreate);
 router.patch('/motor/:id', authenticate, authorize(['Admin']), motorUpdate);
 
 router.delete('/motor/:id', authenticate, authorize(['Admin']), motorDelete);
+
+//Juntas
+router.get('/juntas-id', authenticate, authorize(['Admin']), generateJuntasId);
+
+router.post('/juntas', authenticate, authorize(['Admin']), upload.single('imagen'), juntaCreate);
 
 export default router

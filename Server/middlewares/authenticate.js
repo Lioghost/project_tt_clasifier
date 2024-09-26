@@ -2,8 +2,8 @@ import jwt from 'jsonwebtoken'
 
 const authenticate = async (req, res, next) => {
     
-    console.log(req.cookies)
     // Primero verifica si el encabezado Authorization está presente
+    console.log(req.body)
     const authHeader = req.header('Authorization');
     const token = req.cookies._token || (authHeader && authHeader.replace('Bearer ', ''));
 
@@ -13,7 +13,7 @@ const authenticate = async (req, res, next) => {
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-        console.log(decoded)
+        //console.log(decoded)
         req.user = decoded;
         next();
     } catch (error) {

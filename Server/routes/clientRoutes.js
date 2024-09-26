@@ -12,5 +12,6 @@ const router = express.Router();
 router.get('/dashboard', authenticate, authorize('Client'), dashboard);
 
 router.post('/unknown-juntas', authenticate, authorize('Client'), upload.single('imagen'), sendJuntasDesconocidas);
+//router.post('/unknown-juntas', juntaName, upload.single('imagen'), sendJuntasDesconocidas);
 
 export default router

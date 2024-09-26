@@ -11,7 +11,7 @@ const authorize = (roles = []) => {
         }
     
         const userRoles = req.user.role;
-        console.log(userRoles)
+        //console.log(userRoles)
         const hasAccess = roles.some(role => userRoles.includes(role));
         
         if (!hasAccess)

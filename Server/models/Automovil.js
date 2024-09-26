@@ -3,8 +3,7 @@ import db from '../config/db.js'
 
 const Automovil = db.define('automoviles', {
     id_auto: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
+        type: DataTypes.STRING,
         primaryKey: true
     },
     submarca: {

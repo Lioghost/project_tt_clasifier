@@ -1,6 +1,6 @@
 import Usuario from "../models/Usuario.js";
-//import Marca from "../models/Marca.js";
-//import Automovil from "../models/Automovil.js";
+import { nanoid } from "nanoid";
+import Junta from "../models/Junta.js";
 import {Automovil, Marca, Motor} from "../models/indexModels.js";
 
 const dashboard = (req, res) => {
@@ -134,15 +134,15 @@ const automoviles = async (req, res) => {
 // Crear un nuevo auto
 const autoCreate = async (req, res) => {
     try {
-        const { marcaId, submarca, modelo, litros } = req.body;
+        const { marca_id } = req.body;
 
         // Verificar si la marca existe
-        const marca = await Marca.findByPk(marcaId);
+        const marca = await Marca.findByPk(marca_id);
         if (!marca) {
             return res.status(404).json({ msg: "Marca no encontrada" });
         }
 
-        const nuevoAuto = await Automovil.create({ marcaId, submarca, modelo, litros });
+        const nuevoAuto = await Automovil.create(req.body);
         return res.status(201).json({ msg: 'Auto creado exitosamente', data: nuevoAuto });
     } catch (error) {
         return res.status(500).json({ msg: 'Error al crear Auto', error: error.message });
@@ -256,6 +256,32 @@ const motorDelete = async (req, res) => {
     }   
 }
 
+const generateJuntasId = async (req, res) => {
+    return res.status(200).json({ junta_id: nanoid() });
+}
+
+const juntaCreate = async (req, res) => {
+    try {
+        //const { id_junta } = req.body;
+        //console.log(req.body);
+
+        //if (!id_junta) {
+            //return res.status(400).json({ msg: "ID de Junta o Mensaje inválido" });
+        //}
+        const new_junta = await Junta.create({
+            id_junta: req.body.id_junta,
+            id_image: req.file.filename
+        })
+
+        //req.id_junta = id_junta;
+        //console.log(req.id_junta);
+        //const junta = await JuntaDesconocida.create({ id_junta, image: req.file.filename });
+        return res.status(201).json({ msg: "Junta creada exitosamente", data: new_junta });
+    } catch (error) {
+        return res.status(500).json({ msg: "Error al crear Junta", error: error.message });
+    }
+}
+
 export {
     dashboard,
     users,
@@ -271,5 +297,7 @@ export {
     motores,
     motorCreate,
     motorUpdate,
-    motorDelete
+    motorDelete,
+    generateJuntasId,
+    juntaCreate
 }

@@ -16,4 +16,4 @@ const Junta = db.define('juntas', {
 });
 
 //Se genera una relacion de mensaje en el indexModels.js
-export default JuntaDesconocida;
+export default Junta;

@@ -25,7 +25,21 @@ const storage = multer.diskStorage({
                     
     },*/
     filename: function(req, file, cb) { //Prmite nombrar el archivo a cargar con un Id único y evitar duplicados 
-        cb(null, generarID() + path.extname(file.originalname) )
+        let name
+        switch (req.url) {
+            case '/identificador':
+                //cb(null, generarID() + path.extname(file.originalname) )
+                name = generarID() + path.extname(file.originalname)
+                break;
+            case '/unknown-juntas':
+                //cb(null, generarID() + path.extname(file.originalname) )
+                name = generarID() + path.extname(file.originalname)
+                break;
+            case '/juntas':
+                name = req.body.id_junta + path.extname(file.originalname)
+                break;
+        }
+        cb(null, name )
     }
 })
 
