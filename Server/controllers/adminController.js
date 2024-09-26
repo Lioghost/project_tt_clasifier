@@ -262,20 +262,12 @@ const generateJuntasId = async (req, res) => {
 
 const juntaCreate = async (req, res) => {
     try {
-        //const { id_junta } = req.body;
-        //console.log(req.body);
 
-        //if (!id_junta) {
-            //return res.status(400).json({ msg: "ID de Junta o Mensaje inválido" });
-        //}
         const new_junta = await Junta.create({
             id_junta: req.body.id_junta,
             id_image: req.file.filename
         })
 
-        //req.id_junta = id_junta;
-        //console.log(req.id_junta);
-        //const junta = await JuntaDesconocida.create({ id_junta, image: req.file.filename });
         return res.status(201).json({ msg: "Junta creada exitosamente", data: new_junta });
     } catch (error) {
         return res.status(500).json({ msg: "Error al crear Junta", error: error.message });
