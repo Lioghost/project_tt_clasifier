@@ -1,4 +1,5 @@
 import Usuario from "../models/Usuario.js";
+import { unlink } from 'node:fs/promises'
 import { nanoid } from "nanoid";
 import Junta from "../models/Junta.js";
 import {Automovil, Marca, Motor} from "../models/indexModels.js";
@@ -260,6 +261,21 @@ const generateJuntasId = async (req, res) => {
     return res.status(200).json({ junta_id: nanoid() });
 }
 
+const juntas = async (req, res) => {
+    try {
+        const juntas = await Junta.findAll();
+
+        if (juntas.length === 0) {
+            return res.status(404).json({ msj: "No se encontraron Juntas" });
+        }
+
+        return res.status(200).json({ msj: "Juntas recuperadas con éxito", data: juntas });
+
+    } catch (error) {
+        return res.status(500).json({ msj: "Error al recuperar las Autos", error: error.message });
+    }
+}
+
 const juntaCreate = async (req, res) => {
     try {
 
@@ -272,6 +288,22 @@ const juntaCreate = async (req, res) => {
     } catch (error) {
         return res.status(500).json({ msg: "Error al crear Junta", error: error.message });
     }
+}
+
+const juntaDelete = async (req, res) => {
+
+    const {id} = req.params
+
+    const junta = await Junta.findByPk(id)
+
+    if(!junta) {
+        return res.status(400).json({msg: 'Junta no encontrada'});
+    }
+
+    await unlink(`public/juntas/${junta.id_image}`)
+
+    await junta.destroy()
+    return res.status(200).json({ msj: "Junta eliminada con éxito" });
 }
 
 export {
@@ -291,5 +323,6 @@ export {
     motorUpdate,
     motorDelete,
     generateJuntasId,
-    juntaCreate
+    juntaCreate,
+    juntaDelete
 }

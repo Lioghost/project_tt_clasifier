@@ -16,7 +16,8 @@ import {
     motorUpdate,
     motorDelete,
     generateJuntasId,
-    juntaCreate
+    juntaCreate,
+    juntaDelete
 } from "../controllers/adminController.js";
 import authenticate from "../middlewares/authenticate.js";
 import authorize from "../middlewares/authorize.js";
@@ -64,5 +65,7 @@ router.delete('/motor/:id', authenticate, authorize(['Admin']), motorDelete);
 router.get('/juntas-id', authenticate, authorize(['Admin']), generateJuntasId);
 
 router.post('/juntas', authenticate, authorize(['Admin']), upload.single('imagen'), juntaCreate);
+
+router.delete('/juntas/:id', authenticate, authorize(['Admin']), juntaDelete);
 
 export default router

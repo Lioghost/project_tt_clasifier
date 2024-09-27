@@ -7,6 +7,7 @@ import db from '../config/db.js'
 const Junta = db.define('juntas', {
     id_junta: {
         type: DataTypes.STRING(200),
+        primaryKey: true,
         allowNull: false
     },
     id_image: {
