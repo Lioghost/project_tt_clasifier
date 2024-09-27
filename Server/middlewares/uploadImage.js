@@ -7,6 +7,7 @@ const storage = multer.diskStorage({
 
     destination: function(req, file, cb) {
         let uploadPath
+        console.log(req.url)
         switch (req.url) {
             case '/identificador':
                 uploadPath = './public/identifier/';
@@ -14,7 +15,7 @@ const storage = multer.diskStorage({
             case '/unknown-juntas':
                 uploadPath = './public/uploads/';
                 break;
-            case '/juntas':
+            case '/juntas-m':
                 uploadPath = './public/juntas/';
                 break;
         }
@@ -35,7 +36,7 @@ const storage = multer.diskStorage({
                 //cb(null, generarID() + path.extname(file.originalname) )
                 name = generarID() + path.extname(file.originalname)
                 break;
-            case '/juntas':
+            case '/juntas-m':
                 name = req.body.id_junta + path.extname(file.originalname)
                 break;
         }

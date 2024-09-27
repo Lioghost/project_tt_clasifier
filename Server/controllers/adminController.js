@@ -3,6 +3,7 @@ import { unlink } from 'node:fs/promises'
 import { nanoid } from "nanoid";
 import Junta from "../models/Junta.js";
 import {Automovil, Marca, Motor} from "../models/indexModels.js";
+import { console } from "node:inspector";
 
 const dashboard = (req, res) => {
     // La función aquí simplemente confirma que el usuario tiene acceso.
@@ -290,6 +291,30 @@ const juntaCreate = async (req, res) => {
     }
 }
 
+const juntaUpdate = async (req, res) => {
+    
+    console.log(req.params.id)
+    const junta = await Junta.findByPk(req.params.id)
+
+    if(!junta)
+        return res.status(400).json({msg: 'Junta no encontrada'})
+
+    try {
+
+        const juntaUpdate = await Junta.update({
+            id_junta: req.body.id_junta,
+            id_image: req.file.filename
+        })
+
+        await unlink(`public/juntas/${junta.id_image}`)
+
+        return res.status(201).json({ msg: "Junta creada exitosamente", data: juntaUpdate });
+    } catch (error) {
+        return res.status(500).json({ msg: "Error al crear Junta", error: error.message });
+    }
+
+}
+
 const juntaDelete = async (req, res) => {
 
     const {id} = req.params
@@ -324,5 +349,6 @@ export {
     motorDelete,
     generateJuntasId,
     juntaCreate,
-    juntaDelete
+    juntaDelete,
+    juntaUpdate
 }
