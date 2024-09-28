@@ -31,11 +31,10 @@ const AdministrarCuentaAdmin = () => {
         if (!isAuthenticated) {
             navigate('/login');
         }
-        updateUser(user?.id);
-    }, [isAuthenticated, navigate, updateUser, user?.id]);
+    }, [isAuthenticated, navigate]);
 
     useEffect(() => {
-    if (successMessage || errorMessage) {
+        if (successMessage || errorMessage) {
             const timer = setTimeout(() => {
                 setSuccessMessage('');
                 setErrorMessage('');
@@ -128,6 +127,7 @@ const AdministrarCuentaAdmin = () => {
                         setIsEditing(false);
                         setSuccessMessage('Datos guardados exitosamente');
                         setErrorMessage('');
+                        updateUser(formData.id); // Actualizar el contexto después de guardar
                     } else {
                         const data = await response.json();
                         console.log("Errores de validación del servidor:", data);

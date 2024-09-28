@@ -1,0 +1,422 @@
+.auto-management {
+    background-color: var(--color-white);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 2rem 0;
+}
+
+.auto-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.auto-header h1 {
+    color: var(--color-secondary);
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+.auto-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.auto-search-bar {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+.auto-search-bar:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    outline: none;
+}
+
+.add-auto-button {
+    padding: 0.5rem 1rem;
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background-color var(--transition-speed);
+}
+
+.add-auto-button:hover {
+    background-color: var(--color-primary-disabled);
+}
+
+/* Contenedor centrado de la tabla */
+.auto-table-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+}
+
+.auto-table {
+    width: 100%;
+    max-width: 1200px; /* Tamaño máximo de la tabla */
+    border-collapse: collapse;
+    margin: 0 auto;
+}
+
+.auto-table th, 
+.auto-table td {
+    padding: 1rem;
+    border: 1px solid var(--color-border);
+    text-align: left;
+}
+
+.auto-table th {
+    background-color: var(--color-thead);
+    color: var(--color-white);
+}
+
+.auto-options-cell {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.auto-edit-button, 
+.auto-delete-button {
+    font-size: 16px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-secondary);
+    transition: color var(--transition-speed);
+}
+
+.auto-edit-button:hover {
+    color: var(--color-primary);
+}
+
+.auto-delete-button:hover {
+    color: var(--color-error);
+}
+
+/* Estilo para los mensajes de error */
+.error-message-auto {
+    color: var(--color-error); /* Color de error definido en tus variables de CSS */
+    font-size: 0.9rem;
+    margin-top: 0.3rem; /* Espacio entre el input y el mensaje de error */
+    margin-bottom: 1rem; /* Espacio adicional debajo del mensaje */
+    display: block; /* Asegura que se mantenga en bloque */
+}
+
+.get-error-message-auto, .delete-error-message-auto, .add-error-message-auto, .edit-error-message-auto {
+    position: fixed;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: auto;
+    max-width: 90%;
+    padding: 15px;
+    color: var(--color-white);
+    background-color: var(--color-error); /* Define este color en tus variables de CSS */
+    border-radius: 5px;
+    text-align: center;
+    font-family: var(--font-family-base);
+    font-size: 16px;
+    font-weight: bold;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    animation: fadeInOut 3s forwards;
+    z-index: 1100; /* Asegura que esté por encima de otros elementos */
+}
+
+.get-error-message-auto{
+    top: 50%;
+}
+
+.add-error-message-auto{
+    animation: fadeInOut 5s forwards;
+}
+
+.get-error-message-auto, .delete-error-message_auto, .add-error-message-auto, .edit-error-message-auto {
+    position: fixed;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: auto;
+    max-width: 90%;
+    padding: 15px;
+    color: var(--color-white);
+    background-color: var(--color-error);
+    border-radius: 5px;
+    text-align: center;
+    font-family: var(--font-family-base);
+    font-size: 16px;
+    font-weight: bold;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    animation: fadeInOut 3s forwards; /* Cambia la duración de la animación a 60 segundos */
+    z-index: 1100;
+}
+
+.get-error-message-auto{
+    top: 50%;
+}
+
+.get-success-message-auto, .delete-success-message-auto, .add-success-message-auto, .edit-success-message-auto {
+    position: fixed;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: auto;
+    max-width: 90%;
+    padding: 15px;
+    color: var(--color-white);
+    background-color: var(--color-success); /* Define este color en tus variables de CSS */
+    border-radius: 5px;
+    text-align: center;
+    font-family: var(--font-family-base);
+    font-size: 16px;
+    font-weight: bold;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    animation: fadeInOut 3s forwards;
+    z-index: 1100; /* Asegura que esté por encima de otros elementos */
+}
+
+.get-success-message-auto{
+    top: 50%;
+}
+
+.confirm-delete-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.confirm-delete-modal-content {
+    background: var(--color-white);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.confirm-delete-modal-actions {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 1.5rem;
+}
+
+.confirm-delete-modal-button {
+    padding: 0.8rem 2rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color var(--transition-speed);
+}
+
+.confirm-delete-modal-button.cancel {
+    background-color: var(--color-border);
+    color: #333;
+}
+
+.confirm-delete-modal-button.confirm {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+}
+
+.confirm-delete-modal-button.cancel:hover {
+    background-color: var(--color-error);
+    color: var(--color-white);
+}
+
+.confirm-delete-modal-button.confirm:hover {
+    background-color: var(--color-primary-hover);
+    color: var(--color-primary-hover);
+}
+
+.add-auto-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.add-auto-modal-content {
+    background: var(--color-white);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.add-auto-modal-content input, .add-auto-modal-content select {
+    margin-top: 10px;
+    margin-bottom: 0px;
+    display: block;
+    width: 350px;
+}
+
+/* Estilos para el select para que coincidan con los inputs */
+select {
+    width: 100%;
+    padding: 0.8rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    transition: background-color var(--transition-speed), border-color var(--transition-speed);
+    color: #333;
+    outline: none;
+    margin-bottom: 1rem; /* Agrega un margen inferior para separar el select del mensaje */
+  }
+  
+  /* Cuando el select está habilitado para edición */
+  select:focus {
+    background-color: var(--color-white);
+    border-color: var(--color-primary); /* Color del borde cuando está activo */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+  }
+  
+  /* Cuando el select está deshabilitado */
+  select:disabled {
+    background-color: #e9ecef;
+    border-color: #dee2e6;
+    color: #6c757d;
+  }
+
+.add-auto-modal-actions {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 1.5rem;
+}
+
+.add-auto-modal-button {
+    padding: 0.8rem 2rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color var(--transition-speed);
+}
+
+.add-auto-modal-button.cancel {
+    background-color: var(--color-border);
+    color: #333;
+}
+
+.add-auto-modal-button.confirm {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+}
+
+.add-auto-modal-button.cancel:hover {
+    background-color: var(--color-error);
+    color: var(--color-white);
+}
+
+.add-auto-modal-button.confirm:hover {
+    background-color: var(--color-primary-hover);
+    color: var(--color-primary-hover);
+}
+
+.edit-auto-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.edit-auto-modal-content {
+    background: var(--color-white);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.edit-auto-modal-content input, .edit-auto-modal-content select{
+    margin-top: 10px;
+    margin-bottom: 0px;
+    display: block;
+    width: 350px;
+}
+
+.edit-auto-modal-actions {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 1.5rem;
+}
+
+.edit-auto-modal-button {
+    padding: 0.8rem 2rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color var(--transition-speed);
+}
+
+.edit-auto-modal-button.cancel {
+    background-color: var(--color-border);
+    color: #333;
+}
+
+.edit-auto-modal-button.confirm {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+}
+
+.edit-auto-modal-button.cancel:hover {
+    background-color: var(--color-error);
+    color: var(--color-white);
+}
+
+.edit-auto-modal-button.confirm:hover {
+    background-color: var(--color-primary-hover);
+    color: var(--color-primary-hover);
+}
+
+/* Ajustes responsivos SOLO para el header (buscador y botón) */
+@media (max-width: 768px) {
+    .auto-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .auto-actions {
+        width: 100%;
+        justify-content: flex-start;
+        margin-top: 1rem;
+    }
+
+    .auto-search-bar {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+
+    .add-auto-button {
+        width: 100%;
+    }
+}

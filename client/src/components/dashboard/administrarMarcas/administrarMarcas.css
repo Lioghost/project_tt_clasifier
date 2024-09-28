@@ -127,7 +127,11 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     opacity: 0;
     animation: fadeInOut 3s forwards;
-    z-index: 1000; /* Asegura que esté por encima de otros elementos */
+    z-index: 1100; /* Asegura que esté por encima de otros elementos */
+}
+
+.get-error-message-brand{
+    top: 50%;
 }
 
 .get-success-message-brand, .delete-success-message-brand, .add-success-message-brand, .edit-success-message-brand {
@@ -148,7 +152,11 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     opacity: 0;
     animation: fadeInOut 3s forwards;
-    z-index: 1000; /* Asegura que esté por encima de otros elementos */
+    z-index: 1100; /* Asegura que esté por encima de otros elementos */
+}
+
+.get-success-message-brand{
+    top: 50%;
 }
 
 .confirm-delete-modal-overlay {

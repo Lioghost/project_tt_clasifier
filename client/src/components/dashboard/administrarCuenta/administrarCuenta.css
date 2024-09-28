@@ -139,7 +139,6 @@ p {
 
 /* Botón guardar o editar */
 .save-button {
-  margin-top: 2rem;
   padding: 0.8rem 2rem;
   background-color: var(--color-success);
   border: none;

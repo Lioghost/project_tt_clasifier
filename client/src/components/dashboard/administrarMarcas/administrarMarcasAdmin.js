@@ -8,7 +8,7 @@ import logo from "../../../assets/img/header-logo.png";
 import profile from "../../../assets/img/profile.png";
 
 const AdministrarMarcasAdmin = () => {
-    const { isAuthenticated, user, updateUser } = useContext(AuthContext);
+    const { isAuthenticated, user } = useContext(AuthContext);
     const navigate = useNavigate();
     
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -38,8 +38,7 @@ const AdministrarMarcasAdmin = () => {
         if (!isAuthenticated) {
             navigate('/login');
         }
-        updateUser(user?.id);
-    }, [isAuthenticated, navigate, updateUser, user?.id]);
+    }, [isAuthenticated, navigate]);
 
     useEffect(() => {
         if (successMessage || errorMessage) {
@@ -81,6 +80,7 @@ const AdministrarMarcasAdmin = () => {
         }
     }, [successEditMessage, errorEditMessage]);
 
+    /* Para mostrar las marcas*/
     const fetchBrands = async () => {
         const role = localStorage.getItem('role');
         const token = localStorage.getItem('token');
@@ -368,7 +368,7 @@ const AdministrarMarcasAdmin = () => {
                 <div className="confirm-delete-modal-overlay">
                     <div className="confirm-delete-modal-content">
                         <h2>Confirmación</h2>
-                        <p>¿Estás seguro de que deseas eliminar esta marca?</p>
+                        <p>¿Estás seguro de que deseas eliminar "{brands.find(brand => brand.id === brandToDelete)?.marca}"?</p>
                         <div className="confirm-delete-modal-actions">
                             <button className="confirm-delete-modal-button cancel" onClick={closeDeleteModal}>Cancelar</button>
                             <button className="confirm-delete-modal-button confirm" onClick={handleDelete}>Confirmar</button>
@@ -398,7 +398,7 @@ const AdministrarMarcasAdmin = () => {
             {showEditModal && (
                 <div className="edit-brand-modal-overlay">
                     <div className="edit-brand-modal-content">
-                        <h2>Editar Marca</h2>
+                        <h2>Editar {brandToEdit?.marca}</h2>
                         <input 
                             type="text" 
                             placeholder="Nombre de la marca" 
