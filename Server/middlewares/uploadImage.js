@@ -7,18 +7,19 @@ const storage = multer.diskStorage({
 
     destination: function(req, file, cb) {
         let uploadPath
-        console.log(req.url)
-        switch (req.url) {
-            case '/identificador':
-                uploadPath = './public/identifier/';
-                break;
-            case '/unknown-juntas':
-                uploadPath = './public/uploads/';
-                break;
-            case '/juntas-m':
-                uploadPath = './public/juntas/';
-                break;
+        if (/^\/juntas-m(\/.*)?$/.test(req.url))
+            uploadPath = './public/juntas/';
+        else {
+            switch (req.url) {
+                case '/identificador':
+                    uploadPath = './public/identifier/';
+                    break;
+                case '/unknown-juntas':
+                    uploadPath = './public/uploads/';
+                    break;
+            }
         }
+        
         cb(null, uploadPath);
     },
     /*destination: function(req, file, cb) {      //Lugar donde se van a guradar los archivos
@@ -27,18 +28,18 @@ const storage = multer.diskStorage({
     },*/
     filename: function(req, file, cb) { //Prmite nombrar el archivo a cargar con un Id único y evitar duplicados 
         let name
-        switch (req.url) {
-            case '/identificador':
-                //cb(null, generarID() + path.extname(file.originalname) )
-                name = generarID() + path.extname(file.originalname)
-                break;
-            case '/unknown-juntas':
-                //cb(null, generarID() + path.extname(file.originalname) )
-                name = generarID() + path.extname(file.originalname)
-                break;
-            case '/juntas-m':
-                name = req.body.id_junta + path.extname(file.originalname)
-                break;
+        if (/^\/juntas-m(\/.*)?$/.test(req.url))
+            name = req.body.id_junta + path.extname(file.originalname)
+        else {
+            switch (req.url) {
+                case '/identificador':
+                    //cb(null, generarID() + path.extname(file.originalname) )
+                    name = generarID() + path.extname(file.originalname)
+                    break;
+                case '/unknown-juntas':
+                    name = generarID() + path.extname(file.originalname)
+                    break;
+            }
         }
         cb(null, name )
     }

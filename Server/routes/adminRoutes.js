@@ -1,4 +1,12 @@
 import express from "express";
+import authenticate from "../middlewares/authenticate.js";
+import authorize from "../middlewares/authorize.js";
+import upload from "../middlewares/uploadImage.js";
+import { 
+    generateJuntasId, 
+    juntaCreate, 
+    juntaDelete, 
+    juntaUpdate } from "../controllers/adminJuntasController.js";
 import {
     dashboard,
     users,
@@ -14,15 +22,10 @@ import {
     motores,
     motorCreate,
     motorUpdate,
-    motorDelete,
-    generateJuntasId,
-    juntaCreate,
-    juntaDelete,
-    juntaUpdate
+    motorDelete
 } from "../controllers/adminController.js";
-import authenticate from "../middlewares/authenticate.js";
-import authorize from "../middlewares/authorize.js";
-import upload from "../middlewares/uploadImage.js";
+
+
 const router = express.Router();
 
 // Ruta para el dashboard del cliente
