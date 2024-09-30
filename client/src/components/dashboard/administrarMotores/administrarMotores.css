@@ -1,0 +1,442 @@
+.motor-management {
+    background-color: var(--color-white);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 2rem 0;
+}
+
+.motor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.motor-header h1 {
+    color: var(--color-secondary);
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+.motor-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.motor-search-bar {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+.motor-search-bar:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    outline: none;
+}
+
+.add-motor-button {
+    padding: 0.5rem 1rem;
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background-color var(--transition-speed);
+}
+
+.add-motor-button:hover {
+    background-color: var(--color-primary-disabled);
+}
+
+/* Contenedor centrado de la tabla */
+.motor-table-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+}
+
+.motor-table {
+    width: 100%;
+    max-width: 1200px; /* Tamaño máximo de la tabla */
+    border-collapse: collapse;
+    margin: 0 auto;
+}
+
+.motor-table th, 
+.motor-table td {
+    padding: 1rem;
+    border: 1px solid var(--color-border);
+    text-align: left;
+}
+
+.motor-table th {
+    background-color: var(--color-thead);
+    color: var(--color-white);
+}
+
+.motor-options-cell {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.motor-edit-button, 
+.motor-delete-button {
+    font-size: 16px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-secondary);
+    transition: color var(--transition-speed);
+}
+
+.motor-edit-button:hover {
+    color: var(--color-primary);
+}
+
+.motor-delete-button:hover {
+    color: var(--color-error);
+}
+
+/* Estilo para los mensajes de error */
+.error-message-motor {
+    color: var(--color-error); /* Color de error definido en tus variables de CSS */
+    font-size: 0.9rem;
+    margin-top: 0.3rem; /* Espacio entre el input y el mensaje de error */
+    margin-bottom: 1rem; /* Espacio adicional debajo del mensaje */
+    display: block; /* Asegura que se mantenga en bloque */
+}
+
+.get-error-message-motor, .delete-error-message-motor, .add-error-message-motor, .edit-error-message-motor {
+    position: fixed;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: auto;
+    max-width: 90%;
+    padding: 15px;
+    color: var(--color-white);
+    background-color: var(--color-error); /* Define este color en tus variables de CSS */
+    border-radius: 5px;
+    text-align: center;
+    font-family: var(--font-family-base);
+    font-size: 16px;
+    font-weight: bold;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    animation: fadeInOut 3s forwards;
+    z-index: 1100; /* Asegura que esté por encima de otros elementos */
+}
+
+.get-error-message-motor{
+    top: 50%;
+}
+
+.add-error-message-motor{
+    animation: fadeInOut 5s forwards;
+}
+
+.get-error-message-motor, .delete-error-message_motor, .add-error-message-motor, .edit-error-message-motor {
+    position: fixed;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: auto;
+    max-width: 90%;
+    padding: 15px;
+    color: var(--color-white);
+    background-color: var(--color-error);
+    border-radius: 5px;
+    text-align: center;
+    font-family: var(--font-family-base);
+    font-size: 16px;
+    font-weight: bold;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    animation: fadeInOut 3s forwards; /* Cambia la duración de la animación a 60 segundos */
+    z-index: 1100;
+}
+
+.get-error-message-motor{
+    top: 50%;
+}
+
+.get-success-message-motor, .delete-success-message-motor, .add-success-message-motor, .edit-success-message-motor {
+    position: fixed;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: auto;
+    max-width: 90%;
+    padding: 15px;
+    color: var(--color-white);
+    background-color: var(--color-success); /* Define este color en tus variables de CSS */
+    border-radius: 5px;
+    text-align: center;
+    font-family: var(--font-family-base);
+    font-size: 16px;
+    font-weight: bold;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    animation: fadeInOut 3s forwards;
+    z-index: 1100; /* Asegura que esté por encima de otros elementos */
+}
+
+.get-success-message-motor{
+    top: 50%;
+}
+
+.confirm-delete-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.confirm-delete-modal-content {
+    background: var(--color-white);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.confirm-delete-modal-actions {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 1.5rem;
+}
+
+.confirm-delete-modal-button {
+    padding: 0.8rem 2rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color var(--transition-speed);
+}
+
+.confirm-delete-modal-button.cancel {
+    background-color: var(--color-border);
+    color: #333;
+}
+
+.confirm-delete-modal-button.confirm {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+}
+
+.confirm-delete-modal-button.cancel:hover {
+    background-color: var(--color-error);
+    color: var(--color-white);
+}
+
+.confirm-delete-modal-button.confirm:hover {
+    background-color: var(--color-primary-hover);
+    color: var(--color-primary-hover);
+}
+
+.add-motor-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    overflow: hidden;
+}
+
+.add-motor-modal-content {
+    background: var(--color-white);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 90vw;
+    width: 400px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+/* Personalización del scrollbar en el modal */
+.add-motor-modal-content::-webkit-scrollbar {
+    width: 8px; /* Ancho de la barra de desplazamiento */
+}
+
+.add-motor-modal-content::-webkit-scrollbar-track {
+    background: var(--color--scrollbar-track); /* Color de fondo de la pista del scrollbar */
+    border-radius: 10px; /* Bordes redondeados para la pista */
+}
+
+.add-motor-modal-content::-webkit-scrollbar-thumb {
+    background: var(--color--scrollbar-thumb); /* Color del pulgar (la parte que se mueve del scrollbar) */
+    border-radius: 10px; /* Bordes redondeados */
+}
+
+.add-motor-modal-content::-webkit-scrollbar-thumb:hover {
+    background: var(--color--scrollbar-thumb_hover); /* Color del pulgar al pasar el mouse */
+}
+
+.add-motor-modal-content input {
+    margin-top: 10px;
+    margin-bottom: 0px;
+    display: block;
+    width: 100%;
+}
+
+.add-motor-modal-actions {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 1.5rem;
+}
+
+.add-motor-modal-button {
+    padding: 0.8rem 2rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color var(--transition-speed);
+}
+
+.add-motor-modal-button.cancel {
+    background-color: var(--color-border);
+    color: #333;
+}
+
+.add-motor-modal-button.confirm {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+}
+
+.add-motor-modal-button.cancel:hover {
+    background-color: var(--color-error);
+    color: var(--color-white);
+}
+
+.add-motor-modal-button.confirm:hover {
+    background-color: var(--color-primary-hover);
+    color: var(--color-primary-hover);
+}
+
+.edit-motor-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    overflow: hidden;
+}
+
+.edit-motor-modal-content {
+    background: var(--color-white);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 90vw;
+    width: 400px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+/* Personalización del scrollbar en el modal */
+.edit-motor-modal-content::-webkit-scrollbar {
+    width: 8px; /* Ancho de la barra de desplazamiento */
+}
+
+.edit-motor-modal-content::-webkit-scrollbar-track {
+    background: var(--color--scrollbar-track); /* Color de fondo de la pista del scrollbar */
+    border-radius: 10px; /* Bordes redondeados para la pista */
+}
+
+.edit-motor-modal-content::-webkit-scrollbar-thumb {
+    background: var(--color--scrollbar-thumb); /* Color del pulgar (la parte que se mueve del scrollbar) */
+    border-radius: 10px; /* Bordes redondeados */
+}
+
+.edit-motor-modal-content::-webkit-scrollbar-thumb:hover {
+    background: var(--color--scrollbar-thumb_hover); /* Color del pulgar al pasar el mouse */
+}
+
+.edit-motor-modal-content input {
+    margin-top: 10px;
+    margin-bottom: 0px;
+    display: block;
+    width: 100%;
+}
+
+.edit-motor-modal-actions {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 1.5rem;
+}
+
+.edit-motor-modal-button {
+    padding: 0.8rem 2rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color var(--transition-speed);
+}
+
+.edit-motor-modal-button.cancel {
+    background-color: var(--color-border);
+    color: #333;
+}
+
+.edit-motor-modal-button.confirm {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+}
+
+.edit-motor-modal-button.cancel:hover {
+    background-color: var(--color-error);
+    color: var(--color-white);
+}
+
+.edit-motor-modal-button.confirm:hover {
+    background-color: var(--color-primary-hover);
+    color: var(--color-primary-hover);
+}
+
+/* Ajustes responsivos SOLO para el header (buscador y botón) */
+@media (max-width: 768px) {
+    .motor-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .motor-actions {
+        width: 100%;
+        justify-content: flex-start;
+        margin-top: 1rem;
+    }
+
+    .motor-search-bar {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+
+    .add-motor-button {
+        width: 100%;
+    }
+}

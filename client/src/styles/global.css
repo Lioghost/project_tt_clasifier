@@ -12,6 +12,9 @@
     --color-black: #000;
     --color-thead: #F39C12;
 
+    --color--scrollbar-track: #f1f1f1;
+    --color--scrollbar-thumb: #888;
+    --color--scrollbar-thumb_hover: #555;
   
     /* Tipografía */
     --font-family-base: 'Helvetica', sans-serif;

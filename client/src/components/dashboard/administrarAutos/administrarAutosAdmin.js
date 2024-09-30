@@ -25,11 +25,13 @@ const AdministrarAutosAdmin = () => {
     const [newAutoLitros, setNewAutoLitros] = useState('');
     const [newAutoMarca, setNewAutoMarca] = useState([]);
     const [selectedMarcaId, setSelectedMarcaId] = useState('');
+
     const [successAddMessage, setSuccessAddMessage] = useState('');
     const [errorAddMessage, setErrorAddMessage] = useState('');
 
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [autoToDelete, setAutoToDelete] = useState(null);
+
     const [successDeleteMessage, setSuccessDeleteMessage] = useState('');
     const [errorDeleteMessage, setErrorDeleteMessage] = useState('');
 
@@ -40,6 +42,7 @@ const AdministrarAutosAdmin = () => {
     const [editAutoModelo, setEditAutoModelo] = useState('');
     const [editAutoLitros, setEditAutoLitros] = useState('');
     const [editAutoMarca, setEditAutoMarca] = useState([]);
+
     const [successEditMessage, setSuccessEditMessage] = useState('');
     const [errorEditMessage, setErrorEditMessage] = useState('');
 
@@ -178,6 +181,7 @@ const AdministrarAutosAdmin = () => {
         setNewAutoSubmarca('');
         setNewAutoModelo('');
         setNewAutoLitros('');
+        setNewAutoMarca([]);
         setShowAddModal(false);
     };
 
@@ -195,6 +199,10 @@ const AdministrarAutosAdmin = () => {
     
     const handleNewAutoLitrosChange = (e) => {
         setNewAutoLitros(e.target.value);
+    };
+
+    const handleNewAutoMarcaChange = (e) => {
+        setSelectedMarcaId(e.target.value)
     };
 
     const handleAddAuto = async (event) => {
@@ -267,7 +275,7 @@ const AdministrarAutosAdmin = () => {
     };
     
     useEffect(() => {
-        const fetchMarcas = async () => {
+        const fetchMarcasAdd = async () => {
             const role = localStorage.getItem('role');
             const token = localStorage.getItem('token');
             
@@ -290,7 +298,7 @@ const AdministrarAutosAdmin = () => {
             }
         };
     
-        fetchMarcas();
+        fetchMarcasAdd();
     }, []);
 
     /* Para editar la auto */
@@ -395,11 +403,7 @@ const AdministrarAutosAdmin = () => {
                 fetchAutos(); // Fetch the updated list of autos
                 closeEditModal();
             } else {
-                if (data.msj === "El nombre de la marca ya existe") {
-                    setErrorEditMessage("El nombre de la marca ya existe. Por favor, elige un nombre diferente.");
-                } else {
-                    setErrorEditMessage(data.msj);
-                }
+                setErrorEditMessage(data.msj);
             }
         } catch (error) {
             setErrorEditMessage('Error editing brand');
@@ -407,7 +411,7 @@ const AdministrarAutosAdmin = () => {
     };
 
     useEffect(() => {
-        const fetchMarcas = async () => {
+        const fetchMarcasEdit = async () => {
             const role = localStorage.getItem('role');
             const token = localStorage.getItem('token');
             
@@ -430,7 +434,7 @@ const AdministrarAutosAdmin = () => {
             }
         };
     
-        fetchMarcas();
+        fetchMarcasEdit();
     }, []);
 
     return (
@@ -609,7 +613,7 @@ const AdministrarAutosAdmin = () => {
                         />
                         <select
                             value={selectedMarcaId}  // Establece el valor del select como el id seleccionado
-                            onChange={(e) => setSelectedMarcaId(e.target.value)}  // Captura el id seleccionado
+                            onChange={handleNewAutoMarcaChange}  // Captura el id seleccionado
                         >
                             <option value="">Seleccione una marca</option>  {/* Opción por defecto */}
                             {newAutoMarca.map((marca) => (

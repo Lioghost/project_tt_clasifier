@@ -17,6 +17,7 @@ import NotFound from '../components/notFound/notFound';
 import AdministrarCuentaAdmin from '../components/dashboard/administrarCuenta/administrarCuentaAdmin';
 import AdministrarCuentaClient from '../components/dashboard/administrarCuenta/administrarCuentaClient';
 
+import AdministrarMotoresAdmin from '../components/dashboard/administrarMotores/administrarMotoresAdmin';
 import AdministrarAutosAdmin from '../components/dashboard/administrarAutos/administrarAutosAdmin';
 import AdministrarMarcasAdmin from '../components/dashboard/administrarMarcas/administrarMarcasAdmin';
 
@@ -57,7 +58,7 @@ function App() {
 
                   {/* Rutas restantes del administrador */}
                   <Route path="/admin/juntas" element={<ProtectedRoute roles={['Admin']}><AdministrarCuentaAdmin /></ProtectedRoute>} />
-                  <Route path="/admin/motores" element={<ProtectedRoute roles={['Admin']}><AdministrarCuentaAdmin /></ProtectedRoute>} />
+                  <Route path="/admin/motores" element={<ProtectedRoute roles={['Admin']}><AdministrarMotoresAdmin /></ProtectedRoute>} />
                   <Route path="/admin/autos" element={<ProtectedRoute roles={['Admin']}><AdministrarAutosAdmin /></ProtectedRoute>} />
                   <Route path="/admin/marcas" element={<ProtectedRoute roles={['Admin']}><AdministrarMarcasAdmin /></ProtectedRoute>} />
                   <Route path="/admin/usuarios" element={<ProtectedRoute roles={['Admin']}><AdministrarCuentaAdmin /></ProtectedRoute>} />
