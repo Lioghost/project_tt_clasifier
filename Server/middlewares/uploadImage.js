@@ -7,7 +7,7 @@ const storage = multer.diskStorage({
 
     destination: function(req, file, cb) {
         let uploadPath
-        if (/^\/juntas-m(\/.*)?$/.test(req.url))
+        if (/^\/juntas-g(\/.*)?$/.test(req.url))
             uploadPath = './public/juntas/';
         else {
             switch (req.url) {
@@ -28,7 +28,7 @@ const storage = multer.diskStorage({
     },*/
     filename: function(req, file, cb) { //Prmite nombrar el archivo a cargar con un Id único y evitar duplicados 
         let name
-        if (/^\/juntas-m(\/.*)?$/.test(req.url))
+        if (/^\/juntas-g(\/.*)?$/.test(req.url))
             name = req.body.id_junta + path.extname(file.originalname)
         else {
             switch (req.url) {

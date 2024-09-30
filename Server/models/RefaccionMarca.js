@@ -2,11 +2,11 @@ import { DataTypes } from 'sequelize'
 import db from '../config/db.js'
 
 const RefaccionMarca = db.define('refaccion_marca', {
-    id_refac_marca: {
+    id_refac: {
         type: DataTypes.STRING,
         primaryKey: true
     },
-    marca: {
+    marca_refac: {
         type: DataTypes.STRING,
         allowNull: false
     },
@@ -14,8 +14,8 @@ const RefaccionMarca = db.define('refaccion_marca', {
         type: DataTypes.STRING,
         allowNull: false
     },
-    numero_valvulas: {
-        type: DataTypes.INTEGER,
+    junta_id: {
+        type: DataTypes.STRING,
         allowNull: false
     }
 });

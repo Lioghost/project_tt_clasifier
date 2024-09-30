@@ -63,6 +63,24 @@ const marcaCreate = async (req, res) => {
     return res.status(200).json({msg: 'Marca creada correctamente'});
 }
 
+const marcaGet = async (req, res) => {
+    try {
+        const { id } = req.params;
+        if (!id)
+            return res.status(400).json({ msj: "ID inválido!" });
+
+        const marca = await Marca.findByPk(id);
+
+        if (!marca)
+            return res.status(404).json({ msj: "Marca no encontrada" });
+
+        return res.status(200).json({ msj: "Marca recuperada con éxito", data: marca });
+
+    } catch (error) {
+        return res.status(500).json({ msj: "Error al recuperar la Marca", error: error.message });
+    }
+}
+
 const marcaUpdate = async (req, res) => {
     try {
         const { id } = req.params;
@@ -167,6 +185,24 @@ const autoDelete = async (req, res) => {
     }   
 }
 
+const autoGet = async (req, res) => {
+    try {
+        const { id } = req.params;
+        if (!id) 
+            return res.status(400).json({ msj: "ID inválido!" });
+
+        const auto = await Automovil.findByPk(id);
+
+        if (!auto)
+            return res.status(404).json({ msj: "Auto no encontrado" });
+
+        return res.status(200).json({ msj: "Auto recuperado con éxito", data: auto });
+
+    } catch (error) {
+        return res.status(500).json({ msj: "Error al recuperar el Auto", error: error.message });
+    }
+}
+
 const autoUpdate = async (req, res) => {
     try {
         const { id } = req.params;
@@ -218,6 +254,24 @@ const motorCreate = async (req, res) => {
     }
 };
 
+const motorGet = async (req, res) => {
+    try {
+        const { id } = req.params;
+        if (!id) 
+            return res.status(400).json({ msj: "ID inválido!" });
+
+        const motor = await Motor.findByPk(id); 
+
+        if (!motor)
+            return res.status(404).json({ msj: "Motor no encontrado" });
+
+        return res.status(200).json({ msj: "Motor recuperado con éxito", data: motor });
+
+    } catch (error) {
+        return res.status(500).json({ msj: "Error al recuperar el Motor", error: error.message });
+    }
+}
+
 const motorUpdate = async (req, res) => {
     try {
         const { id } = req.params;
@@ -261,14 +315,17 @@ export {
     enableAdminUser,
     marcas,
     marcaCreate,
+    marcaGet,
     marcaUpdate,
     marcaDelete,
     automoviles,
     autoCreate,
     autoDelete,
+    autoGet,
     autoUpdate,
     motores,
     motorCreate,
+    motorGet,
     motorUpdate,
     motorDelete
 }

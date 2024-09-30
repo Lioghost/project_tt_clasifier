@@ -1,14 +1,19 @@
 import { unlink } from 'node:fs/promises'
 import { nanoid } from "nanoid";
-import Junta from "../models/Junta.js";
+import { Junta, RefaccionMarca } from "../models/indexModels.js";
 
 const generateJuntasId = async (req, res) => {
     return res.status(200).json({ junta_id: nanoid() });
 }
 
-const juntas = async (req, res) => {
+const juntasG = async (req, res) => {
     try {
-        const juntas = await Junta.findAll();
+        const juntas = await Junta.findAll({
+            include: {
+                model: RefaccionMarca,
+                as: 'refaccion_marcas'
+            }
+        });
 
         if (juntas.length === 0) {
             return res.status(404).json({ msj: "No se encontraron Juntas" });
@@ -21,7 +26,7 @@ const juntas = async (req, res) => {
     }
 }
 
-const juntaCreate = async (req, res) => {
+const juntasGCreate = async (req, res) => {
     try {
 
         const new_junta = await Junta.create({
@@ -35,7 +40,7 @@ const juntaCreate = async (req, res) => {
     }
 }
 
-const juntaUpdate = async (req, res) => {
+const juntasGUpdate = async (req, res) => {
     const junta = await Junta.findByPk(req.params.id)
 
     if(!junta)
@@ -53,7 +58,7 @@ const juntaUpdate = async (req, res) => {
 
 }
 
-const juntaDelete = async (req, res) => {
+const juntasGDelete = async (req, res) => {
 
     const {id} = req.params
 
@@ -69,10 +74,63 @@ const juntaDelete = async (req, res) => {
     return res.status(200).json({ msj: "Junta eliminada con éxito" });
 }
 
+const juntasMCreate = async (req, res) => {
+    try {
+        const {id} = req.params
+
+        const juntaM = await RefaccionMarca.create({
+            id_refac: req.body.id_refac,
+            marca_refac: req.body.marca_refac,
+            url_marca: req.body.url_marca,
+            junta_id: id
+        })
+
+        return res.status(201).json({ msg: "Junta creada exitosamente", data: juntaM });
+    } catch (error) {
+        return res.status(500).json({ msg: "Error al crear Junta", error: error.message });
+    }
+}
+
+const juntasM = async (req, res) => {
+    try {
+        const {id} = req.params
+
+        const juntasM = await RefaccionMarca.findAll({
+            where: {junta_id: id}
+        });
+
+        if (juntasM.length === 0) {
+            return res.status(404).json({ msj: "No se encontraron Marcas de Refacción" });
+        }
+
+        return res.status(200).json({ msj: "Marcas de Refacción recuperadas con éxito", data: juntasM });
+
+    } catch (error) {
+        return res.status(500).json({ msj: "Error al recuperar las Marcas de Refacción", error: error.message });
+    }
+}
+
+const juntasMGet = async (req, res) => {
+    
+}
+
+const juntasMUpdate = async (req, res) => {
+
+}
+
+const juntasMDelete = async (req, res) => {
+    
+}
+
 export {
     generateJuntasId,
-    juntas,
-    juntaCreate,
-    juntaUpdate,
-    juntaDelete
+    juntasG,
+    juntasGCreate,
+    juntasGUpdate,
+    juntasGDelete,
+    juntasMCreate,
+    juntasM,
+    juntasMGet,
+    juntasMUpdate,
+    juntasMDelete
 }   

@@ -4,23 +4,33 @@ import authorize from "../middlewares/authorize.js";
 import upload from "../middlewares/uploadImage.js";
 import { 
     generateJuntasId, 
-    juntaCreate, 
-    juntaDelete, 
-    juntaUpdate } from "../controllers/adminJuntasController.js";
+    juntasG,
+    juntasGCreate, 
+    juntasGDelete, 
+    juntasGUpdate,
+    juntasMCreate,
+    juntasM,
+    juntasMGet,
+    juntasMUpdate,
+    juntasMDelete 
+} from "../controllers/adminJuntasController.js";
 import {
     dashboard,
     users,
     enableAdminUser,
     marcas,
     marcaCreate,
+    marcaGet,
     marcaUpdate,
     marcaDelete,
     automoviles,
     autoCreate,
     autoDelete,
+    autoGet,
     autoUpdate, 
     motores,
     motorCreate,
+    motorGet,
     motorUpdate,
     motorDelete
 } from "../controllers/adminController.js";
@@ -41,6 +51,8 @@ router.patch('/users/:id', authenticate, authorize(['Admin']), enableAdminUser);
 
 router.get('/marcas', authenticate, authorize(['Admin']), marcas);
 
+router.get('/marcas/:id', authenticate, authorize(['Admin']), marcaGet);
+
 router.post('/marcas', authenticate, authorize(['Admin']), marcaCreate);
 
 router.patch('/marcas/:id', authenticate, authorize(['Admin']), marcaUpdate);
@@ -49,6 +61,8 @@ router.delete('/marcas/:id', authenticate, authorize(['Admin']), marcaDelete);
 
 //Autos
 router.get('/autos', authenticate, authorize(['Admin']), automoviles);
+
+router.get('/autos/:id', authenticate, authorize(['Admin']), autoGet);
 
 router.post('/autos', authenticate, authorize(['Admin']), autoCreate);
 
@@ -59,19 +73,34 @@ router.delete('/autos/:id', authenticate, authorize(['Admin']), autoDelete);
 //Motor
 router.get('/motor', authenticate, authorize(['Admin']), motores);
 
+router.get('/motor/:id', authenticate, authorize(['Admin']), motorGet);
+
 router.post('/motor', authenticate, authorize(['Admin']), motorCreate);
 
 router.patch('/motor/:id', authenticate, authorize(['Admin']), motorUpdate);
 
 router.delete('/motor/:id', authenticate, authorize(['Admin']), motorDelete);
 
-//Juntas
-router.get('/juntas-m-id', authenticate, authorize(['Admin']), generateJuntasId);
+//JuntasG
+router.get('/juntas-g-id', authenticate, authorize(['Admin']), generateJuntasId);
 
-router.post('/juntas-m', authenticate, authorize(['Admin']), upload.single('imagen'), juntaCreate);
+router.get('/juntas-g', authenticate, authorize(['Admin']), juntasG);
 
-router.delete('/juntas-m/:id', authenticate, authorize(['Admin']), juntaDelete);
+router.post('/juntas-g', authenticate, authorize(['Admin']), upload.single('imagen'), juntasGCreate);
 
-router.patch("/juntas-m/:id", authenticate, authorize(['Admin']), upload.single('imagen'), juntaUpdate)
+router.delete('/juntas-g/:id', authenticate, authorize(['Admin']), juntasGDelete);
+
+router.patch("/juntas-g/:id", authenticate, authorize(['Admin']), upload.single('imagen'), juntasGUpdate)
+
+//JuntasM
+router.get('/juntas-m', authenticate, authorize(['Admin']), juntasM);
+
+router.get('/juntas-m/:id', authenticate, authorize(['Admin']), juntasMGet);
+
+router.post('/juntas-m/:id', authenticate, authorize(['Admin']), juntasMCreate);
+
+router.delete('/juntas-m/:id', authenticate, authorize(['Admin']), juntasMDelete);
+
+router.patch("/juntas-m/:id", authenticate, authorize(['Admin']), juntasMUpdate)
 
 export default router
