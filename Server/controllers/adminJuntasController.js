@@ -115,11 +115,38 @@ const juntasMGet = async (req, res) => {
 }
 
 const juntasMUpdate = async (req, res) => {
+    const {id} = req.params
 
+    const juntaM = await RefaccionMarca.findByPk(id)
+
+    if(!juntaM) {
+        return res.status(400).json({msg: 'Marca de Refacción no encontrada'});
+    }
+
+    try {
+        const juntaMUpdate = await juntaM.update({
+            id_refac: req.body.id_refac,
+            marca_refac: req.body.marca_refac,
+            url_marca: req.body.url_marca
+        })
+
+        return res.status(201).json({ msg: "Marca de Refacción actualizada exitosamente", data: juntaMUpdate });
+    } catch (error) {
+        return res.status(500).json({ msg: "Error al actualizar Marca de Refacción", error: error.message });
+    }
 }
 
 const juntasMDelete = async (req, res) => {
-    
+    const {id} = req.params
+
+    const juntaM = await RefaccionMarca.findByPk(id)
+
+    if(!juntaM) {
+        return res.status(400).json({msg: 'Marca de Refacción no encontrada'});
+    }
+
+    await juntaM.destroy()
+    return res.status(200).json({ msj: "Marca de Refacción eliminada con éxito" });
 }
 
 export {

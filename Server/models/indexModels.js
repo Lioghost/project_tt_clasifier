@@ -11,6 +11,18 @@ Automovil.belongsTo(Marca, {
         type: DataTypes.INTEGER
     }});
 
+Motor.belongsTo(Automovil, {
+    foreignKey: {
+        name: 'auto_id',
+        type: DataTypes.STRING
+    }});
+
+//Automovil.belongsToMany(Motor, {
+//    foreignKey: {
+//        name: 'auto_id',
+//        type: DataTypes.STRING
+//}});
+
 Junta.hasMany(RefaccionMarca, {
     foreignKey: {
         name: 'junta_id',

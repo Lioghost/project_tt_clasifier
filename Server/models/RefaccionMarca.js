@@ -2,7 +2,7 @@ import { DataTypes } from 'sequelize'
 import db from '../config/db.js'
 
 const RefaccionMarca = db.define('refaccion_marca', {
-    id_refac: {
+    id_cod_marca: {
         type: DataTypes.STRING,
         primaryKey: true
     },
