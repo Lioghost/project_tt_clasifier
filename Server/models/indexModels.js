@@ -11,6 +11,10 @@ Motor.belongsToMany(Automovil, {through: 'AutomovilMotor', foreignKey: 'motor_id
 
 Automovil.belongsToMany(Motor, {through: 'AutomovilMotor', foreignKey: 'auto_id'});
 
+Motor.belongsToMany(Junta, {through: 'MotorJunta', foreignKey: 'motor_id'});
+
+Junta.belongsToMany(Motor, {through: 'MotorJunta', foreignKey: 'junta_id'});
+
 Junta.hasMany(RefaccionMarca, {
     foreignKey: {
         name: 'junta_id',

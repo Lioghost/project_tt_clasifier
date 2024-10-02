@@ -209,7 +209,7 @@ const autoUpdate = async (req, res) => {
         if (!id) 
             return res.status(400).json({ msj: "ID inválido!" });
 
-        const automovil = await Automovil.findOne({ where: { id_auto: id } });
+        const automovil = await Automovil.findByPk(id);
 
         if (!automovil)
             return res.status(404).json({ msj: "Auto no encontrado" });
