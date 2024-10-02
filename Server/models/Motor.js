@@ -4,7 +4,7 @@ import db from '../config/db.js'
 const Motor = db.define('motores', {
     id_motor: {
         type: DataTypes.STRING,
-        primaryKey: true
+        allowNull: false,
     },
     numero_litros: {
         type: DataTypes.FLOAT,

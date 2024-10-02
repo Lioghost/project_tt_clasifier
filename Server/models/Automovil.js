@@ -4,14 +4,14 @@ import db from '../config/db.js'
 const Automovil = db.define('automoviles', {
     id_auto: {
         type: DataTypes.STRING,
-        primaryKey: true
+        allowNull: false,
     },
     submarca: {
         type: DataTypes.STRING,
         allowNull: false
     },
     modelo: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false
     },
     litros: {

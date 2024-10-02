@@ -5,23 +5,11 @@ import RefaccionMarca from "./RefaccionMarca.js";
 import { DataTypes } from "sequelize";
 import Junta from "./Junta.js";
 
-Automovil.belongsTo(Marca, {
-    foreignKey: {
-        name: 'marca_id',
-        type: DataTypes.INTEGER
-    }});
+Automovil.belongsTo(Marca, {foreignKey: 'marca_id'});
 
-Motor.belongsTo(Automovil, {
-    foreignKey: {
-        name: 'auto_id',
-        type: DataTypes.STRING
-    }});
+Motor.belongsToMany(Automovil, {through: 'AutomovilMotor', foreignKey: 'motor_id'});
 
-//Automovil.belongsToMany(Motor, {
-//    foreignKey: {
-//        name: 'auto_id',
-//        type: DataTypes.STRING
-//}});
+Automovil.belongsToMany(Motor, {through: 'AutomovilMotor', foreignKey: 'auto_id'});
 
 Junta.hasMany(RefaccionMarca, {
     foreignKey: {

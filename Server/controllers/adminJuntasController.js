@@ -111,7 +111,20 @@ const juntasM = async (req, res) => {
 }
 
 const juntasMGet = async (req, res) => {
-    
+    try {
+        const {id} = req.params
+
+        const juntaM = await RefaccionMarca.findByPk(id)
+
+        if(!juntaM) {
+            return res.status(400).json({msg: 'Marca de Refacción no encontrada'});
+        }
+
+        return res.status(200).json({ msj: "Marca de Refacción recuperada con éxito", data: juntaM });
+
+    } catch (error) {
+        return res.status(500).json({ msj: "Error al recuperar Marca de Refacción", error: error.message });
+    }
 }
 
 const juntasMUpdate = async (req, res) => {
