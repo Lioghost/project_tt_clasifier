@@ -18,23 +18,25 @@ const AdministrarAutosAdmin = () => {
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
+    /* Para agregar auto */
     const [showAddModal, setShowAddModal] = useState(false);
     const [newAutoId, setNewAutoId] = useState('');
     const [newAutoSubmarca, setNewAutoSubmarca] = useState('');
     const [newAutoModelo, setNewAutoModelo] = useState('');
     const [newAutoLitros, setNewAutoLitros] = useState('');
     const [newAutoMarca, setNewAutoMarca] = useState([]);
-    const [selectedMarcaId, setSelectedMarcaId] = useState('');
-
+    const [selectedNewMarcaId, setSelectedNewMarcaId] = useState('');
+    const [selectedEditMarcaId, setSelectedEditMarcaId] = useState('');
     const [successAddMessage, setSuccessAddMessage] = useState('');
     const [errorAddMessage, setErrorAddMessage] = useState('');
 
+    /* Para eliminar auto */
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [autoToDelete, setAutoToDelete] = useState(null);
-
     const [successDeleteMessage, setSuccessDeleteMessage] = useState('');
     const [errorDeleteMessage, setErrorDeleteMessage] = useState('');
 
+    /* Para editar auto */
     const [showEditModal, setShowEditModal] = useState(false);
     const [autoToEdit, setAutoToEdit] = useState(null);
     const [editAutoId, setEditAutoId] = useState('');
@@ -42,7 +44,6 @@ const AdministrarAutosAdmin = () => {
     const [editAutoModelo, setEditAutoModelo] = useState('');
     const [editAutoLitros, setEditAutoLitros] = useState('');
     const [editAutoMarca, setEditAutoMarca] = useState([]);
-
     const [successEditMessage, setSuccessEditMessage] = useState('');
     const [errorEditMessage, setErrorEditMessage] = useState('');
 
@@ -134,6 +135,11 @@ const AdministrarAutosAdmin = () => {
         setShowDeleteModal(true);
     };
 
+    const closeDeleteModal = () => {
+        setShowDeleteModal(false);
+        setAutoToDelete(null);
+    };
+
     const handleDelete = async () => {
         const role = localStorage.getItem('role');
         const token = localStorage.getItem('token');
@@ -166,13 +172,36 @@ const AdministrarAutosAdmin = () => {
         }
     };
 
-    const closeDeleteModal = () => {
-        setShowDeleteModal(false);
-        setAutoToDelete(null);
-    };
-
     /* Para agregar auto */
     const openAddModal = () => {
+        const fetchMarcasAdd = async () => {
+            const role = localStorage.getItem('role');
+            const token = localStorage.getItem('token');
+        
+            try {
+                const response = await fetch('http://localhost:3000/admin/marcas', {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Role': role,
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    // Ordenar las marcas alfabéticamente por el campo "marca"
+                    const sortedMarcas = data.data.sort((a, b) => a.marca.localeCompare(b.marca));
+                    
+                    setNewAutoMarca(sortedMarcas); // Guarda las marcas ordenadas en el estado
+                } else {
+                    setErrorAddMessage(data.msj);
+                }
+            } catch (error) {
+                setErrorAddMessage('Error fetching marcas');
+            }
+        };
+        
+        fetchMarcasAdd();
+        
         setShowAddModal(true);
     };
 
@@ -182,6 +211,7 @@ const AdministrarAutosAdmin = () => {
         setNewAutoModelo('');
         setNewAutoLitros('');
         setNewAutoMarca([]);
+        setSelectedNewMarcaId('');
         setShowAddModal(false);
     };
 
@@ -202,7 +232,7 @@ const AdministrarAutosAdmin = () => {
     };
 
     const handleNewAutoMarcaChange = (e) => {
-        setSelectedMarcaId(e.target.value)
+        setSelectedNewMarcaId(e.target.value)
     };
 
     const handleAddAuto = async (event) => {
@@ -215,8 +245,8 @@ const AdministrarAutosAdmin = () => {
         }
     
         // Validar Marca (VARCHAR(50), obligatorio)
-        if (!selectedMarcaId) {
-            newErrors.selectedMarcaId = 'Debe seleccionar una marca.';
+        if (!selectedNewMarcaId) {
+            newErrors.selectedNewMarcaId = 'Debe seleccionar una marca.';
         }
     
         // Validar Submarca (VARCHAR(20), obligatorio)
@@ -258,7 +288,7 @@ const AdministrarAutosAdmin = () => {
                     submarca: newAutoSubmarca,
                     modelo: newAutoModelo,
                     litros: newAutoLitros,
-                    marca_id: parseInt(selectedMarcaId)
+                    marca_id: parseInt(selectedNewMarcaId)
                 })
             });
             const data = await response.json();
@@ -273,9 +303,10 @@ const AdministrarAutosAdmin = () => {
             setErrorAddMessage({ form: 'Error al conectar con el servidor.' });
         }
     };
-    
-    useEffect(() => {
-        const fetchMarcasAdd = async () => {
+
+    /* Para editar la auto */
+    const openEditModal = (auto) => {
+        const fetchMarcasEdit = async () => {
             const role = localStorage.getItem('role');
             const token = localStorage.getItem('token');
             
@@ -289,26 +320,27 @@ const AdministrarAutosAdmin = () => {
                 });
                 const data = await response.json();
                 if (response.ok) {
-                    setNewAutoMarca(data.data); // Guarda las marcas en el estado
+                    // Ordenar las marcas alfabéticamente por el campo "marca"
+                    const sortedMarcas = data.data.sort((a, b) => a.marca.localeCompare(b.marca));
+                    
+                    setEditAutoMarca(sortedMarcas); // Guarda las marcas ordenadas en el estado
                 } else {
-                    setErrorAddMessage(data.msj);
+                    setErrorEditMessage(data.msj);
                 }
             } catch (error) {
-                setErrorAddMessage('Error fetching marcas');
+                setErrorEditMessage('Error fetching marcas');
             }
         };
     
-        fetchMarcasAdd();
-    }, []);
-
-    /* Para editar la auto */
-    const openEditModal = (auto) => {
+        fetchMarcasEdit();
+    
+        // Configura los valores del auto a editar
         setAutoToEdit(auto);
         setEditAutoId(auto.id_auto);
         setEditAutoSubmarca(auto.submarca);
         setEditAutoModelo(String(auto.modelo));
         setEditAutoLitros(auto.litros);
-        setSelectedMarcaId(auto.marca_id);  // Aquí inicializas el ID de la marca
+        setSelectedEditMarcaId(auto.marca_id);  // Aquí inicializas el ID de la marca
         setShowEditModal(true);
     };
     
@@ -344,8 +376,8 @@ const AdministrarAutosAdmin = () => {
         }
     
         // Validar Marca (VARCHAR(50), obligatorio)
-        if (!selectedMarcaId) {
-            newErrors.selectedMarcaId = 'Debe seleccionar una marca.';
+        if (!selectedEditMarcaId) {
+            newErrors.selectedEditMarcaId = 'Debe seleccionar una marca.';
         }
     
         // Validar Submarca (VARCHAR(20), obligatorio)
@@ -387,19 +419,19 @@ const AdministrarAutosAdmin = () => {
                     submarca: editAutoSubmarca,
                     modelo: editAutoModelo,
                     litros: editAutoLitros,
-                    marca_id: parseInt(selectedMarcaId)
+                    marca_id: parseInt(selectedEditMarcaId)
                 })
             });
             const data = await response.json();
             if (response.ok) {
                 setSuccessEditMessage(data.msj);
-                setAutos(autos.map(auto => auto.id === autoToEdit.id_auto ? { 
+                setAutos(autos.map(auto => auto.id_auto === autoToEdit.id_auto ? { 
                     ...auto, 
                     id_auto: editAutoId,
                     submarca: editAutoSubmarca,
                     modelo: editAutoModelo,
                     litros: editAutoLitros,
-                    marca_id: selectedMarcaId } : auto));
+                    marca_id: selectedEditMarcaId } : auto));
                 fetchAutos(); // Fetch the updated list of autos
                 closeEditModal();
             } else {
@@ -410,33 +442,7 @@ const AdministrarAutosAdmin = () => {
         }
     };
 
-    useEffect(() => {
-        const fetchMarcasEdit = async () => {
-            const role = localStorage.getItem('role');
-            const token = localStorage.getItem('token');
-            
-            try {
-                const response = await fetch('http://localhost:3000/admin/marcas', {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Role': role,
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-                const data = await response.json();
-                if (response.ok) {
-                    setEditAutoMarca(data.data); // Guarda las marcas en el estado
-                } else {
-                    setErrorEditMessage(data.msj);
-                }
-            } catch (error) {
-                setErrorEditMessage('Error fetching marcas');
-            }
-        };
-    
-        fetchMarcasEdit();
-    }, []);
-
+    /* Componente de administrar autos */
     return (
         <div className="dashboard">
             <header className="header-dashboard">
@@ -473,7 +479,8 @@ const AdministrarAutosAdmin = () => {
                         <li><NavLink to="/admin/catalogo">Catálogo</NavLink></li>
                         <li><NavLink to="/admin/identificador">Identificador</NavLink></li>
                         <li><NavLink to="/admin/cuenta">Administrar cuenta</NavLink></li>
-                        <li><NavLink to="/admin/juntas">Administrar juntas</NavLink></li>
+                        <li><NavLink to="/admin/juntasg">Administrar juntas G</NavLink></li>
+                        <li><NavLink to="/admin/juntasm">Administrar juntas M</NavLink></li>
                         <li><NavLink to="/admin/motores">Administrar motores</NavLink></li>
                         <li><NavLink to="/admin/autos">Administrar autos</NavLink></li>
                         <li><NavLink to="/admin/marcas">Administrar marcas</NavLink></li>
@@ -612,7 +619,7 @@ const AdministrarAutosAdmin = () => {
                             onChange={handleNewAutoLitrosChange}
                         />
                         <select
-                            value={selectedMarcaId}  // Establece el valor del select como el id seleccionado
+                            value={selectedNewMarcaId}  // Establece el valor del select como el id seleccionado
                             onChange={handleNewAutoMarcaChange}  // Captura el id seleccionado
                         >
                             <option value="">Seleccione una marca</option>  {/* Opción por defecto */}
@@ -638,30 +645,30 @@ const AdministrarAutosAdmin = () => {
                         <input 
                             type="text" 
                             placeholder="Identificador del auto" 
-                            value={editAutoId || ''} 
+                            value={editAutoId} 
                             onChange={handleEditAutoIdChange}
                         />
                         <input 
                             type="text" 
                             placeholder="Submarca del auto" 
-                            value={editAutoSubmarca || ''} 
+                            value={editAutoSubmarca} 
                             onChange={handleEditAutoSubmarcaChange}
                         />
                         <input 
                             type="text" 
                             placeholder="Modelo del auto" 
-                            value={editAutoModelo || ''} 
+                            value={editAutoModelo} 
                             onChange={handleEditAutoModeloChange}
                         />
                         <input 
                             type="float" 
                             placeholder="Litros del auto" 
-                            value={editAutoLitros || ''} 
+                            value={editAutoLitros} 
                             onChange={handleEditAutoLitrosChange}
                         />
                         <select
-                            value={selectedMarcaId}  // Establece el valor del select como el id seleccionado
-                            onChange={(e) => setSelectedMarcaId(e.target.value)}  // Captura el id seleccionado
+                            value={selectedEditMarcaId}  // Establece el valor del select como el id seleccionado
+                            onChange={(e) => setSelectedEditMarcaId(e.target.value)}  // Captura el id seleccionado
                         >
                             <option value="">Seleccione una marca</option>  {/* Opción por defecto */}
                             {editAutoMarca.map((marca) => (

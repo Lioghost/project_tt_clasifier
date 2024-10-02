@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate, NavLink } from 'react-router-dom';
 import '../Dashboard.css';
-import './administrarMotores.css'; 
+import './administrarJuntas.css'; 
 import LogoutButton from '../../logout/LogoutButton';
 import { AuthContext } from '../../../context/AuthContext';
 import logo from "../../../assets/img/header-logo.png";
 import profile from "../../../assets/img/profile.png";
 
-const AdministrarMotoresAdmin = () => {
+const AdministrarJuntasMAdmin = () => {
     const { isAuthenticated, user } = useContext(AuthContext);
     const navigate = useNavigate();
     
@@ -32,13 +32,13 @@ const AdministrarMotoresAdmin = () => {
     const [successAddMessage, setSuccessAddMessage] = useState('');
     const [errorAddMessage, setErrorAddMessage] = useState('');
 
-    /* Para eliminar motor */
+    /* Para eliminar junta m */
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [motorToDelete, setMotorToDelete] = useState(null);
     const [successDeleteMessage, setSuccessDeleteMessage] = useState('');
     const [errorDeleteMessage, setErrorDeleteMessage] = useState('');
 
-    /* Para editar motor */
+    /* Para editar junta m */
     const [showEditModal, setShowEditModal] = useState(false);
     const [motorToEdit, setMotorToEdit] = useState(null);
     const [editMotorId, setEditMotorId] = useState('');
@@ -107,7 +107,7 @@ const AdministrarMotoresAdmin = () => {
         setIsDropdownOpen(!isDropdownOpen);
     };
 
-    /* Para mostrar los motores*/
+    /* Para mostrar las juntas m*/
     const fetchMotores = async () => {
         const role = localStorage.getItem('role');
         const token = localStorage.getItem('token');
@@ -135,7 +135,7 @@ const AdministrarMotoresAdmin = () => {
         fetchMotores();
     }, []);
 
-    /* Para eliminar motor */
+    /* Para eliminar junta m */
     const openDeleteModal = (id) => {
         setMotorToDelete(id);
         setShowDeleteModal(true);
@@ -328,7 +328,7 @@ const AdministrarMotoresAdmin = () => {
         }
     };
 
-    /* Para editar motor */
+    /* Para editar junta m */
     const openEditModal = (motor) => {
         setMotorToEdit(motor);
         setEditMotorId(motor.id_motor);
@@ -491,7 +491,7 @@ const AdministrarMotoresAdmin = () => {
         }
     };
 
-    /* Componente para administrar motores */
+    /* Componente para administrar juntas m */
     return (
         <div className="dashboard">
             <header className="header-dashboard">
@@ -540,14 +540,14 @@ const AdministrarMotoresAdmin = () => {
 
             <main className={`main-content-dashboard ${isSidebarOpen ? 'sidebar-active' : ''}`}>
                 <section className="welcome-message">
-                    <h1>Administrar motores</h1>
+                    <h1>Administrar juntas M</h1>
 
                     <div className="motor-management">
                         <div className="motor-header">
-                          <h1>Motores</h1>
+                          <h1>Juntas M</h1>
                           <div className="motor-actions">
                             <input type="text" placeholder="Búsqueda por nombre" className="motor-search-bar" />
-                            <button className="add-motor-button" onClick={openAddModal}>Agregar motor</button>
+                            <button className="add-motor-button" onClick={openAddModal}>Agregar Junta M</button>
                           </div>
                         </div>
 
@@ -784,4 +784,4 @@ const AdministrarMotoresAdmin = () => {
     );
 };
 
-export default AdministrarMotoresAdmin;
+export default AdministrarJuntasMAdmin;
