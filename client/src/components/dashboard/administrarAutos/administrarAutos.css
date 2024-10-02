@@ -131,7 +131,7 @@
 }
 
 .get-error-message-auto{
-    top: 50%;
+    top: 75%;
 }
 
 .add-error-message-auto{
@@ -160,7 +160,7 @@
 }
 
 .get-error-message-auto{
-    top: 50%;
+    top: 75%;
 }
 
 .get-success-message-auto, .delete-success-message-auto, .add-success-message-auto, .edit-success-message-auto {
@@ -185,7 +185,7 @@
 }
 
 .get-success-message-auto{
-    top: 50%;
+    top: 75%;
 }
 
 .confirm-delete-modal-overlay {

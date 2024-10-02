@@ -131,7 +131,7 @@
 }
 
 .get-error-message-brand{
-    top: 50%;
+    top: 75%;
 }
 
 .get-success-message-brand, .delete-success-message-brand, .add-success-message-brand, .edit-success-message-brand {
@@ -156,7 +156,7 @@
 }
 
 .get-success-message-brand{
-    top: 50%;
+    top: 75%;
 }
 
 .confirm-delete-modal-overlay {

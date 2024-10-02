@@ -11,35 +11,42 @@ const AdministrarMarcasAdmin = () => {
     const { isAuthenticated, user } = useContext(AuthContext);
     const navigate = useNavigate();
     
+    // Estados para el sidebar
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
+    // Estados para las marcas
     const [brands, setBrands] = useState([]);
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
+    // Estados para eliminar marca
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [brandToDelete, setBrandToDelete] = useState('');
+    const [successDeleteMessage, setSuccessDeleteMessage] = useState('');
+    const [errorDeleteMessage, setErrorDeleteMessage] = useState('');
+
+    // Estados para agregar marca
     const [showAddModal, setShowAddModal] = useState(false);
     const [newBrandName, setNewBrandName] = useState('');
     const [successAddMessage, setSuccessAddMessage] = useState('');
     const [errorAddMessage, setErrorAddMessage] = useState('');
 
-    const [showDeleteModal, setShowDeleteModal] = useState(false);
-    const [brandToDelete, setBrandToDelete] = useState(null);
-    const [successDeleteMessage, setSuccessDeleteMessage] = useState('');
-    const [errorDeleteMessage, setErrorDeleteMessage] = useState('');
-
+    // Estados para editar marca
     const [showEditModal, setShowEditModal] = useState(false);
-    const [brandToEdit, setBrandToEdit] = useState(null);
-    const [editBrandName, setEditBrandName] = useState(''); // Inicializa con una cadena vacía
+    const [brandToEdit, setBrandToEdit] = useState('');
+    const [editBrandName, setEditBrandName] = useState(''); 
     const [successEditMessage, setSuccessEditMessage] = useState('');
     const [errorEditMessage, setErrorEditMessage] = useState('');
 
+    // Verificar si el usuario está autenticado
     useEffect(() => {
         if (!isAuthenticated) {
             navigate('/login');
         }
     }, [isAuthenticated, navigate]);
 
+    // Mostrar y ocultar mensajes de éxito y error
     useEffect(() => {
         if (successMessage || errorMessage) {
             const timer = setTimeout(() => {
@@ -50,6 +57,7 @@ const AdministrarMarcasAdmin = () => {
         }
     }, [successMessage, errorMessage]);
 
+    // Mostrar y ocultar mensajes de eliminación
     useEffect(() => {
         if (successDeleteMessage || errorDeleteMessage) {
             const timer = setTimeout(() => {
@@ -60,6 +68,7 @@ const AdministrarMarcasAdmin = () => {
         }
     }, [successDeleteMessage, errorDeleteMessage]);
 
+    // Mostrar y ocultar mensajes de adición
     useEffect(() => {
         if (successAddMessage || errorAddMessage) {
             const timer = setTimeout(() => {
@@ -70,6 +79,7 @@ const AdministrarMarcasAdmin = () => {
         }
     }, [successAddMessage, errorAddMessage]);
 
+    // Mostrar y ocultar mensajes de edición
     useEffect(() => {
         if (successEditMessage || errorEditMessage) {
             const timer = setTimeout(() => {
@@ -80,7 +90,7 @@ const AdministrarMarcasAdmin = () => {
         }
     }, [successEditMessage, errorEditMessage]);
 
-    /* Para mostrar las marcas*/
+    /* Para mostrar las marcas */
     const fetchBrands = async () => {
         const role = localStorage.getItem('role');
         const token = localStorage.getItem('token');
@@ -95,7 +105,9 @@ const AdministrarMarcasAdmin = () => {
             });
             const data = await response.json();
             if (response.ok) {
-                setBrands(data.data);
+                // Ordenar las marcas alfabéticamente por 'marca'
+                const sortedBrands = data.data.sort((a, b) => a.marca.localeCompare(b.marca));
+                setBrands(sortedBrands);  // Guardar las marcas ordenadas
             } else {
                 setErrorMessage(data.msj);
             }
@@ -104,24 +116,34 @@ const AdministrarMarcasAdmin = () => {
         }
     };
 
+    // Obtener las marcas al cargar la página
     useEffect(() => {
         fetchBrands();
     }, []);
 
+    // Funciones para el sidebar
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
 
+    // Funciones para el dropdown del perfil
     const handleClick = () => {
         setIsDropdownOpen(!isDropdownOpen);
     };
 
     /* Para eliminar marca */
-    const openDeleteModal = (id) => {
-        setBrandToDelete(id);
+    const openDeleteModal = (BrandId) => {
+        setBrandToDelete(BrandId);
         setShowDeleteModal(true);
     };
 
+    // Cerrar el modal de confirmación de eliminación
+    const closeDeleteModal = () => {
+        setShowDeleteModal(false);
+        setBrandToDelete('');
+    };
+
+    // Función para eliminar la marca
     const handleDelete = async () => {
         const role = localStorage.getItem('role');
         const token = localStorage.getItem('token');
@@ -141,22 +163,17 @@ const AdministrarMarcasAdmin = () => {
             if (response.ok) {
                 setSuccessDeleteMessage(data.msj);
                 setBrands(brands.filter(brand => brand.id !== brandToDelete));
-                setBrandToDelete(null);
+                setBrandToDelete('');
                 fetchBrands(); // Fetch the updated list of brands
             } else {
                 setErrorDeleteMessage(data.msj);
             }
         } catch (error) {
-            setErrorDeleteMessage('Error deleting brand');
+            setErrorDeleteMessage('Error al eliminar la marca');
         } finally {
             setShowDeleteModal(false);
-            setBrandToDelete(null);
+            setBrandToDelete('');
         }
-    };
-
-    const closeDeleteModal = () => {
-        setShowDeleteModal(false);
-        setBrandToDelete(null);
     };
 
     /* Para agregar marca */
@@ -164,15 +181,18 @@ const AdministrarMarcasAdmin = () => {
         setShowAddModal(true);
     };
 
+    // Cerrar el modal de agregar marca
     const closeAddModal = () => {
         setNewBrandName('');
         setShowAddModal(false);
     };
 
+    // Manejar el cambio en el input de la nueva marca
     const handleNewBrandChange = (e) => {
         setNewBrandName(e.target.value);
     };
 
+    // Función para agregar la marca
     const handleAddBrand = async () => {
         if (newBrandName.trim() === '' || newBrandName.length > 50) {
             setErrorAddMessage('El nombre de la marca no puede estar vacío ni tener más de 50 caracteres.');
@@ -204,23 +224,54 @@ const AdministrarMarcasAdmin = () => {
                 setErrorAddMessage(data.msg);
             }
         } catch (error) {
-            setErrorAddMessage('Error adding brand');
+            setErrorAddMessage('Error al agregar la marca');
         }
     };
 
     /* Para editar la marca */
-    const openEditModal = (brand) => {
-        setBrandToEdit(brand);
-        setEditBrandName(brand.marca);
-        setShowEditModal(true);
+    const openEditModal = (brandId) => {
+        const role = localStorage.getItem('role');
+        const token = localStorage.getItem('token');
+
+        // Función para obtener la información de la marca a editar
+        const fetchBrandData = async (brandId) => {
+            try {
+                const response = await fetch(`http://localhost:3000/admin/marcas/${brandId}`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Role': role,
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    const brandData = data.data;
+                    setBrandToEdit(brandData);
+                    setEditBrandName(brandData.marca);
+                    setShowEditModal(true);
+                } else {
+                    setErrorEditMessage(data.msj);
+                }
+            } catch (error) {
+                setErrorEditMessage('Error al obtener la información de la marca');
+            }
+        };
+
+        fetchBrandData(brandId);    
     };
     
+    // Cerrar el modal de editar marca
     const closeEditModal = () => {
         setShowEditModal(false);
         setEditBrandName('');
-        setBrandToEdit(null);
+        setBrandToEdit('');
     };
 
+    const handleEditBrandIdChange = (e) => {
+        setEditBrandName(e.target.value)
+    };
+
+    // Función para editar la marca
     const handleEditBrand = async () => {
         if (editBrandName.trim() === '' || editBrandName.length > 50) {
             setErrorEditMessage('El nombre de la marca no puede estar vacío ni tener más de 50 caracteres.');
@@ -256,7 +307,7 @@ const AdministrarMarcasAdmin = () => {
                 }
             }
         } catch (error) {
-            setErrorEditMessage('Error editing brand');
+            setErrorEditMessage('Error al editar la marca');
         }
     };
 
@@ -345,7 +396,7 @@ const AdministrarMarcasAdmin = () => {
                                 <td className="brand-options-cell">
                                   <button 
                                     className="brand-edit-button"
-                                    onClick={() => openEditModal(brand)}
+                                    onClick={() => openEditModal(brand.id)}
                                   >
                                     Editar
                                   </button>
@@ -403,8 +454,9 @@ const AdministrarMarcasAdmin = () => {
                         <input 
                             type="text" 
                             placeholder="Nombre de la marca" 
-                            value={editBrandName || ''} // Asegúrate de que el valor siempre sea una cadena
-                            onChange={(e) => setEditBrandName(e.target.value)} 
+                            value={editBrandName} // Asegúrate de que el valor siempre sea una cadena
+                            onChange={handleEditBrandIdChange} 
+                            
                         />
                         <div className="edit-brand-modal-actions">
                             <button className="edit-brand-modal-button cancel" onClick={closeEditModal}>Cancelar</button>
