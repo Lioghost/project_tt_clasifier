@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { useNavigate, NavLink } from 'react-router-dom';
+import { useDropzone } from 'react-dropzone';
 import '../Dashboard.css';
-import './administrarJuntas.css'; 
+import './administrarJuntasG.css'; 
 import LogoutButton from '../../logout/LogoutButton';
 import { AuthContext } from '../../../context/AuthContext';
 import logo from "../../../assets/img/header-logo.png";
@@ -11,54 +12,48 @@ const AdministrarJuntasGAdmin = () => {
     const { isAuthenticated, user } = useContext(AuthContext);
     const navigate = useNavigate();
     
+    // Estados para el sidebar y dropdown
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-    const [motores, setMotores] = useState([]);
+    // Estados para mostrar las juntas g
+    const [juntasg, setJuntasg] = useState([]);
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
-    /* Para agregar motor */
-    const [showAddModal, setShowAddModal] = useState(false);
-    const [newMotorId, setNewMotorId] = useState('');
-    const [newMotorLitros, setNewMotorLitros] = useState('');
-    const [newMotorArbol, setNewMotorArbol] = useState('');
-    const [newMotorValvulas, setNewMotorValvulas] = useState('');
-    const [newMotorPosicionPistones, setNewMotorPosicionPistones] = useState('');
-    const [newMotorNoPistones, setNewMotorNoPistones] = useState('');
-    const [newMotorInfoAdicional, setNewMotorInfoAdicional] = useState([]);
-    const [newMotorRangeYearI, setNewMotorRangeYearI] = useState('');
-    const [newMotorRangeYearF, setNewMotorRangeYearF] = useState('');
-    const [successAddMessage, setSuccessAddMessage] = useState('');
-    const [errorAddMessage, setErrorAddMessage] = useState('');
-
-    /* Para eliminar motor */
+    /* Para eliminar junta g */
     const [showDeleteModal, setShowDeleteModal] = useState(false);
-    const [motorToDelete, setMotorToDelete] = useState(null);
+    const [juntagToDelete, setJuntagToDelete] = useState('');
     const [successDeleteMessage, setSuccessDeleteMessage] = useState('');
     const [errorDeleteMessage, setErrorDeleteMessage] = useState('');
 
-    /* Para editar motor */
+    /* Para agregar junta g */
+    const [showAddModal, setShowAddModal] = useState(false);
+    const [newJuntagId, setNewJuntagId] = useState('');
+    const [newJuntagIdImage, setNewJuntagIdImage] = useState('');
+    const [selectedNewJuntagImagePreview, setSelectedNewJuntagImagePreview] = useState(null); // Estado para la vista previa de la imagen
+    const [selectedNewJuntagImageFile, setSelectedNewJuntagImageFile] = useState(null); // Estado para el archivo real que se enviará
+    const [successAddMessage, setSuccessAddMessage] = useState('');
+    const [errorAddMessage, setErrorAddMessage] = useState('');
+
+    /* Para editar junat g */
     const [showEditModal, setShowEditModal] = useState(false);
-    const [motorToEdit, setMotorToEdit] = useState(null);
-    const [editMotorId, setEditMotorId] = useState('');
-    const [editMotorLitros, setEditMotorLitros] = useState('');
-    const [editMotorArbol, setEditMotorArbol] = useState('');
-    const [editMotorValvulas, setEditMotorValvulas] = useState('');
-    const [editMotorPosicionPistones, setEditMotorPosicionPistones] = useState('');
-    const [editMotorNoPistones, setEditMotorNoPistones] = useState('');
-    const [editMotorInfoAdicional, setEditMotorInfoAdicional] = useState([]);
-    const [editMotorRangeYearI, setEditMotorRangeYearI] = useState('');
-    const [editMotorRangeYearF, setEditMotorRangeYearF] = useState('');
+    const [juntagToEdit, setJuntagToEdit] = useState('');
+    const [editJuntagId, setEditJuntagId] = useState('');
+    const [editJuntagIdImage, setEditJuntagIdImage] = useState('');
+    const [selectedEditJuntagImagePreview, setSelectedEditJuntagImagePreview] = useState(null); // Estado para la vista previa de la imagen
+    const [selectedEditJuntagImageFile, setSelectedEditJuntagImageFile] = useState(null); // Estado para el archivo real que se enviará
     const [successEditMessage, setSuccessEditMessage] = useState('');
     const [errorEditMessage, setErrorEditMessage] = useState('');
 
+    // Verificar si el usuario está autenticado
     useEffect(() => {
         if (!isAuthenticated) {
             navigate('/login');
         }
     }, [isAuthenticated, navigate]);
 
+    // Mostrar mensajes de éxito o error
     useEffect(() => {
         if (successMessage || errorMessage) {
             const timer = setTimeout(() => {
@@ -69,6 +64,7 @@ const AdministrarJuntasGAdmin = () => {
         }
     }, [successMessage, errorMessage]);
 
+    // Mostrar mensajes de éxito o error al eliminar
     useEffect(() => {
         if (successDeleteMessage || errorDeleteMessage) {
             const timer = setTimeout(() => {
@@ -79,6 +75,7 @@ const AdministrarJuntasGAdmin = () => {
         }
     }, [successDeleteMessage, errorDeleteMessage]);
 
+    // Mostrar mensajes de éxito o error al agregar
     useEffect(() => {
         if (successAddMessage || errorAddMessage) {
             const timer = setTimeout(() => {
@@ -89,6 +86,7 @@ const AdministrarJuntasGAdmin = () => {
         }
     }, [successAddMessage, errorAddMessage]);
 
+    // Mostrar mensajes de éxito o error al editar
     useEffect(() => {
         if (successEditMessage || errorEditMessage) {
             const timer = setTimeout(() => {
@@ -99,21 +97,23 @@ const AdministrarJuntasGAdmin = () => {
         }
     }, [successEditMessage, errorEditMessage]);
 
+    // Funciones para el sidebar
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
 
+    // Funciones para el dropdown del perfil de usuario
     const handleClick = () => {
         setIsDropdownOpen(!isDropdownOpen);
     };
 
-    /* Para mostrar los motores*/
-    const fetchMotores = async () => {
+    // /* ------- Para mostrar las juntas g */
+    const fetchJuntasg = async () => {
         const role = localStorage.getItem('role');
         const token = localStorage.getItem('token');
 
         try {
-            const response = await fetch('http://localhost:3000/admin/motor', {
+            const response = await fetch('http://localhost:3000/admin/juntas-g', {
                 headers: {
                     'Content-Type': 'application/json',
                     'Role': role,
@@ -122,33 +122,44 @@ const AdministrarJuntasGAdmin = () => {
             });
             const data = await response.json();
             if (response.ok) {
-                setMotores(data.data);
+                // Ordenar las juntas g alfabéticamente por 'id_junta'
+                const sortedJuntasg = data.data.sort((a , b) => a.id_junta.localeCompare(b.id_junta));
+                setJuntasg(sortedJuntasg);
+                setSuccessMessage(data.msj);
             } else {
                 setErrorMessage(data.msj);
             }
         } catch (error) {
-            setErrorMessage('No hay motores para mostrar');
+            setErrorMessage('No hay juntas gasketgenius para mostrar');
         }
     };
 
+    // Obtener la lista de juntas g al cargar la página
     useEffect(() => {
-        fetchMotores();
+        fetchJuntasg();
     }, []);
 
-    /* Para eliminar motor */
-    const openDeleteModal = (id) => {
-        setMotorToDelete(id);
+    /* ------- Para eliminar junta g */
+    const openDeleteModal = (JuntagId) => {
+        setJuntagToDelete(JuntagId);
         setShowDeleteModal(true);
     };
 
+    // Cerrar el modal de confirmación de eliminación
+    const closeDeleteModal = () => {
+        setJuntagToDelete('');
+        setShowDeleteModal(false);
+    };
+
+    // Función para eliminar junta g
     const handleDelete = async () => {
         const role = localStorage.getItem('role');
         const token = localStorage.getItem('token');
 
-        if (!motorToDelete) return;
+        if (!juntagToDelete) return;
 
         try {
-            const response = await fetch(`http://localhost:3000/admin/motor/${motorToDelete}`, {
+            const response = await fetch(`http://localhost:3000/admin/juntas-g/${juntagToDelete}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -158,130 +169,86 @@ const AdministrarJuntasGAdmin = () => {
             });
             const data = await response.json();
             if (response.ok) {
-                setSuccessDeleteMessage(data.msj);
-                setMotores(motores.filter(motor => motor.id_motor !== motorToDelete));
-                setMotorToDelete(null);
-                fetchMotores(); // Fetch the updated list of motores
+                setSuccessDeleteMessage(data.msg);
+                setJuntasg(juntasg.filter(junta => junta.id !== juntagToDelete));
+                setJuntagToDelete('');
+                fetchJuntasg(); // Fetch the updated list of junta g
             } else {
-                setErrorDeleteMessage(data.msj);
+                setErrorDeleteMessage(data.g);
+                console.log(`No se pudo eliminar la junta gasketgenius con id: ${juntagToDelete}`);
             }
         } catch (error) {
-            setErrorDeleteMessage('Error deleting brand');
+            setErrorDeleteMessage('Error el eliminar junta gasketgenius');
         } finally {
             setShowDeleteModal(false);
-            setMotorToDelete(null);
+            setJuntagToDelete('');
         }
     };
 
-    const closeDeleteModal = () => {
-        setShowDeleteModal(false);
-        setMotorToDelete(null);
-    };
-
-    /* Para agregar motor */
+    /* ------- Para agregar junta g */
     const openAddModal = () => {
         setShowAddModal(true);
+        fetchJuntagId();  // Llamar a la función para obtener el ID
     };
 
-    const closeAddModal = () => {
-        setNewMotorId('');
-        setNewMotorLitros('');
-        setNewMotorArbol('');
-        setNewMotorValvulas('');
-        setNewMotorPosicionPistones('');
-        setNewMotorNoPistones('');
-        setNewMotorInfoAdicional([]);
-        setNewMotorRangeYearI('');
-        setNewMotorRangeYearF('');
-        setShowAddModal(false);
-    };
-
-    const handleNewMotorIdChange = (e) => {
-        setNewMotorId(e.target.value);
-    };
+    // Para generar el ID de la nueva junta g
+    const fetchJuntagId = async () => {
+        const role = localStorage.getItem('role');
+        const token = localStorage.getItem('token');
     
-    const handleNewMotorLitrosChange = (e) => {
-        setNewMotorLitros(e.target.value);
+        try {
+            const response = await fetch('http://localhost:3000/admin/juntas-g-id', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Role': role,
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            const data = await response.json();
+            if (response.ok) {
+                setNewJuntagId(data.junta_id); // Establecer el ID en el estado
+                setNewJuntagIdImage(`${data.junta_id}.png`);  // Establecer el ID de la imagen con la extensión .jpg
+            } else {
+                console.error("Error al obtener el ID de la junta");
+            }
+        } catch (error) {
+            console.error("Error al hacer la petición GET", error);
+        }
     };
+
+    // Función para manejar el drop de las imágenes
+    const onDrop = useCallback((acceptedFiles) => {
+        const file = acceptedFiles[0];
+        if (file) {
+            const validMimeTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+            if (!validMimeTypes.includes(file.type)) {
+                console.error('Invalid file type');
+                return;
+            }
+            const imageUrl = URL.createObjectURL(file);
+            setSelectedNewJuntagImagePreview(imageUrl); // Guarda la URL para la vista previa
+            setSelectedNewJuntagImageFile(file); // Guarda el archivo real para enviarlo
+        }
+    }, []);
+
+    const { getRootProps, getInputProps, isDragActive } = useDropzone({
+        onDrop,
+        accept: {
+            'image/jpeg': [],
+            'image/png': [],
+            'image/jpg': []
+        },
+        maxFiles: 1
+    });
     
-    const handleNewMotorArbolChange = (e) => {
-        setNewMotorArbol(e.target.value);
-    };
-
-    const handleNewMotorValvulasChange = (e) => {
-        setNewMotorValvulas(e.target.value);
-    };
-    
-    const handleNewMotorPosicionPistonesChange = (e) => {
-        setNewMotorPosicionPistones(e.target.value);
-    };
-
-    const handleNewMotorNoPistonesChange = (e) => {
-        setNewMotorNoPistones(e.target.value);
-    };
-
-    const handleNewMotorInfoAdicionalChange = (event) => {
-        const value = event.target.value;
-        // Convertir la cadena separada por comas en un array y eliminar espacios adicionales
-        const infoAdicionalArray = value.split(',').map(item => item.trim());
-        setNewMotorInfoAdicional(infoAdicionalArray);
-    };
-         
-    const handleNewMotorRangeYearIChange = (e) => {
-        setNewMotorRangeYearI(e.target.value);
-    };
-
-    const handleNewMotorRangeYearFChange = (e) => {
-        setNewMotorRangeYearF(e.target.value);
-    };
-
-    const handleAddMotor = async (event) => {
+    // Función para agregar junta g
+    const handleAddJuntag = async (event) => {
         event.preventDefault();
         const newErrors = {};
     
-        // Validar ID_Motor (VARCHAR(100), obligatorio)
-        if (newMotorId.trim() === '' || newMotorId.length > 100) {
-            newErrors.newMotorId = 'El Identificador del motor no puede estar vacío ni exceder los 100 caracteres.';
-        }
-
-        // Validar NumeroLitros (FLOAT, obligatorio, entre 1.0 y 20.0)
-        if (!newMotorLitros || isNaN(newMotorLitros) || newMotorLitros < 1.0 || newMotorLitros > 20.0) {
-            newErrors.newMotorLitros = 'El número de litros debe ser un valor numérico entre 1.0 y 20.0.';
-        }
-
-        // Validar Tipo de Árbol (VARCHAR(4), obligatorio, solo puede ser OHV, SOHC, DOHC, SV)
-        const validTiposArbol = ['OHV', 'SOHC', 'DOHC', 'SV'];
-        if (!newMotorArbol || !validTiposArbol.includes(newMotorArbol.trim().toUpperCase())) {
-            newErrors.newMotorArbol = 'El tipo de árbol debe ser OHV, SOHC, DOHC, o SV.';
-        }
-
-        // Validar NumeroValvulas (INT, obligatorio, solo puede ser 4, 8, 12, 16, 24)
-        const validNumeroValvulas = [4, 8, 12, 16, 24];
-        if (!newMotorValvulas || !validNumeroValvulas.includes(parseInt(newMotorValvulas))) {
-            newErrors.newMotorValvulas = 'El número de válvulas debe ser 4, 8, 12, 16, o 24.';
-        }
-
-        // Validar PosiciónPistones (VARCHAR(1), obligatorio, solo puede ser L o V)
-        const validPosicionesPistones = ['L', 'V'];
-        if (!newMotorPosicionPistones || !validPosicionesPistones.includes(newMotorPosicionPistones.trim().toUpperCase())) {
-            newErrors.newMotorPosicionPistones = 'La posición de los pistones debe ser L o V.';
-        }
-
-        // Validar NumeroPistones (INT, obligatorio, solo puede ser 3, 4, 5, 6, 8)
-        const validNumeroPistones = [3, 4, 5, 6, 8];
-        if (!newMotorNoPistones || !validNumeroPistones.includes(parseInt(newMotorNoPistones))) {
-            newErrors.newMotorNoPistones = 'El número de pistones debe ser 3, 4, 5, 6, o 8.';
-        }
-
-        // Validar Información Adicional (Debe ser un array y no debe exceder los 255 caracteres en total)
-        if (newMotorInfoAdicional.length === 0 || newMotorInfoAdicional.join(', ').length > 255) {
-            newErrors.newMotorInfoAdicional = 'La información adicional no puede estar vacía ni exceder los 255 caracteres en total.';
-        }
-
-        // Validar el Rango de años (formato válido de año, "YYYY-YYYY")
-        const yearRangeRegex = /^\d{4}$/;
-        if (!yearRangeRegex.test(newMotorRangeYearI) || !yearRangeRegex.test(newMotorRangeYearF)) {
-            newErrors.newMotorRangeYear = 'Los años deben tener 4 dígitos numéricos (Ej. 2007, 2013).';
+        // Validar ID_Junta (VARCHAR(100), obligatorio)
+        if (newJuntagId.trim() === '' || newJuntagId.length > 100) {
+            newErrors.newJuntagId = 'El Identificador de la junta no puede estar vacío ni exceder los 100 caracteres.';
         }
 
         // Si hay errores, los mostramos
@@ -294,148 +261,103 @@ const AdministrarJuntasGAdmin = () => {
         setErrorAddMessage({});
         const role = localStorage.getItem('role');
         const token = localStorage.getItem('token');
-    
+
+        const formData = new FormData();
+        formData.append('id_junta', newJuntagId);
+        formData.append('imagen', selectedNewJuntagImageFile);
+
         try {
-            const response = await fetch('http://localhost:3000/admin/motor', {
+            const response = await fetch('http://localhost:3000/admin/juntas-g', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
                     'Role': role,
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify({
-                    id_motor: newMotorId,
-                    numero_litros: newMotorLitros, 
-                    tipo_arbol: newMotorArbol, 
-                    numero_valvulas: newMotorValvulas, 
-                    posicion_pistones: newMotorPosicionPistones,
-                    numero_pistones: newMotorNoPistones,
-                    info_adicional: newMotorInfoAdicional, 
-                    range_year_i: newMotorRangeYearI, 
-                    range_year_f: newMotorRangeYearF
-                })
+                body: formData
             });
+
             const data = await response.json();
             if (response.ok) {
                 setSuccessAddMessage(data.msg);
-                fetchMotores(); // Refresca la lista de motores
+                fetchJuntasg(); // Refresca la lista de motores
                 closeAddModal();
             } else {
-                setErrorAddMessage({ form: data.msg || 'Error al agregar motor.' });
+                setErrorAddMessage({ form: data.msg || 'Error al agregar junta GasketGenius.' });
             }
         } catch (error) {
             setErrorAddMessage({ form: 'Error al conectar con el servidor.' });
         }
     };
 
-    /* Para editar motor */
-    const openEditModal = (motor) => {
-        setMotorToEdit(motor);
-        setEditMotorId(motor.id_motor);
-        setEditMotorLitros(motor.numero_litros);
-        setEditMotorArbol(motor.tipo_arbol);
-        setEditMotorValvulas(motor.numero_valvulas);
-        setEditMotorPosicionPistones(motor.posicion_pistones);
-        setEditMotorNoPistones(motor.numero_pistones);
-        setEditMotorInfoAdicional(motor.info_adicional);
-        setEditMotorRangeYearI(motor.range_year_i);
-        setEditMotorRangeYearF(motor.range_year_f);
-
-        setShowEditModal(true);
+     // Funciones para agregar junta g
+    const handleNewJuntagIdChange = (e) => {
+        setNewJuntagId(e.target.value);
     };
     
-    const closeEditModal = () => {
-        setShowEditModal(false);
-        setEditMotorId('');
-        setMotorToEdit(null);
+    const handleNewJuntagIdImageChange = (e) => {
+        setNewJuntagIdImage(e.target.value);
     };
 
-    const handleEditMotorIdChange = (e) => {
-        setEditMotorId(e.target.value);
-    };
-    
-    const handleEditMotorLitrosChange = (e) => {
-        setEditMotorLitros(e.target.value);
-    };
-    
-    const handleEditMotorArbolChange = (e) => {
-        setEditMotorArbol(e.target.value);
-    };
-    
-    const handleEditMotorValvulasChange = (e) => {
-        setEditMotorValvulas(e.target.value);
-    };
-    
-    const handleEditMotorPosicionPistonesChange = (e) => {
-        setEditMotorPosicionPistones(e.target.value);
-    };
-    
-    const handleEditMotorNoPistonesChange = (e) => {
-        setEditMotorNoPistones(e.target.value);
-    };
-    
-    const handleEditMotorInfoAdicionalChange = (e) => {
-        const value = e.target.value.split(','); // Convierte la cadena en un array
-        setEditMotorInfoAdicional(value);
-    };
-    
-    const handleEditMotorRangeYearIChange = (e) => {
-        setEditMotorRangeYearI(e.target.value);
-    };
-    
-    const handleEditMotorRangeYearFChange = (e) => {
-        setEditMotorRangeYearF(e.target.value);
+    // Cerrar el modal de agregar junta g
+    const closeAddModal = () => {
+        setNewJuntagId('');
+        setNewJuntagIdImage('');
+        setSelectedNewJuntagImageFile(null);
+        setSelectedNewJuntagImagePreview(null);
+        setShowAddModal(false);
     };
 
-    const handleEditAuto = async (event) => {
+    /* ------- Para editar junta g */
+    const openEditModal = (juntagId) => {
+        const role = localStorage.getItem('role');
+        const token = localStorage.getItem('token');
+
+        /* Función para la petición de la información del auto a editar */
+        const fetchJuntaData = async () => {
+            try {
+                const response = await fetch(`http://localhost:3000/admin/juntas-g/${juntagId}`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Role': role,
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    const juntagData = data.data;
+                    setJuntagToEdit(juntagData);
+                    setEditJuntagId(juntagData.id_junta);
+                    setEditJuntagIdImage(juntagData.id_image);
+                    setSelectedEditJuntagImagePreview(juntagData.imagen);
+                    setSelectedEditJuntagImageFile();
+
+                    setShowEditModal(true);
+                } else {
+                    setErrorEditMessage(data.msj);
+                }
+            } catch (error) {
+                setErrorEditMessage('No se pudo obtener la información del la junta GasketGenius');
+            }
+        };
+
+        fetchJuntaData(juntagId)
+    };
+
+    // Función para editar junta g
+    const handleEditJuntag = async (event) => {
         event.preventDefault();
         const newErrors = {};
     
-        // Validar ID_Motor (VARCHAR(100), obligatorio)
-        if (editMotorId.trim() === '' || editMotorId.length > 100) {
-            newErrors.editMotorId = 'El Identificador del motor no puede estar vacío ni exceder los 100 caracteres.';
+        // Validar ID_Junta (VARCHAR(100), obligatorio)
+        if (editJuntagId.trim() === '' || editJuntagId.length > 100) {
+            newErrors.editJuntagId = 'El Identificador de la junta no puede estar vacío ni exceder los 100 caracteres.';
         }
 
-        // Validar NumeroLitros (FLOAT, obligatorio, entre 1.0 y 20.0)
-        if (!editMotorLitros || isNaN(editMotorLitros) || editMotorLitros < 1.0 || editMotorLitros > 20.0) {
-            newErrors.editMotorLitros = 'El número de litros debe ser un valor numérico entre 1.0 y 20.0.';
+        // Validar ID_Image (VARCHAR(100), obligatorio)
+        if (newJuntagIdImage.trim() === '' || newJuntagIdImage.length > 100) {
+            newErrors.newJuntagIdImage = 'El Identificador del la imagen de la junta no puede estar vacío ni exceder los 100 caracteres.';
         }
-
-        // Validar Tipo de Árbol (VARCHAR(4), obligatorio, solo puede ser OHV, SOHC, DOHC, SV)
-        const validTiposArbol = ['OHV', 'SOHC', 'DOHC', 'SV'];
-        if (!editMotorArbol || !validTiposArbol.includes(editMotorArbol.trim().toUpperCase())) {
-            newErrors.editMotorArbol = 'El tipo de árbol debe ser OHV, SOHC, DOHC, o SV.';
-        }
-
-        // Validar NumeroValvulas (INT, obligatorio, solo puede ser 4, 8, 12, 16, 24)
-        const validNumeroValvulas = [4, 8, 12, 16, 24];
-        if (!editMotorValvulas || !validNumeroValvulas.includes(parseInt(editMotorValvulas))) {
-            newErrors.editMotorValvulas = 'El número de válvulas debe ser 4, 8, 12, 16, o 24.';
-        }
-
-        // Validar PosiciónPistones (VARCHAR(1), obligatorio, solo puede ser L o V)
-        const validPosicionesPistones = ['L', 'V'];
-        if (!editMotorPosicionPistones || !validPosicionesPistones.includes(editMotorPosicionPistones.trim().toUpperCase())) {
-            newErrors.editMotorPosicionPistones = 'La posición de los pistones debe ser L o V.';
-        }
-
-        // Validar NumeroPistones (INT, obligatorio, solo puede ser 3, 4, 5, 6, 8)
-        const validNumeroPistones = [3, 4, 5, 6, 8];
-        if (!editMotorNoPistones || !validNumeroPistones.includes(parseInt(editMotorNoPistones))) {
-            newErrors.editMotorNoPistones = 'El número de pistones debe ser 3, 4, 5, 6, o 8.';
-        }
-
-        // Validar Información Adicional (Debe ser un array y no debe exceder los 255 caracteres en total)
-        if (editMotorInfoAdicional.length === 0 || editMotorInfoAdicional.join(', ').length > 255) {
-            newErrors.editMotorInfoAdicional = 'La información adicional no puede estar vacía ni exceder los 255 caracteres en total.';
-        }
-
-        // Validar el Rango de años (formato válido de año, "YYYY-YYYY")
-        const yearRangeRegex = /^\d{4}$/;
-        if (!yearRangeRegex.test(editMotorRangeYearI) || !yearRangeRegex.test(editMotorRangeYearF)) {
-            newErrors.editMotorRangeYear = 'Los años deben tener 4 dígitos numéricos (Ej. 2007, 2013).';
-        }
-
+    
         // Si hay errores, los mostramos
         if (Object.keys(newErrors).length > 0) {
             setErrorAddMessage(newErrors); // Almacenar los errores en el estado
@@ -448,7 +370,7 @@ const AdministrarJuntasGAdmin = () => {
         const token = localStorage.getItem('token');
     
         try {
-            const response = await fetch(`http://localhost:3000/admin/motor/${motorToEdit.id_motor}`, {
+            const response = await fetch(`http://localhost:3000/admin/motor/${juntagToEdit.id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -456,42 +378,41 @@ const AdministrarJuntasGAdmin = () => {
                     'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({
-                    id_motor: editMotorId,
-                    numero_litros: editMotorLitros, 
-                    tipo_arbol: editMotorArbol, 
-                    numero_valvulas: editMotorValvulas, 
-                    posicion_pistones: editMotorPosicionPistones,
-                    numero_pistones: editMotorNoPistones,
-                    info_adicional: editMotorInfoAdicional, 
-                    range_year_i: editMotorRangeYearI, 
-                    range_year_f: editMotorRangeYearF
+                    id_junta: editJuntagId,
+                    id_image: editJuntagIdImage
                 })
             });
             const data = await response.json();
             if (response.ok) {
-                setSuccessEditMessage(data.msj);
-                setMotores(motores.map(motor => motor.id_motor === motorToEdit.id_motor ? { 
-                    ...motor, 
-                    id_motor: editMotorId,
-                    numero_litros: editMotorLitros, 
-                    tipo_arbol: editMotorArbol, 
-                    numero_valvulas: editMotorValvulas, 
-                    posicion_pistones: editMotorPosicionPistones,
-                    numero_pistones: editMotorNoPistones,
-                    info_adicional: editMotorInfoAdicional, 
-                    range_year_i: editMotorRangeYearI, 
-                    range_year_f: editMotorRangeYearF } : motor));
-                fetchMotores(); // Fetch the updated list of autos
+                setSuccessEditMessage(data.msg);
+                fetchJuntasg(); // Refresca la lista de juntas g
                 closeEditModal();
             } else {
-                setErrorEditMessage(data.msj);
+                setErrorEditMessage(data.msg);
             }
         } catch (error) {
-            setErrorEditMessage('Error editing brand');
+            setErrorEditMessage('Error al editar junta gasketgenius');
         }
     };
 
-    /* Componente para administrar motores */
+    // Funciones para editar junta g
+    const handleEditJuntagIdChange = (e) => {
+        setEditJuntagId(e.target.value);
+    };
+    
+    const handleEditJuntagIdImageChange = (e) => {
+        setEditJuntagIdImage(e.target.value);
+    };
+
+    // Cerrar el modal de editar junta g
+    const closeEditModal = () => {
+        setEditJuntagId('');
+        setEditJuntagIdImage('');
+        setJuntagToEdit('');
+        setShowEditModal(false);
+    };
+
+    /* ------- Componente para administrar motores */
     return (
         <div className="dashboard">
             <header className="header-dashboard">
@@ -540,80 +461,70 @@ const AdministrarJuntasGAdmin = () => {
 
             <main className={`main-content-dashboard ${isSidebarOpen ? 'sidebar-active' : ''}`}>
                 <section className="welcome-message">
-                    <h1>Administrar motores</h1>
+                    <h1>Administrar juntas GasketGenius</h1>
 
-                    <div className="motor-management">
-                        <div className="motor-header">
-                          <h1>Motores</h1>
-                          <div className="motor-actions">
-                            <input type="text" placeholder="Búsqueda por nombre" className="motor-search-bar" />
-                            <button className="add-motor-button" onClick={openAddModal}>Agregar motor</button>
+                    <div className="juntag-management">
+                        <div className="juntag-header">
+                          <h1>Juntas GasketGenius</h1>
+                          <div className="juntag-actions">
+                            <input type="text" placeholder="Búsqueda por nombre" className="juntag-search-bar" />
+                            <button className="add-juntag-button" onClick={openAddModal}>Agregar junta GasketGenius</button>
                           </div>
                         </div>
 
-                        {successMessage && <div className="get-success-message-motor">{successMessage}</div>}
-                        {errorMessage && <div className="get-error-message-motor">{errorMessage}</div>}
+                        {successMessage && <div className="get-success-message-juntag">{successMessage}</div>}
+                        {errorMessage && <div className="get-error-message-juntag">{errorMessage}</div>}
 
-                        {successDeleteMessage && <div className="delete-success-message-motor">{successDeleteMessage}</div>}
+                        {successDeleteMessage && <div className="delete-success-message-juntag">{successDeleteMessage}</div>}
                         {Object.keys(errorEditMessage).length > 0 && (
-                            <div className="edit-error-message-motor">
+                            <div className="edit-error-message-juntag">
                                 {Object.keys(errorEditMessage).map((key) => (
                                     <span key={key}>{errorEditMessage[key]}</span> // Muestra cada error
                                 ))}
                             </div>
                         )}
 
-                        {successAddMessage && <div className="add-success-message-motor">{successAddMessage}</div>}
+                        {successAddMessage && <div className="add-success-message-juntag">{successAddMessage}</div>}
                         {Object.keys(errorAddMessage).length > 0 && (
-                            <div className="add-error-message-motor">
+                            <div className="add-error-message-juntag">
                                 {Object.keys(errorAddMessage).map((key) => (
                                     <span key={key}>{errorAddMessage[key]}</span> // Muestra cada error
                                 ))}
                             </div>
                         )}
 
-                        {successEditMessage && <div className="edit-success-message-motor">{successEditMessage}</div>}
+                        {successEditMessage && <div className="edit-success-message-juntag">{successEditMessage}</div>}
                         {Object.keys(errorEditMessage).length > 0 && (
-                            <div className="edit-error-message-motor">
+                            <div className="edit-error-message-juntag">
                                 {Object.keys(errorEditMessage).map((key) => (
                                     <span key={key}>{errorEditMessage[key]}</span> // Muestra cada error
                                 ))}
                             </div>
                         )}
 
-                        <table className="motor-table">
+                        <table className="juntag-table">
                           <thead>
                             <tr>
                               <th>Identificador</th>
-                              <th>Litros</th>
-                              <th>Tipo de Árbol</th>
-                              <th>No. Válvulas</th>
-                              <th>Pistones y Posición</th>
-                              <th>Información adicional</th>
-                              <th>Rango de años</th>
-                              <th>Acciones</th>
+                              <th>Imagen</th>
+                              <th>Opciones</th>
                             </tr>
                           </thead>
                           <tbody>
-                            {motores.map((motor) => (
-                              <tr key={motor.id_motor}>
-                                <td>{motor.id_motor}</td>
-                                <td>{motor.numero_litros}</td>
-                                <td>{motor.tipo_arbol}</td>
-                                <td>{motor.numero_valvulas}</td>
-                                <td>{motor.numero_pistones} {motor.posicion_pistones}</td>
-                                <td>{Array.isArray(motor.info_adicional) ? motor.info_adicional.join(", ") : motor.info_adicional}</td>
-                                <td>{`${motor.range_year_i} - ${motor.range_year_f}`}</td>
-                                <td className="motor-options-cell">
+                            {juntasg.map((juntag) => (
+                              <tr key={juntag.id_junta}>
+                                <td>{juntag.id_junta}</td>
+                                <td>{juntag.id_image}</td>
+                                <td className="juntag-options-cell">
                                   <button
-                                    className="motor-edit-button"
-                                    onClick={() => openEditModal(motor)}
+                                    className="juntag-edit-button"
+                                    onClick={() => openEditModal(juntag.id)}
                                   >
                                     Editar
                                   </button>
                                   <button
-                                    className="motor-delete-button"
-                                    onClick={() => openDeleteModal(motor.id_motor)}
+                                    className="juntag-delete-button"
+                                    onClick={() => openDeleteModal(juntag.id_junta)}
                                   >
                                     Eliminar
                                   </button>
@@ -632,7 +543,7 @@ const AdministrarJuntasGAdmin = () => {
                 <div className="confirm-delete-modal-overlay">
                     <div className="confirm-delete-modal-content">
                         <h2>Confirmación</h2>
-                        <p>¿Estás seguro de que deseas eliminar "{motores.find(motor => motor.id_motor === motorToDelete)?.id_motor}"?</p>
+                        <p>¿Estás seguro de que deseas eliminar "{juntasg.find(juntag => juntag.id_junta === juntagToDelete)?.id_junta}"?</p>
                         <div className="confirm-delete-modal-actions">
                             <button className="confirm-delete-modal-button cancel" onClick={closeDeleteModal}>Cancelar</button>
                             <button className="confirm-delete-modal-button confirm" onClick={handleDelete}>Confirmar</button>
@@ -642,140 +553,70 @@ const AdministrarJuntasGAdmin = () => {
             )}
 
             {showAddModal && (
-                <div className="add-motor-modal-overlay">
-                    <div className="add-motor-modal-content">
-                      <h2>Agregar Motor</h2>
-                      <input 
-                        type="text" 
-                        placeholder="Identificador del motor" 
-                        value={newMotorId} 
-                        onChange={handleNewMotorIdChange}
-                      />
-                      <input 
-                        type="float" 
-                        placeholder="Litros del motor" 
-                        value={newMotorLitros} 
-                        onChange={handleNewMotorLitrosChange}
-                      />
-                      <input 
-                        type="text" 
-                        placeholder="Tipo de árbol de levas" 
-                        value={newMotorArbol} 
-                        onChange={handleNewMotorArbolChange}
-                      />
-                      <input 
-                        type="number" 
-                        placeholder="Número de válvulas" 
-                        value={newMotorValvulas} 
-                        onChange={handleNewMotorValvulasChange}
-                      />
-                      <input 
-                        type="text" 
-                        placeholder="Posición de los pistones" 
-                        value={newMotorPosicionPistones} 
-                        onChange={handleNewMotorPosicionPistonesChange}
-                      />
-                      <input 
-                        type="number" 
-                        placeholder="Número de pistones" 
-                        value={newMotorNoPistones} 
-                        onChange={handleNewMotorNoPistonesChange}
-                      />
+                <div className="add-juntag-modal-overlay">
+                    <div className="add-juntag-modal-content">
+                        <h2>Agregar Junta GasketGenius</h2>
+                        <input 
+                            type="text" 
+                            placeholder="Identificador de la junta" 
+                            value={newJuntagId} 
+                            onChange={handleNewJuntagIdChange}
+                            readOnly // El ID es generado automáticamente, por lo que no permitimos editarlo
+                        />
 
-                      {/* Input para información adicional, separado por comas */}
-                      <input 
-                        type="text" 
-                        placeholder="Información adicional (separado por comas)" 
-                        value={newMotorInfoAdicional} 
-                        onChange={handleNewMotorInfoAdicionalChange}
-                      />
+                        <input 
+                            type="text" 
+                            placeholder="Identificador de la imagen de la junta" 
+                            value={newJuntagIdImage} 
+                            onChange={handleNewJuntagIdImageChange}
+                            readOnly // El ID es generado automáticamente, por lo que no permitimos editarlo
+                        />
 
-                      <input 
-                        type="text" 
-                        placeholder="Año inicial" 
-                        value={newMotorRangeYearI} 
-                        onChange={handleNewMotorRangeYearIChange}
-                      />
-                      <input 
-                        type="text" 
-                        placeholder="Año final" 
-                        value={newMotorRangeYearF} 
-                        onChange={handleNewMotorRangeYearFChange}
-                      />
+                        {/* Zona de arrastre de archivos */}
+                        <div {...getRootProps()} className='dropzoneStyle'>
+                            <input {...getInputProps()} />
+                                {isDragActive ? (
+                                    <p>Suelta la imagen aquí...</p>
+                                ) : (
+                                    <p>Arrastra y suelta una imagen aquí, o haz clic para seleccionarla.</p>
+                            )}
 
-                      <div className="add-motor-modal-actions">
-                        <button className="add-motor-modal-button cancel" onClick={closeAddModal}>Cancelar</button>
-                        <button className="add-motor-modal-button confirm" onClick={handleAddMotor}>Confirmar</button>
-                      </div>
+                            {/* Mostrar la imagen seleccionada */}
+                            {selectedNewJuntagImagePreview && (
+                                <div className="preview">
+                                    <img src={selectedNewJuntagImagePreview} alt="Imagen seleccionada" className="previewImage" />
+                                </div>
+                            )}
+                        </div>
+
+                        <div className="add-juntag-modal-actions">
+                            <button className="add-juntag-modal-button cancel" onClick={closeAddModal}>Cancelar</button>
+                            <button className="add-juntag-modal-button confirm" onClick={handleAddJuntag}>Confirmar</button>
+                        </div>
                     </div>
                 </div>
             )}
 
             {showEditModal && (
-                <div className="edit-motor-modal-overlay">
-                    <div className="edit-motor-modal-content">
-                      <h2>Editar motor</h2>
+                <div className="edit-juntag-modal-overlay">
+                    <div className="edit-juntag-modal-content">
+                      <h2>Editar {juntagToEdit?.id_image}</h2>
                       <input 
                         type="text" 
-                        placeholder="Identificador del motor" 
-                        value={editMotorId} 
-                        onChange={handleEditMotorIdChange}
-                      />
-                      <input 
-                        type="float" 
-                        placeholder="Litros del motor" 
-                        value={editMotorLitros} 
-                        onChange={handleEditMotorLitrosChange}
+                        placeholder="Identificador del la junta" 
+                        value={editJuntagId} 
+                        onChange={handleEditJuntagIdChange}
                       />
                       <input 
                         type="text" 
-                        placeholder="Tipo de árbol de levas" 
-                        value={editMotorArbol} 
-                        onChange={handleEditMotorArbolChange}
-                      />
-                      <input 
-                        type="number" 
-                        placeholder="Número de válvulas" 
-                        value={editMotorValvulas} 
-                        onChange={handleEditMotorValvulasChange}
-                      />
-                      <input 
-                        type="text" 
-                        placeholder="Posición de los pistones" 
-                        value={editMotorPosicionPistones} 
-                        onChange={handleEditMotorPosicionPistonesChange}
-                      />
-                      <input 
-                        type="number" 
-                        placeholder="Número de pistones" 
-                        value={editMotorNoPistones} 
-                        onChange={handleEditMotorNoPistonesChange}
+                        placeholder="Identificador de la imagen de la junta" 
+                        value={editJuntagIdImage} 
+                        onChange={handleEditJuntagIdImageChange}
                       />
 
-                      {/* Input para información adicional, separado por comas */}
-                      <input 
-                        type="text" 
-                        placeholder="Información adicional (separado por comas)" 
-                        value={editMotorInfoAdicional} 
-                        onChange={handleEditMotorInfoAdicionalChange}
-                      />
-
-                      <input 
-                        type="text" 
-                        placeholder="Año inicial" 
-                        value={editMotorRangeYearI} 
-                        onChange={handleEditMotorRangeYearIChange}
-                      />
-                      <input 
-                        type="text" 
-                        placeholder="Año final" 
-                        value={editMotorRangeYearF} 
-                        onChange={handleEditMotorRangeYearFChange}
-                      />
-
-                      <div className="add-motor-modal-actions">
-                        <button className="add-motor-modal-button cancel" onClick={closeEditModal}>Cancelar</button>
-                        <button className="add-motor-modal-button confirm" onClick={handleEditAuto}>Confirmar</button>
+                      <div className="edit-juntag-modal-actions">
+                        <button className="edit-juntag-modal-button cancel" onClick={closeAddModal}>Cancelar</button>
+                        <button className="edit-juntag-modal-button confirm" onClick={handleEditJuntag}>Confirmar</button>
                       </div>
                     </div>
                 </div>
