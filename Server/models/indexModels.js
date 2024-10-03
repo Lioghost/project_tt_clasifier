@@ -5,6 +5,7 @@ import RefaccionMarca from "./RefaccionMarca.js";
 import { DataTypes } from "sequelize";
 import Junta from "./Junta.js";
 
+
 Automovil.belongsTo(Marca, {foreignKey: 'marca_id'});
 
 Motor.belongsToMany(Automovil, {through: 'AutomovilMotor', foreignKey: 'motor_id'});
