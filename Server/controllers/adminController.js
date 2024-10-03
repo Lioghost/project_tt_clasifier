@@ -151,7 +151,7 @@ const automoviles = async (req, res) => {
 // Crear un nuevo auto
 const autoCreate = async (req, res) => {
     try {
-        const { marca_id } = req.body;
+        const { marca_id, motor_ids } = req.body;
 
         // Verificar si la marca existe
         const marca = await Marca.findByPk(marca_id);
@@ -160,6 +160,12 @@ const autoCreate = async (req, res) => {
         }
 
         const nuevoAuto = await Automovil.create(req.body);
+
+         // Si se proporcionaron motores, asociarlos
+        if (motor_ids && motor_ids.length > 0) {
+            const motores = await Motor.findAll({ where: { id: motor_ids } });
+            await nuevoAuto.addMotores(motores);  // Asociar motores al automóvil
+        }
         return res.status(201).json({ msg: 'Auto creado exitosamente', data: nuevoAuto });
     } catch (error) {
         return res.status(500).json({ msg: 'Error al crear Auto', error: error.message });
@@ -169,16 +175,15 @@ const autoCreate = async (req, res) => {
 const autoDelete = async (req, res) => {
     try {
         const { id } = req.params;
-        if (!id) 
-            return res.status(400).json({ msj: "ID inválido" });
+        
+        const deleted = await Automovil.destroy({
+            where: { id }
+        });
 
-        const auto = await Automovil.findByPk(id);
+        if (!deleted)
+            return res.status(404).json({ msg: 'Automóvil no encontrado' });
 
-        if (!auto)
-            return res.status(404).json({ msj: "Auto no encontrado" });
-
-        await auto.destroy();
-        return res.status(200).json({ msj: "Auto eliminado con éxito" });
+        return res.status(200).json({ msg: 'Automóvil eliminado exitosamente' });
 
     } catch (error) {
         return res.status(500).json({ msj: "Error al eliminar el auto", error: error.message });
@@ -206,15 +211,28 @@ const autoGet = async (req, res) => {
 const autoUpdate = async (req, res) => {
     try {
         const { id } = req.params;
-        if (!id) 
-            return res.status(400).json({ msj: "ID inválido!" });
+        const {motor_ids} = req.body
 
-        const automovil = await Automovil.findByPk(id);
+        // Actualizar el automóvil
+        const [updated] = await Automovil.update(req.body, {
+            where: { id }
+        });
 
-        if (!automovil)
-            return res.status(404).json({ msj: "Auto no encontrado" });
+        if (!updated) {
+            return res.status(404).json({ msg: 'Automóvil no encontrado' });
+        }
 
-        const autoUpdate = await automovil.update(req.body);
+        // Actualizar las asociaciones de motores si `motor_ids` está presente
+        if (motor_ids && motor_ids.length > 0) {
+            const automovil = await Automovil.findByPk(id);
+            const motores = await Motor.findAll({ where: { id_motor: motor_ids } });
+            await automovil.setMotores(motores);  // Reemplazar asociaciones anteriores
+            await automovil.save()
+        }
+
+        const autoUpdate = await Automovil.findByPk(id, {
+            include: { model: Motor }
+        });
         return res.status(200).json({ msj: "Auto actualizado exitosamente", data: autoUpdate });
     } catch (error) {
         return res.status(500).json({ msj: "Error al actualizar", error: error.message });
@@ -239,7 +257,7 @@ const motores = async (req, res) => {
 // Crear Motor
 const motorCreate = async (req, res) => {
     try {
-        const { id_motor } = req.body;
+        const { id_motor, auto_ids } = req.body;
 
         // Verificar si la marca existe
         const motor = await Motor.findByPk(id_motor);
@@ -248,6 +266,12 @@ const motorCreate = async (req, res) => {
         }
 
         const nuevoMotor = await Motor.create(req.body);
+
+        // Asociar automóviles al motor si `auto_ids` está presente
+        if (auto_ids && auto_ids.length > 0) {
+            const autos = await Automovil.findAll({ where: { id: auto_ids } });
+            await nuevoMotor.addAutomoviles(autos);  // Asociar automóviles al motor
+        }
         return res.status(201).json({ msg: 'Motor creado exitosamente', data: nuevoMotor });
     } catch (error) {
         return res.status(500).json({ msg: 'Error al crear Motor', error: error.message });
@@ -275,15 +299,28 @@ const motorGet = async (req, res) => {
 const motorUpdate = async (req, res) => {
     try {
         const { id } = req.params;
-        if (!id) 
-            return res.status(400).json({ msj: "ID inválido!" });
+        const {auto_ids} = req.body
 
-        const motor = await Motor.findByPk(id);
+        const [updated] = await Motor.update(req.body, {
+            where: { id }
+        });
 
-        if (!motor)
-            return res.status(404).json({ msj: "Motor no encontrado" });
+        if (!updated) {
+            return res.status(404).json({ msg: 'Motor no encontrado' });
+        }
 
-        const motorUpdate = await motor.update(req.body);
+        // Actualizar las asociaciones de automóviles si `auto_ids` está presente
+        if (auto_ids && auto_ids.length >= 0) {
+            const motor = await Motor.findByPk(id);
+            const autos = await Automovil.findAll({ where: { id_motor: auto_ids } });
+            await motor.setAutomoviles(autos);  // Reemplazar asociaciones anteriores
+            await motor.save()
+        }
+
+        const motorUpdate = await Motor.findByPk(id, {
+            include: { model: Automovil }
+        });
+
         return res.status(200).json({ msj: "Motor actualizado exitosamente", data: motorUpdate });
     } catch (error) {
         return res.status(500).json({ msj: "Error al actualizar", error: error.message });
@@ -293,16 +330,16 @@ const motorUpdate = async (req, res) => {
 const motorDelete = async (req, res) => {
     try {
         const { id } = req.params;
-        if (!id) 
-            return res.status(400).json({ msj: "ID inválido" });
+        
+        const deleted = await Motor.destroy({
+            where: { id }
+        });
 
-        const auto = await Motor.findByPk(id);
+        if (!deleted) {
+            return res.status(404).json({ msg: 'Motor no encontrado' });
+        }
 
-        if (!auto)
-            return res.status(404).json({ msj: "Motor no encontrado" });
-
-        await auto.destroy();
-        return res.status(200).json({ msj: "Motor eliminado con éxito" });
+        return res.status(200).json({ msg: 'Motor eliminado exitosamente' });
 
     } catch (error) {
         return res.status(500).json({ msj: "Error al eliminar el Motor", error: error.message });
