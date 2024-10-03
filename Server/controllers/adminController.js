@@ -133,7 +133,8 @@ const automoviles = async (req, res) => {
     try {
         const autos = await Automovil.findAll({
             include: [
-                { model: Marca, as: 'marca' }
+                { model: Marca, as: 'marca' },
+                { model: Motor, as: 'motores' }
             ]
         });
 
@@ -193,20 +194,39 @@ const autoDelete = async (req, res) => {
 const autoGet = async (req, res) => {
     try {
         const { id } = req.params;
-        if (!id) 
-            return res.status(400).json({ msj: "ID inválido!" });
 
-        const auto = await Automovil.findByPk(id);
+        // Validar si el ID es un número válido
+        if (!id || isNaN(id)) 
+            return res.status(400).json({ msj: "ID inválido, debe ser un número!" });
 
-        if (!auto)
+        // Buscar el automóvil por su ID, incluyendo las relaciones
+        const auto = await Automovil.findByPk(id, {
+            include: [
+                { model: Marca, as: 'marca' },  // Incluir la relación con Marca
+                { model: Motor, as: 'motores' } // Incluir la relación con Motor
+            ]
+        });
+
+        // Verificar si el auto existe
+        if (!auto) 
             return res.status(404).json({ msj: "Auto no encontrado" });
 
-        return res.status(200).json({ msj: "Auto recuperado con éxito", data: auto });
+        // Devolver el auto con éxito
+        return res.status(200).json({ 
+            msj: "Auto recuperado con éxito", 
+            data: auto 
+        });
 
     } catch (error) {
-        return res.status(500).json({ msj: "Error al recuperar el Auto", error: error.message });
+        // Diferenciar entre errores específicos de Sequelize y otros errores
+        if (error.name === 'SequelizeDatabaseError') {
+            return res.status(500).json({ msj: "Error en la base de datos", error: error.message });
+        }
+
+        return res.status(500).json({ msj: "Error inesperado al recuperar el Auto", error: error.message });
     }
-}
+};
+
 
 const autoUpdate = async (req, res) => {
     try {
