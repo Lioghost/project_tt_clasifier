@@ -90,7 +90,7 @@ const AdministrarMarcasAdmin = () => {
         }
     }, [successEditMessage, errorEditMessage]);
 
-    /* Para mostrar las marcas */
+    /* ------- Para mostrar las marcas */
     const fetchBrands = async () => {
         const role = localStorage.getItem('role');
         const token = localStorage.getItem('token');
@@ -108,6 +108,7 @@ const AdministrarMarcasAdmin = () => {
                 // Ordenar las marcas alfabéticamente por 'marca'
                 const sortedBrands = data.data.sort((a, b) => a.marca.localeCompare(b.marca));
                 setBrands(sortedBrands);  // Guardar las marcas ordenadas
+                setSuccessMessage(data.msj);
             } else {
                 setErrorMessage(data.msj);
             }
@@ -131,7 +132,7 @@ const AdministrarMarcasAdmin = () => {
         setIsDropdownOpen(!isDropdownOpen);
     };
 
-    /* Para eliminar marca */
+    /* ------- Para eliminar marca */
     const openDeleteModal = (BrandId) => {
         setBrandToDelete(BrandId);
         setShowDeleteModal(true);
@@ -176,7 +177,7 @@ const AdministrarMarcasAdmin = () => {
         }
     };
 
-    /* Para agregar marca */
+    /* ------- Para agregar marca */
     const openAddModal = () => {
         setShowAddModal(true);
     };
@@ -218,7 +219,7 @@ const AdministrarMarcasAdmin = () => {
             const data = await response.json();
             if (response.ok) {
                 setSuccessAddMessage(data.msg);
-                fetchBrands(); // Fetch the updated list of brands
+                fetchBrands();  
                 closeAddModal();
             } else {
                 setErrorAddMessage(data.msg);
@@ -228,13 +229,13 @@ const AdministrarMarcasAdmin = () => {
         }
     };
 
-    /* Para editar la marca */
+    /* ------- Para editar la marca */
     const openEditModal = (brandId) => {
         const role = localStorage.getItem('role');
         const token = localStorage.getItem('token');
 
         // Función para obtener la información de la marca a editar
-        const fetchBrandData = async (brandId) => {
+        const fetchBrandData = async () => {
             try {
                 const response = await fetch(`http://localhost:3000/admin/marcas/${brandId}`, {
                     headers: {
@@ -262,9 +263,9 @@ const AdministrarMarcasAdmin = () => {
     
     // Cerrar el modal de editar marca
     const closeEditModal = () => {
-        setShowEditModal(false);
         setEditBrandName('');
         setBrandToEdit('');
+        setShowEditModal(false);
     };
 
     const handleEditBrandIdChange = (e) => {
@@ -296,7 +297,6 @@ const AdministrarMarcasAdmin = () => {
             const data = await response.json();
             if (response.ok) {
                 setSuccessEditMessage(data.msj);
-                setBrands(brands.map(brand => brand.id === brandToEdit.id ? { ...brand, marca: editBrandName } : brand));
                 fetchBrands(); // Fetch the updated list of brands
                 closeEditModal();
             } else {
@@ -311,6 +311,7 @@ const AdministrarMarcasAdmin = () => {
         }
     };
 
+    /* Componente para administrar marcas */
     return (
         <div className="dashboard">
             <header className="header-dashboard">

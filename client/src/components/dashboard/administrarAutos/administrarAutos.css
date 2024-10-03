@@ -83,6 +83,7 @@
 }
 
 .auto-edit-button, 
+.auto-assign-button,
 .auto-delete-button {
     font-size: 16px;
     background: none;
@@ -109,7 +110,7 @@
     display: block; /* Asegura que se mantenga en bloque */
 }
 
-.get-error-message-auto, .delete-error-message-auto, .add-error-message-auto, .edit-error-message-auto {
+.get-error-message-auto, .delete-error-message-auto, .add-error-message-auto, .edit-error-message-auto, .assign-error-message-auto {
     position: fixed;
     top: 25%;
     left: 50%;
@@ -163,7 +164,7 @@
     top: 75%;
 }
 
-.get-success-message-auto, .delete-success-message-auto, .add-success-message-auto, .edit-success-message-auto {
+.get-success-message-auto, .delete-success-message-auto, .add-success-message-auto, .assign-success-message-auto {
     position: fixed;
     top: 25%;
     left: 50%;
@@ -265,40 +266,12 @@
     text-align: center;
 }
 
-.add-auto-modal-content input, .add-auto-modal-content select {
+.add-auto-modal-content input {
     margin-top: 10px;
     margin-bottom: 0px;
     display: block;
     width: 350px;
 }
-
-/* Estilos para el select para que coincidan con los inputs */
-select {
-    width: 100%;
-    padding: 0.8rem;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-    transition: background-color var(--transition-speed), border-color var(--transition-speed);
-    color: #333;
-    outline: none;
-    margin-bottom: 1rem; /* Agrega un margen inferior para separar el select del mensaje */
-  }
-  
-  /* Cuando el select está habilitado para edición */
-  select:focus {
-    background-color: var(--color-white);
-    border-color: var(--color-primary); /* Color del borde cuando está activo */
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
-  }
-  
-  /* Cuando el select está deshabilitado */
-  select:disabled {
-    background-color: #e9ecef;
-    border-color: #dee2e6;
-    color: #6c757d;
-  }
 
 .add-auto-modal-actions {
     display: flex;
@@ -356,7 +329,7 @@ select {
     text-align: center;
 }
 
-.edit-auto-modal-content input, .edit-auto-modal-content select{
+.edit-auto-modal-content input{
     margin-top: 10px;
     margin-bottom: 0px;
     display: block;
@@ -396,6 +369,102 @@ select {
 .edit-auto-modal-button.confirm:hover {
     background-color: var(--color-primary-hover);
     color: var(--color-primary-hover);
+}
+
+.assign-auto-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.assign-auto-modal-content {
+    background: var(--color-white);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: left; /* Cambié de "center" a "left" para que los datos se alineen a la izquierda */
+    max-width: 400px;
+    width: 100%;
+}
+
+/* Para los detalles de la información en span */
+.assign-auto-detail {
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--color-border);
+    padding: 0.5rem 0;
+}
+
+.assign-auto-detail label {
+    font-weight: bold;
+    color: var(--color-grey);
+    font-size: 1rem;
+    margin-right: 10px;
+}
+
+.assign-auto-detail span.assign-auto-value {
+    color: var(--color-secondary);
+    background-color: #f0f0f0;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    font-size: 1rem;
+    text-align: right;
+    width: 50%; /* Para asegurarse que el span ocupe un espacio fijo */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Si el contenido es muy largo, mostrará "..." */
+}
+
+/* Mantener la estética de los botones */
+.assign-auto-modal-actions {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 1.5rem;
+}
+
+.assign-auto-modal-button {
+    padding: 0.8rem 2rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color var(--transition-speed);
+}
+
+.assign-auto-modal-button.cancel {
+    background-color: var(--color-border);
+    color: #333;
+}
+
+.assign-auto-modal-button.confirm {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+}
+
+.assign-auto-modal-button.cancel:hover {
+    background-color: var(--color-error);
+    color: var(--color-white);
+}
+
+.assign-auto-modal-button.confirm:hover {
+    background-color: var(--color-primary-hover);
+    color: var(--color-white);
+}
+
+/* Para ajustar el tamaño de la ventana emergente en pantallas más pequeñas */
+@media (max-width: 600px) {
+    .assign-auto-modal-content {
+        width: 90%;
+    }
 }
 
 /* Ajustes responsivos SOLO para el header (buscador y botón) */

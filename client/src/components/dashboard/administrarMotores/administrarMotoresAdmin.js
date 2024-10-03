@@ -11,12 +11,20 @@ const AdministrarMotoresAdmin = () => {
     const { isAuthenticated, user } = useContext(AuthContext);
     const navigate = useNavigate();
     
+    // Estados para el sidebar y dropdown
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
+    // Estados para mostrar los motores
     const [motores, setMotores] = useState([]);
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+
+    /* Para eliminar motor */
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [motorToDelete, setMotorToDelete] = useState('');
+    const [successDeleteMessage, setSuccessDeleteMessage] = useState('');
+    const [errorDeleteMessage, setErrorDeleteMessage] = useState('');
 
     /* Para agregar motor */
     const [showAddModal, setShowAddModal] = useState(false);
@@ -32,15 +40,9 @@ const AdministrarMotoresAdmin = () => {
     const [successAddMessage, setSuccessAddMessage] = useState('');
     const [errorAddMessage, setErrorAddMessage] = useState('');
 
-    /* Para eliminar motor */
-    const [showDeleteModal, setShowDeleteModal] = useState(false);
-    const [motorToDelete, setMotorToDelete] = useState(null);
-    const [successDeleteMessage, setSuccessDeleteMessage] = useState('');
-    const [errorDeleteMessage, setErrorDeleteMessage] = useState('');
-
     /* Para editar motor */
     const [showEditModal, setShowEditModal] = useState(false);
-    const [motorToEdit, setMotorToEdit] = useState(null);
+    const [motorToEdit, setMotorToEdit] = useState('');
     const [editMotorId, setEditMotorId] = useState('');
     const [editMotorLitros, setEditMotorLitros] = useState('');
     const [editMotorArbol, setEditMotorArbol] = useState('');
@@ -53,12 +55,14 @@ const AdministrarMotoresAdmin = () => {
     const [successEditMessage, setSuccessEditMessage] = useState('');
     const [errorEditMessage, setErrorEditMessage] = useState('');
 
+    // Verificar si el usuario está autenticado
     useEffect(() => {
         if (!isAuthenticated) {
             navigate('/login');
         }
     }, [isAuthenticated, navigate]);
 
+    // Mostrar mensajes de éxito o error
     useEffect(() => {
         if (successMessage || errorMessage) {
             const timer = setTimeout(() => {
@@ -69,6 +73,7 @@ const AdministrarMotoresAdmin = () => {
         }
     }, [successMessage, errorMessage]);
 
+    // Mostrar mensajes de éxito o error al eliminar
     useEffect(() => {
         if (successDeleteMessage || errorDeleteMessage) {
             const timer = setTimeout(() => {
@@ -79,6 +84,7 @@ const AdministrarMotoresAdmin = () => {
         }
     }, [successDeleteMessage, errorDeleteMessage]);
 
+    // Mostrar mensajes de éxito o error al agregar
     useEffect(() => {
         if (successAddMessage || errorAddMessage) {
             const timer = setTimeout(() => {
@@ -89,6 +95,7 @@ const AdministrarMotoresAdmin = () => {
         }
     }, [successAddMessage, errorAddMessage]);
 
+    // Mostrar mensajes de éxito o error al editar
     useEffect(() => {
         if (successEditMessage || errorEditMessage) {
             const timer = setTimeout(() => {
@@ -99,15 +106,17 @@ const AdministrarMotoresAdmin = () => {
         }
     }, [successEditMessage, errorEditMessage]);
 
+    // Funciones para el sidebar
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
 
+    // Funciones para el dropdown del perfil de usuario
     const handleClick = () => {
         setIsDropdownOpen(!isDropdownOpen);
     };
 
-    /* Para mostrar los motores*/
+    // Función para obtener la lista de motores
     const fetchMotores = async () => {
         const role = localStorage.getItem('role');
         const token = localStorage.getItem('token');
@@ -122,7 +131,10 @@ const AdministrarMotoresAdmin = () => {
             });
             const data = await response.json();
             if (response.ok) {
-                setMotores(data.data);
+                // Ordenar los motores alfabéticamente por 'id_motor'
+                const sortedMotores = data.data.sort((a , b) => a.id_motor.localeCompare(b.id_motor));
+                setMotores(sortedMotores);
+                setSuccessMessage(data.msj)
             } else {
                 setErrorMessage(data.msj);
             }
@@ -131,16 +143,24 @@ const AdministrarMotoresAdmin = () => {
         }
     };
 
+    // Obtener la lista de motores al cargar la página
     useEffect(() => {
         fetchMotores();
     }, []);
 
     /* Para eliminar motor */
-    const openDeleteModal = (id) => {
-        setMotorToDelete(id);
+    const openDeleteModal = (AutoId) => {
+        setMotorToDelete(AutoId);
         setShowDeleteModal(true);
     };
 
+    // Cerrar el modal de confirmación de eliminación
+    const closeDeleteModal = () => {
+        setShowDeleteModal(false);
+        setMotorToDelete('');
+    };
+
+    // Función para eliminar motor
     const handleDelete = async () => {
         const role = localStorage.getItem('role');
         const token = localStorage.getItem('token');
@@ -159,23 +179,19 @@ const AdministrarMotoresAdmin = () => {
             const data = await response.json();
             if (response.ok) {
                 setSuccessDeleteMessage(data.msj);
-                setMotores(motores.filter(motor => motor.id_motor !== motorToDelete));
-                setMotorToDelete(null);
+                setMotores(motores.filter(motor => motor.id !== motorToDelete));
+                setMotorToDelete('');
                 fetchMotores(); // Fetch the updated list of motores
             } else {
                 setErrorDeleteMessage(data.msj);
+                console.log(`No se pudo eliminar el motor con id: ${motorToDelete}`);
             }
         } catch (error) {
-            setErrorDeleteMessage('Error deleting brand');
+            setErrorDeleteMessage('Error el eliminar motor');
         } finally {
             setShowDeleteModal(false);
-            setMotorToDelete(null);
+            setMotorToDelete('');
         }
-    };
-
-    const closeDeleteModal = () => {
-        setShowDeleteModal(false);
-        setMotorToDelete(null);
     };
 
     /* Para agregar motor */
@@ -183,19 +199,111 @@ const AdministrarMotoresAdmin = () => {
         setShowAddModal(true);
     };
 
-    const closeAddModal = () => {
-        setNewMotorId('');
-        setNewMotorLitros('');
-        setNewMotorArbol('');
-        setNewMotorValvulas('');
-        setNewMotorPosicionPistones('');
-        setNewMotorNoPistones('');
-        setNewMotorInfoAdicional([]);
-        setNewMotorRangeYearI('');
-        setNewMotorRangeYearF('');
-        setShowAddModal(false);
+    // Función para agregar motor
+    const handleAddMotor = async (event) => {
+        event.preventDefault();
+        const newErrors = {};
+    
+        // Validar ID_Motor (VARCHAR(100), obligatorio)
+        if (newMotorId.trim() === '' || newMotorId.length > 100) {
+            newErrors.newMotorId = 'El Identificador del motor no puede estar vacío ni exceder los 100 caracteres.';
+        }
+    
+        // Validar NumeroLitros (FLOAT, obligatorio, entre 1.0 y 20.0)
+        if (!newMotorLitros || isNaN(newMotorLitros) || newMotorLitros < 1.0 || newMotorLitros > 20.0) {
+            newErrors.newMotorLitros = 'El número de litros debe ser un valor numérico entre 1.0 y 20.0.';
+        }
+    
+        // Validar Tipo de Árbol (VARCHAR(4), obligatorio, solo puede ser OHV, SOHC, DOHC, SV)
+        const validTiposArbol = ['OHV', 'SOHC', 'DOHC', 'SV'];
+        if (!newMotorArbol || !validTiposArbol.includes(newMotorArbol.trim().toUpperCase())) {
+            newErrors.newMotorArbol = 'El tipo de árbol debe ser OHV, SOHC, DOHC, o SV.';
+        }
+    
+        // Validar NumeroValvulas (INT, obligatorio, solo puede ser 4, 8, 12, 16, 24)
+        const validNumeroValvulas = [4, 8, 12, 16, 24];
+        if (!newMotorValvulas || !validNumeroValvulas.includes(parseInt(newMotorValvulas))) {
+            newErrors.newMotorValvulas = 'El número de válvulas debe ser 4, 8, 12, 16, o 24.';
+        }
+    
+        // Validar PosiciónPistones (VARCHAR(1), obligatorio, solo puede ser L o V)
+        const validPosicionesPistones = ['L', 'V'];
+        if (!newMotorPosicionPistones || !validPosicionesPistones.includes(newMotorPosicionPistones.trim().toUpperCase())) {
+            newErrors.newMotorPosicionPistones = 'La posición de los pistones debe ser L o V.';
+        }
+    
+        // Validar NumeroPistones (INT, obligatorio, solo puede ser 3, 4, 5, 6, 8)
+        const validNumeroPistones = [3, 4, 5, 6, 8];
+        if (!newMotorNoPistones || !validNumeroPistones.includes(parseInt(newMotorNoPistones))) {
+            newErrors.newMotorNoPistones = 'El número de pistones debe ser 3, 4, 5, 6, o 8.';
+        }
+    
+        // Validar y limpiar Información Adicional (Debe ser un array y no debe exceder los 255 caracteres en total)
+        const cleanedInfoAdicional = newMotorInfoAdicional
+            .split(',')
+            .map(item => item.trim())  // Eliminar espacios extras en cada elemento
+            .filter(item => item !== '');  // Eliminar elementos vacíos si los hay
+    
+        if (cleanedInfoAdicional.length === 0) {
+            newErrors.newMotorInfoAdicional = 'La información adicional no puede estar vacía.';
+        } else if (newMotorInfoAdicional.endsWith(',')) {
+            newErrors.newMotorInfoAdicional = 'La información adicional no debe terminar con una coma.';
+        } else if (cleanedInfoAdicional.join(', ').length > 255) {
+            newErrors.newMotorInfoAdicional = 'La información adicional no puede exceder los 255 caracteres.';
+        }
+    
+        // Validar el Rango de años (formato válido de año, "YYYY-YYYY")
+        const yearRangeRegex = /^\d{4}$/;
+        if (!yearRangeRegex.test(newMotorRangeYearI) || !yearRangeRegex.test(newMotorRangeYearF)) {
+            newErrors.newMotorRangeYear = 'Los años deben tener 4 dígitos numéricos (Ej. 2007, 2013).';
+        }
+    
+        // Si hay errores, los mostramos
+        if (Object.keys(newErrors).length > 0) {
+            setErrorAddMessage(newErrors); // Almacenar los errores en el estado
+            return; // Salir si hay errores
+        }
+    
+        // Si no hay errores, proceder con el envío de datos
+        setErrorAddMessage({});
+        const role = localStorage.getItem('role');
+        const token = localStorage.getItem('token');
+    
+        try {
+            const response = await fetch('http://localhost:3000/admin/motor', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Role': role,
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    id_motor: newMotorId,
+                    numero_litros: parseFloat(newMotorLitros),
+                    tipo_arbol: newMotorArbol,
+                    numero_valvulas: parseInt(newMotorValvulas),
+                    posicion_pistones: newMotorPosicionPistones,
+                    numero_pistones: parseInt(newMotorNoPistones),
+                    info_adicional: cleanedInfoAdicional,
+                    range_year_i: newMotorRangeYearI,
+                    range_year_f: newMotorRangeYearF
+                })
+            });
+            const data = await response.json();
+            if (response.ok) {
+                setSuccessAddMessage(data.msg);
+                fetchMotores(); // Refresca la lista de motores
+                closeAddModal();
+            } else {
+                setErrorAddMessage({ form: data.msg || 'Error al agregar motor.' });
+            }
+        } catch (error) {
+            setErrorAddMessage({ form: 'Error al conectar con el servidor.' });
+        }
     };
+    
 
+    // Funciones para agregar motor
     const handleNewMotorIdChange = (e) => {
         setNewMotorId(e.target.value);
     };
@@ -220,13 +328,10 @@ const AdministrarMotoresAdmin = () => {
         setNewMotorNoPistones(e.target.value);
     };
 
-    const handleNewMotorInfoAdicionalChange = (event) => {
-        const value = event.target.value;
-        // Convertir la cadena separada por comas en un array y eliminar espacios adicionales
-        const infoAdicionalArray = value.split(',').map(item => item.trim());
-        setNewMotorInfoAdicional(infoAdicionalArray);
+    const handleNewMotorInfoAdicionalChange = (e) => {
+        setNewMotorInfoAdicional(e.target.value);
     };
-         
+    
     const handleNewMotorRangeYearIChange = (e) => {
         setNewMotorRangeYearI(e.target.value);
     };
@@ -235,121 +340,69 @@ const AdministrarMotoresAdmin = () => {
         setNewMotorRangeYearF(e.target.value);
     };
 
-    const handleAddMotor = async (event) => {
-        event.preventDefault();
-        const newErrors = {};
-    
-        // Validar ID_Motor (VARCHAR(100), obligatorio)
-        if (newMotorId.trim() === '' || newMotorId.length > 100) {
-            newErrors.newMotorId = 'El Identificador del motor no puede estar vacío ni exceder los 100 caracteres.';
-        }
-
-        // Validar NumeroLitros (FLOAT, obligatorio, entre 1.0 y 20.0)
-        if (!newMotorLitros || isNaN(newMotorLitros) || newMotorLitros < 1.0 || newMotorLitros > 20.0) {
-            newErrors.newMotorLitros = 'El número de litros debe ser un valor numérico entre 1.0 y 20.0.';
-        }
-
-        // Validar Tipo de Árbol (VARCHAR(4), obligatorio, solo puede ser OHV, SOHC, DOHC, SV)
-        const validTiposArbol = ['OHV', 'SOHC', 'DOHC', 'SV'];
-        if (!newMotorArbol || !validTiposArbol.includes(newMotorArbol.trim().toUpperCase())) {
-            newErrors.newMotorArbol = 'El tipo de árbol debe ser OHV, SOHC, DOHC, o SV.';
-        }
-
-        // Validar NumeroValvulas (INT, obligatorio, solo puede ser 4, 8, 12, 16, 24)
-        const validNumeroValvulas = [4, 8, 12, 16, 24];
-        if (!newMotorValvulas || !validNumeroValvulas.includes(parseInt(newMotorValvulas))) {
-            newErrors.newMotorValvulas = 'El número de válvulas debe ser 4, 8, 12, 16, o 24.';
-        }
-
-        // Validar PosiciónPistones (VARCHAR(1), obligatorio, solo puede ser L o V)
-        const validPosicionesPistones = ['L', 'V'];
-        if (!newMotorPosicionPistones || !validPosicionesPistones.includes(newMotorPosicionPistones.trim().toUpperCase())) {
-            newErrors.newMotorPosicionPistones = 'La posición de los pistones debe ser L o V.';
-        }
-
-        // Validar NumeroPistones (INT, obligatorio, solo puede ser 3, 4, 5, 6, 8)
-        const validNumeroPistones = [3, 4, 5, 6, 8];
-        if (!newMotorNoPistones || !validNumeroPistones.includes(parseInt(newMotorNoPistones))) {
-            newErrors.newMotorNoPistones = 'El número de pistones debe ser 3, 4, 5, 6, o 8.';
-        }
-
-        // Validar Información Adicional (Debe ser un array y no debe exceder los 255 caracteres en total)
-        if (newMotorInfoAdicional.length === 0 || newMotorInfoAdicional.join(', ').length > 255) {
-            newErrors.newMotorInfoAdicional = 'La información adicional no puede estar vacía ni exceder los 255 caracteres en total.';
-        }
-
-        // Validar el Rango de años (formato válido de año, "YYYY-YYYY")
-        const yearRangeRegex = /^\d{4}$/;
-        if (!yearRangeRegex.test(newMotorRangeYearI) || !yearRangeRegex.test(newMotorRangeYearF)) {
-            newErrors.newMotorRangeYear = 'Los años deben tener 4 dígitos numéricos (Ej. 2007, 2013).';
-        }
-
-        // Si hay errores, los mostramos
-        if (Object.keys(newErrors).length > 0) {
-            setErrorAddMessage(newErrors); // Almacenar los errores en el estado
-            return; // Salir si hay errores
-        }
-
-        // Si no hay errores, proceder con el envío de datos
-        setErrorAddMessage({});
-        const role = localStorage.getItem('role');
-        const token = localStorage.getItem('token');
-    
-        try {
-            const response = await fetch('http://localhost:3000/admin/motor', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Role': role,
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify({
-                    id_motor: newMotorId,
-                    numero_litros: newMotorLitros, 
-                    tipo_arbol: newMotorArbol, 
-                    numero_valvulas: newMotorValvulas, 
-                    posicion_pistones: newMotorPosicionPistones,
-                    numero_pistones: newMotorNoPistones,
-                    info_adicional: newMotorInfoAdicional, 
-                    range_year_i: newMotorRangeYearI, 
-                    range_year_f: newMotorRangeYearF
-                })
-            });
-            const data = await response.json();
-            if (response.ok) {
-                setSuccessAddMessage(data.msg);
-                fetchMotores(); // Refresca la lista de motores
-                closeAddModal();
-            } else {
-                setErrorAddMessage({ form: data.msg || 'Error al agregar motor.' });
-            }
-        } catch (error) {
-            setErrorAddMessage({ form: 'Error al conectar con el servidor.' });
-        }
+    // Cerrar el modal de agregar motor
+    const closeAddModal = () => {
+        setNewMotorId('');
+        setNewMotorLitros('');
+        setNewMotorArbol('');
+        setNewMotorValvulas('');
+        setNewMotorPosicionPistones('');
+        setNewMotorNoPistones('');
+        setNewMotorInfoAdicional([]);
+        setNewMotorRangeYearI('');
+        setNewMotorRangeYearF('');
+        setShowAddModal(false);
     };
 
     /* Para editar motor */
-    const openEditModal = (motor) => {
-        setMotorToEdit(motor);
-        setEditMotorId(motor.id_motor);
-        setEditMotorLitros(motor.numero_litros);
-        setEditMotorArbol(motor.tipo_arbol);
-        setEditMotorValvulas(motor.numero_valvulas);
-        setEditMotorPosicionPistones(motor.posicion_pistones);
-        setEditMotorNoPistones(motor.numero_pistones);
-        setEditMotorInfoAdicional(motor.info_adicional);
-        setEditMotorRangeYearI(motor.range_year_i);
-        setEditMotorRangeYearF(motor.range_year_f);
+    const openEditModal = (motorId) => {
+        const role = localStorage.getItem('role');
+        const token = localStorage.getItem('token');
 
-        setShowEditModal(true);
+        /* Función para la petición de la información del auto a editar */
+        const fetchMotorData = async () => {
+            try {
+                const response = await fetch(`http://localhost:3000/admin/motor/${motorId}`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Role': role,
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    const motorData = data.data;
+                    setMotorToEdit(motorData);
+                    setEditMotorId(motorData.id_motor);
+                    setEditMotorLitros(motorData.numero_litros);
+                    setEditMotorArbol(motorData.tipo_arbol);
+                    setEditMotorValvulas(motorData.numero_valvulas);
+                    setEditMotorPosicionPistones(motorData.posicion_pistones);
+                    setEditMotorNoPistones(motorData.numero_pistones);
+                    setEditMotorInfoAdicional(motorData.info_adicional.join(", "));
+                    setEditMotorRangeYearI(motorData.range_year_i);
+                    setEditMotorRangeYearF(motorData.range_year_f);
+
+                    setShowEditModal(true);
+                } else {
+                    setErrorEditMessage(data.msj);
+                }
+            } catch (error) {
+                setErrorEditMessage('No se pudo obtener la información del motor');
+            }
+        };
+
+        fetchMotorData(motorId)
     };
     
+    // Cerrar el modal de editar motor
     const closeEditModal = () => {
-        setShowEditModal(false);
         setEditMotorId('');
-        setMotorToEdit(null);
+        setMotorToEdit('');
+        setShowEditModal(false);
     };
 
+    // Funciones para editar motor
     const handleEditMotorIdChange = (e) => {
         setEditMotorId(e.target.value);
     };
@@ -375,8 +428,7 @@ const AdministrarMotoresAdmin = () => {
     };
     
     const handleEditMotorInfoAdicionalChange = (e) => {
-        const value = e.target.value.split(','); // Convierte la cadena en un array
-        setEditMotorInfoAdicional(value);
+        setEditMotorInfoAdicional(e.target.value);
     };
     
     const handleEditMotorRangeYearIChange = (e) => {
@@ -387,6 +439,7 @@ const AdministrarMotoresAdmin = () => {
         setEditMotorRangeYearF(e.target.value);
     };
 
+    // Función para editar motor
     const handleEditAuto = async (event) => {
         event.preventDefault();
         const newErrors = {};
@@ -395,47 +448,56 @@ const AdministrarMotoresAdmin = () => {
         if (editMotorId.trim() === '' || editMotorId.length > 100) {
             newErrors.editMotorId = 'El Identificador del motor no puede estar vacío ni exceder los 100 caracteres.';
         }
-
+    
         // Validar NumeroLitros (FLOAT, obligatorio, entre 1.0 y 20.0)
         if (!editMotorLitros || isNaN(editMotorLitros) || editMotorLitros < 1.0 || editMotorLitros > 20.0) {
             newErrors.editMotorLitros = 'El número de litros debe ser un valor numérico entre 1.0 y 20.0.';
         }
-
+    
         // Validar Tipo de Árbol (VARCHAR(4), obligatorio, solo puede ser OHV, SOHC, DOHC, SV)
         const validTiposArbol = ['OHV', 'SOHC', 'DOHC', 'SV'];
         if (!editMotorArbol || !validTiposArbol.includes(editMotorArbol.trim().toUpperCase())) {
             newErrors.editMotorArbol = 'El tipo de árbol debe ser OHV, SOHC, DOHC, o SV.';
         }
-
+    
         // Validar NumeroValvulas (INT, obligatorio, solo puede ser 4, 8, 12, 16, 24)
         const validNumeroValvulas = [4, 8, 12, 16, 24];
         if (!editMotorValvulas || !validNumeroValvulas.includes(parseInt(editMotorValvulas))) {
             newErrors.editMotorValvulas = 'El número de válvulas debe ser 4, 8, 12, 16, o 24.';
         }
-
+    
         // Validar PosiciónPistones (VARCHAR(1), obligatorio, solo puede ser L o V)
         const validPosicionesPistones = ['L', 'V'];
         if (!editMotorPosicionPistones || !validPosicionesPistones.includes(editMotorPosicionPistones.trim().toUpperCase())) {
             newErrors.editMotorPosicionPistones = 'La posición de los pistones debe ser L o V.';
         }
-
+    
         // Validar NumeroPistones (INT, obligatorio, solo puede ser 3, 4, 5, 6, 8)
         const validNumeroPistones = [3, 4, 5, 6, 8];
         if (!editMotorNoPistones || !validNumeroPistones.includes(parseInt(editMotorNoPistones))) {
             newErrors.editMotorNoPistones = 'El número de pistones debe ser 3, 4, 5, 6, o 8.';
         }
-
-        // Validar Información Adicional (Debe ser un array y no debe exceder los 255 caracteres en total)
-        if (editMotorInfoAdicional.length === 0 || editMotorInfoAdicional.join(', ').length > 255) {
-            newErrors.editMotorInfoAdicional = 'La información adicional no puede estar vacía ni exceder los 255 caracteres en total.';
+    
+        // Validar y limpiar Información Adicional (Debe ser un array y no debe exceder los 255 caracteres en total)
+        const cleanedInfoAdicional = editMotorInfoAdicional
+            .split(',')
+            .map(item => item.trim())  // Eliminar espacios extras en cada elemento
+            .filter(item => item !== '');  // Eliminar elementos vacíos si los hay
+    
+        if (cleanedInfoAdicional.length === 0) {
+            newErrors.editMotorInfoAdicional = 'La información adicional no puede estar vacía.';
+        } else if (editMotorInfoAdicional.endsWith(',')) {
+            newErrors.editMotorInfoAdicional = 'La información adicional no debe terminar con una coma.';
+        } else if (cleanedInfoAdicional.join(', ').length > 255) {
+            newErrors.editMotorInfoAdicional = 'La información adicional no puede exceder los 255 caracteres.';
         }
-
+    
         // Validar el Rango de años (formato válido de año, "YYYY-YYYY")
         const yearRangeRegex = /^\d{4}$/;
         if (!yearRangeRegex.test(editMotorRangeYearI) || !yearRangeRegex.test(editMotorRangeYearF)) {
             newErrors.editMotorRangeYear = 'Los años deben tener 4 dígitos numéricos (Ej. 2007, 2013).';
         }
-
+    
         // Si hay errores, los mostramos
         if (Object.keys(newErrors).length > 0) {
             setErrorAddMessage(newErrors); // Almacenar los errores en el estado
@@ -448,7 +510,7 @@ const AdministrarMotoresAdmin = () => {
         const token = localStorage.getItem('token');
     
         try {
-            const response = await fetch(`http://localhost:3000/admin/motor/${motorToEdit.id_motor}`, {
+            const response = await fetch(`http://localhost:3000/admin/motor/${motorToEdit.id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -457,40 +519,29 @@ const AdministrarMotoresAdmin = () => {
                 },
                 body: JSON.stringify({
                     id_motor: editMotorId,
-                    numero_litros: editMotorLitros, 
-                    tipo_arbol: editMotorArbol, 
-                    numero_valvulas: editMotorValvulas, 
+                    numero_litros: parseFloat(editMotorLitros),
+                    tipo_arbol: editMotorArbol,
+                    numero_valvulas: parseInt(editMotorValvulas),
                     posicion_pistones: editMotorPosicionPistones,
-                    numero_pistones: editMotorNoPistones,
-                    info_adicional: editMotorInfoAdicional, 
-                    range_year_i: editMotorRangeYearI, 
+                    numero_pistones: parseInt(editMotorNoPistones),
+                    info_adicional: cleanedInfoAdicional,  // Enviamos el array limpio
+                    range_year_i: editMotorRangeYearI,
                     range_year_f: editMotorRangeYearF
                 })
             });
             const data = await response.json();
             if (response.ok) {
                 setSuccessEditMessage(data.msj);
-                setMotores(motores.map(motor => motor.id_motor === motorToEdit.id_motor ? { 
-                    ...motor, 
-                    id_motor: editMotorId,
-                    numero_litros: editMotorLitros, 
-                    tipo_arbol: editMotorArbol, 
-                    numero_valvulas: editMotorValvulas, 
-                    posicion_pistones: editMotorPosicionPistones,
-                    numero_pistones: editMotorNoPistones,
-                    info_adicional: editMotorInfoAdicional, 
-                    range_year_i: editMotorRangeYearI, 
-                    range_year_f: editMotorRangeYearF } : motor));
-                fetchMotores(); // Fetch the updated list of autos
+                fetchMotores(); // Refresca la lista de motores
                 closeEditModal();
             } else {
                 setErrorEditMessage(data.msj);
             }
         } catch (error) {
-            setErrorEditMessage('Error editing brand');
+            setErrorEditMessage('Error al editar motor');
         }
     };
-
+    
     /* Componente para administrar motores */
     return (
         <div className="dashboard">
@@ -596,7 +647,7 @@ const AdministrarMotoresAdmin = () => {
                           </thead>
                           <tbody>
                             {motores.map((motor) => (
-                              <tr key={motor.id_motor}>
+                              <tr key={motor.id}>
                                 <td>{motor.id_motor}</td>
                                 <td>{motor.numero_litros}</td>
                                 <td>{motor.tipo_arbol}</td>
@@ -607,13 +658,13 @@ const AdministrarMotoresAdmin = () => {
                                 <td className="motor-options-cell">
                                   <button
                                     className="motor-edit-button"
-                                    onClick={() => openEditModal(motor)}
+                                    onClick={() => openEditModal(motor.id)}
                                   >
                                     Editar
                                   </button>
                                   <button
                                     className="motor-delete-button"
-                                    onClick={() => openDeleteModal(motor.id_motor)}
+                                    onClick={() => openDeleteModal(motor.id)}
                                   >
                                     Eliminar
                                   </button>
@@ -632,7 +683,7 @@ const AdministrarMotoresAdmin = () => {
                 <div className="confirm-delete-modal-overlay">
                     <div className="confirm-delete-modal-content">
                         <h2>Confirmación</h2>
-                        <p>¿Estás seguro de que deseas eliminar "{motores.find(motor => motor.id_motor === motorToDelete)?.id_motor}"?</p>
+                        <p>¿Estás seguro de que deseas eliminar "{motores.find(motor => motor.id === motorToDelete)?.id_motor}"?</p>
                         <div className="confirm-delete-modal-actions">
                             <button className="confirm-delete-modal-button cancel" onClick={closeDeleteModal}>Cancelar</button>
                             <button className="confirm-delete-modal-button confirm" onClick={handleDelete}>Confirmar</button>
@@ -652,7 +703,7 @@ const AdministrarMotoresAdmin = () => {
                         onChange={handleNewMotorIdChange}
                       />
                       <input 
-                        type="float" 
+                        type="number" 
                         placeholder="Litros del motor" 
                         value={newMotorLitros} 
                         onChange={handleNewMotorLitrosChange}
@@ -714,7 +765,7 @@ const AdministrarMotoresAdmin = () => {
             {showEditModal && (
                 <div className="edit-motor-modal-overlay">
                     <div className="edit-motor-modal-content">
-                      <h2>Editar motor</h2>
+                      <h2>Editar {motorToEdit?.id_motor}</h2>
                       <input 
                         type="text" 
                         placeholder="Identificador del motor" 

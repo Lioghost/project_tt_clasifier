@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate, NavLink } from 'react-router-dom';
+import { Tooltip } from 'react-tooltip';
 import '../Dashboard.css';
 import './administrarAutos.css'; 
 import LogoutButton from '../../logout/LogoutButton';
@@ -36,7 +37,7 @@ const AdministrarAutosAdmin = () => {
     const [selectedNewMarca, setSelectedNewMarca] = useState('');  // Para guardar el nombre de la marca seleccionada
     const [selectedNewMarcaId, setSelectedNewMarcaId] = useState('');  // Para guardar el id de la marca seleccionada
     const [successAddMessage, setSuccessAddMessage] = useState('');
-    const [errorAddMessage, setErrorAddMessage] = useState('');
+    const [errorAddMessage, setErrorAddMessage] = useState({});
 
     /* Para editar auto */
     const [showEditModal, setShowEditModal] = useState(false);
@@ -49,7 +50,21 @@ const AdministrarAutosAdmin = () => {
     const [selectedEditMarca, setSelectedEditMarca] = useState('');  // Para almacenar el nombre de la marca
     const [selectedEditMarcaId, setSelectedEditMarcaId] = useState('');  // Para almacenar el id de la marca
     const [successEditMessage, setSuccessEditMessage] = useState('');
-    const [errorEditMessage, setErrorEditMessage] = useState('');
+    const [errorEditMessage, setErrorEditMessage] = useState({});
+
+    /* Para asignarle al auto sus motores */
+    const [showAssignModal, setShowAssignModal] = useState(false);
+    const [autoToAssign, setAutoToAssign] = useState('');
+    const [assignAutoId, setAssignAutoId] = useState('');
+    const [assignAutoSubmarca, setAssignAutoSubmarca] = useState('');
+    const [assignAutoModelo, setAssignAutoModelo] = useState('');
+    const [assignAutoLitros, setAssignAutoLitros] = useState('');
+    const [selectedAssignMarca, setSelectedAssignMarca] = useState('');  // Para almacenar el nombre de la marca
+    const [selectedAssignMarcaId, setSelectedAssignMarcaId] = useState('');  // Para almacenar el id de la marca
+    const [assignAutoMotores, setAssignAutoMotores] = useState([]);
+    const [selectedMotors, setSelectedMotors] = useState([]);
+    const [successAssignMessage, setSuccessAssignMessage] = useState('');
+    const [errorAssignMessage, setErrorAssignMessage] = useState({});
 
     // Verificar si el usuario está autenticado
     useEffect(() => {
@@ -102,6 +117,17 @@ const AdministrarAutosAdmin = () => {
         }
     }, [successEditMessage, errorEditMessage]);
 
+    // Mostrar mensajes de éxito o error al asignarle al auto sus motores
+    useEffect(() => {
+        if (successAssignMessage || errorAssignMessage) {
+            const timer = setTimeout(() => {
+                setSuccessAssignMessage('');
+                setErrorAssignMessage('');
+            }, 3000);
+            return () => clearTimeout(timer);
+        }
+    }, [successAssignMessage, errorAssignMessage]);
+
     // Funciones para el sidebar
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
@@ -112,7 +138,7 @@ const AdministrarAutosAdmin = () => {
         setIsDropdownOpen(!isDropdownOpen);
     };
 
-    // Función para obtener la lista de autos
+    /* ------- Para mostrar los autos */
     const fetchAutos = async () => {
         const role = localStorage.getItem('role');
         const token = localStorage.getItem('token');
@@ -130,6 +156,7 @@ const AdministrarAutosAdmin = () => {
                 // Ordenar los autos alfabéticamente por 'id_auto'
                 const sortedAutos = data.data.sort((a, b) => a.id_auto.localeCompare(b.id_auto));
                 setAutos(sortedAutos);  // Guardar los autos ordenados
+                setSuccessMessage(data.msj);
             } else {
                 setErrorMessage(data.msj);
             }
@@ -143,7 +170,7 @@ const AdministrarAutosAdmin = () => {
         fetchAutos();
     }, []);
 
-    /* Para eliminar auto */
+    /* ------- Para eliminar auto */
     const openDeleteModal = (AutoId) => {
         setAutoToDelete(AutoId);
         setShowDeleteModal(true);
@@ -188,7 +215,7 @@ const AdministrarAutosAdmin = () => {
         }
     };
 
-    /* Para agregar auto */
+    /* ------- Para agregar auto */
     const openAddModal = () => {
         const fetchMarcasAdd = async () => {
             const role = localStorage.getItem('role');
@@ -332,7 +359,7 @@ const AdministrarAutosAdmin = () => {
         }
     };
 
-    /* Para editar la auto */
+    /* ------- Para editar la auto */
     const openEditModal = (autoId) => {
         const role = localStorage.getItem('role');
         const token = localStorage.getItem('token');
@@ -361,8 +388,8 @@ const AdministrarAutosAdmin = () => {
             }
         };
     
-        /* Función para la de la información del auto a editar */
-        const fetchAutoData = async (autoId) => {
+        /* Función para la petición de la información del auto a editar */
+        const fetchAutoData = async () => {
             try {
                 const response = await fetch(`http://localhost:3000/admin/autos/${autoId}`, {
                     headers: {
@@ -377,7 +404,7 @@ const AdministrarAutosAdmin = () => {
                     setAutoToEdit(autoData);
                     setEditAutoId(autoData.id_auto);
                     setEditAutoSubmarca(autoData.submarca);
-                    setEditAutoModelo(String(autoData.modelo));
+                    setEditAutoModelo(autoData.modelo);
                     setEditAutoLitros(autoData.litros);
                     setSelectedEditMarcaId(autoData.marca_id);
 
@@ -415,8 +442,7 @@ const AdministrarAutosAdmin = () => {
     };
     
     // Cerrar el modal de editar auto
-    const closeEditModal = () => {
-        setShowEditModal(false);
+    const closeEditModal = () => { 
         setAutoToEdit('');
         setEditAutoId('');
         setEditAutoSubmarca('');
@@ -425,6 +451,7 @@ const AdministrarAutosAdmin = () => {
         setSelectedEditMarca('');  // Para almacenar el nombre de la marca
         setSelectedEditMarcaId('');  // Para almacenar el id de la marca
         setAutoToEdit('');
+        setShowEditModal(false);
     };
 
     // Funciones para editar auto
@@ -519,13 +546,6 @@ const AdministrarAutosAdmin = () => {
 
             if (response.ok) {
                 setSuccessEditMessage(data.msj);
-                setAutos(autos.map(auto => auto.id_auto === autoToEdit.id_auto ? { 
-                    ...auto, 
-                    id_auto: editAutoId,
-                    submarca: editAutoSubmarca,
-                    modelo: editAutoModelo,
-                    litros: editAutoLitros,
-                    marca_id: selectedEditMarcaId } : auto));
                 fetchAutos(); // Fetch the updated list of autos
                 closeEditModal();
             } else {
@@ -536,7 +556,151 @@ const AdministrarAutosAdmin = () => {
         }
     };
 
-    /* Componente de administrar autos */
+    /* ------- Para asignarle al auto sus motores */
+    const openAssignModal = (autoId) => {
+        const role = localStorage.getItem('role');
+        const token = localStorage.getItem('token');
+
+        /* Función para traer solo los motores con la cantidad de litros del auto*/
+        const fetchFilteredMotors = async (litros) => {
+            try {
+                const response = await fetch(`http://localhost:3000/admin/motor`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Role': role,
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                const data = await response.json();
+                if (response.ok) {
+
+
+                    // Filtrar los motores que coinciden con el numero_litros del auto seleccionado
+                    const filteredMotors = data.data.filter(motor => motor.numero_litros === litros);
+                    setAssignAutoMotores(filteredMotors); // Asignamos los motores filtrados
+
+
+                } else {
+                    setErrorAssignMessage(data.msj);
+                }
+            } catch (error) {
+                setErrorAssignMessage('Error al obtener los motores.');
+            }
+        };
+
+        /* Función para la petición de la información del auto a editar */
+        const fetchAutoData = async () => {
+            try {
+                const response = await fetch(`http://localhost:3000/admin/autos/${autoId}`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Role': role,
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    const autoData = data.data;
+                    setAutoToAssign(autoData);
+                    setAssignAutoId(autoData.id_auto);
+                    setAssignAutoSubmarca(autoData.submarca);
+                    setAssignAutoModelo(autoData.modelo);
+                    setAssignAutoLitros(autoData.litros);
+                    setSelectedAssignMarcaId(autoData.marca_id);
+                    setSuccessAssignMessage(data.msj);
+                    fetchFilteredMotors(autoData.litros); // Filtrar los motores
+
+                    // Obtener el nombre de la marca del auto que se esta editanto y guardarlo
+                    try{
+                        const responseNombreMarca = await fetch(`http://localhost:3000/admin/marcas/${autoData.marca_id}`, {
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Role': role,
+                                'Authorization': `Bearer ${token}`
+                            }
+                        });
+                        const dataMarca = await responseNombreMarca.json();
+                        if (responseNombreMarca.ok) {
+                            const marcaData = dataMarca.data;
+                            setSelectedAssignMarca(marcaData.marca);
+                        } else {
+                            setErrorAssignMessage(dataMarca.msj);
+                        }
+                    } catch (error) {
+                        setErrorAssignMessage(`No se pudo obtener el nombre de la marca de ${autoId}`);
+                    }
+
+                    setShowAssignModal(true);
+                } else {
+                    setErrorAssignMessage(data.msj);
+                }
+            } catch (error) {
+                setErrorAssignMessage('No se pudo obtener la información del auto seleccionado');
+            }
+        };
+
+        fetchAutoData(autoId);
+    };
+
+    // Función para asignarle al auto sus motores
+    const handleAssignAuto = async (event) => {
+        event.preventDefault();
+        const role = localStorage.getItem('role');
+        const token = localStorage.getItem('token');
+    
+        // Función para asignarle al auto sus motores
+        try {
+            const response = await fetch(`http://localhost:3000/admin/autos/${autoToAssign.id}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Role': role,
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    id_auto: assignAutoId,
+                    submarca: assignAutoSubmarca,
+                    modelo: assignAutoModelo,
+                    litros: parseFloat(assignAutoLitros),
+                    marca_id: parseInt(selectedAssignMarcaId),
+                    motor_ids: selectedMotors // Aquí envías los motores seleccionados
+                })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                setSuccessAssignMessage(data.msj);
+                fetchAutos(); // Fetch the updated list of autos
+                closeAssignModal();
+            } else {
+                setErrorAssignMessage(data.msj);
+            }
+        } catch (error) {
+            setErrorAssignMessage('Error al editar auto');
+        }
+    };
+
+    // Función para seleccionar los motores
+    const handleMotorSelect = (event) => {
+        const selectedOptions = Array.from(event.target.selectedOptions).map(option => option.value);
+        setSelectedMotors(selectedOptions);
+    };
+
+    // Cerrar el modal para asignarle al auto sus motores
+    const closeAssignModal = () => { 
+        setAutoToAssign('');
+        setAssignAutoId('');
+        setAssignAutoSubmarca('');
+        setAssignAutoModelo('');
+        setAssignAutoLitros('');
+        setSelectedAssignMarca('');  // Para almacenar el nombre de la marca
+        setSelectedAssignMarcaId('');  // Para almacenar el id de la marca
+        setAutoToAssign('');
+        setShowAssignModal(false);
+    };
+
+    /* ------- Componente de administrar autos */
     return (
         <div className="dashboard">
             <header className="header-dashboard">
@@ -600,7 +764,7 @@ const AdministrarAutosAdmin = () => {
                         {errorMessage && <div className="get-error-message-auto">{errorMessage}</div>}
 
                         {successDeleteMessage && <div className="delete-success-message-auto">{successDeleteMessage}</div>}
-                        {Object.keys(errorEditMessage).length > 0 && (
+                        {Object.keys(errorEditMessage || {}).length > 0 && (
                             <div className="edit-error-message-auto">
                                 {Object.keys(errorEditMessage).map((key) => (
                                     <span key={key}>{errorEditMessage[key]}</span> // Muestra cada error
@@ -626,6 +790,14 @@ const AdministrarAutosAdmin = () => {
                             </div>
                         )}
 
+                        {successAssignMessage && <div className="assign-success-message-auto">{successAssignMessage}</div>}
+                        {Object.keys(errorAssignMessage || {}).length > 0 && (
+                            <div className="assign-error-message-auto">
+                                {Object.keys(errorAssignMessage).map((key) => (
+                                    <span key={key}>{errorAssignMessage[key]}</span> // Muestra cada error
+                                ))}
+                            </div>
+                        )}
 
                         <table className="auto-table">
                           <thead>
@@ -640,7 +812,7 @@ const AdministrarAutosAdmin = () => {
                           </thead>
                           <tbody>
                             {autos.map((auto) => (
-                                <tr key={auto.id_auto}>
+                                <tr key={auto.id}>
                                   <td>{auto.id_auto}</td>
                                   <td>{auto.submarca}</td>
                                   <td>{auto.modelo}</td>
@@ -653,6 +825,12 @@ const AdministrarAutosAdmin = () => {
                                       onClick={() => openEditModal(auto.id)}
                                     >
                                       Editar
+                                    </button>
+                                    <button 
+                                      className="auto-assign-button"
+                                      onClick={() => openAssignModal(auto.id)}
+                                    >
+                                      Motores
                                     </button>
                                     <button 
                                       className="auto-delete-button" 
@@ -785,6 +963,83 @@ const AdministrarAutosAdmin = () => {
                     </div>
                 </div>
             )}
+
+            {showAssignModal && (
+              <div className="assign-auto-modal-overlay">
+                <div className="assign-auto-modal-content">
+                  <h2>Motores para {autoToAssign?.id_auto}</h2>
+            
+                  {/* Detalles del auto */}
+                  <div className="assign-auto-detail">
+                    <label>Identificador:</label>
+                    <span className="assign-auto-value">{assignAutoId}</span>
+                  </div>
+                  <div className="assign-auto-detail">
+                    <label>Submarca del auto:</label>
+                    <span className="assign-auto-value">{assignAutoSubmarca}</span>
+                  </div>
+                  <div className="assign-auto-detail">
+                    <label>Modelo del auto:</label>
+                    <span className="assign-auto-value">{assignAutoModelo}</span>
+                  </div>
+                  <div className="assign-auto-detail">
+                    <label>Litros del auto:</label>
+                    <span className="assign-auto-value">{assignAutoLitros}</span>
+                  </div>
+                  <div className="assign-auto-detail">
+                    <label>Marca del auto:</label>
+                    <span className="assign-auto-value">{selectedAssignMarca}</span>
+                  </div>
+            
+                  {/* Select para elegir motores */}
+                  <div className="assign-auto-detail">
+                    <label>Seleccionar motores:</label>
+                    <select multiple onChange={handleMotorSelect}>
+                      {assignAutoMotores.map((motor) => (
+                        <option
+                          key={motor.id_motor}
+                          value={motor.id_motor}
+                          id={`motor-${motor.id_motor}`}
+                        >
+                          {motor.id_motor}
+                        </option>
+                      ))}
+                    </select>
+                  
+                    {/* Muestra tooltip al pasar el mouse sobre cada motor */}
+                    {assignAutoMotores.map((motor) => (
+                      <Tooltip
+                        key={motor.id_motor}
+                        anchorId={`motor-${motor.id_motor}`}
+                        content={`Litros: ${motor.numero_litros}, Árbol: ${motor.tipo_arbol}, Válvulas: ${motor.numero_valvulas}, Pistones: ${motor.numero_pistones}, Info Adicional: ${motor.info_adicional.join(', ')}`}
+                        place="right"
+                        type="dark"
+                      />
+                    ))}
+                  </div>
+                
+                  {/* Mostrar los motores seleccionados en un input */}
+                  <div className="assign-auto-detail">
+                    <label>Motores seleccionados:</label>
+                    <input
+                      type="text"
+                      value={selectedMotors.join(', ')}
+                      readOnly
+                    />
+                  </div>
+                
+                  {/* Acciones del modal */}
+                  <div className="assign-auto-modal-actions">
+                    <button className="assign-auto-modal-button cancel" onClick={closeAssignModal}>Cancelar</button>
+                    <button className="assign-auto-modal-button confirm" onClick={handleAssignAuto}>Confirmar</button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+
+            
+
         </div>
     );
 };
