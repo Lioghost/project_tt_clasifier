@@ -131,7 +131,7 @@
 }
 
 .get-error-message-motor{
-    top: 50%;
+    top: 75%;
 }
 
 .add-error-message-motor{
@@ -160,7 +160,7 @@
 }
 
 .get-error-message-motor{
-    top: 50%;
+    top: 75%;
 }
 
 .get-success-message-motor, .delete-success-message-motor, .add-success-message-motor, .edit-success-message-motor {
@@ -185,7 +185,7 @@
 }
 
 .get-success-message-motor{
-    top: 50%;
+    top: 75%;
 }
 
 .confirm-delete-modal-overlay {
