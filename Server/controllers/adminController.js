@@ -152,12 +152,18 @@ const automoviles = async (req, res) => {
 // Crear un nuevo auto
 const autoCreate = async (req, res) => {
     try {
-        const { marca_id, motor_ids } = req.body;
+        const { marca_id, id_auto, motor_ids } = req.body;
 
         // Verificar si la marca existe
         const marca = await Marca.findByPk(marca_id);
         if (!marca) {
             return res.status(404).json({ msg: "Marca no encontrada" });
+        }
+
+        // Verificar si el id_auto ya existe
+        const autoExist = await Automovil.findOne({ where: { id_auto } });
+        if (autoExist) {
+            return res.status(400).json({ msg: "El id_auto ya existe" });
         }
 
         const nuevoAuto = await Automovil.create(req.body);
@@ -231,7 +237,13 @@ const autoGet = async (req, res) => {
 const autoUpdate = async (req, res) => {
     try {
         const { id } = req.params;
-        const {motor_ids} = req.body
+        const {motor_ids, id_auto} = req.body
+
+        // Verificar si el id_auto ya existe
+        const autoExist = await Automovil.findOne({ where: { id_auto } });
+        if (autoExist) {
+            return res.status(400).json({ msg: "El id_auto ya existe" });
+        }
 
         // Actualizar el automóvil
         const [updated] = await Automovil.update(req.body, {
@@ -319,7 +331,13 @@ const motorGet = async (req, res) => {
 const motorUpdate = async (req, res) => {
     try {
         const { id } = req.params;
-        const {auto_ids} = req.body
+        const {auto_ids, id_motor} = req.body
+
+        // Verificar si el id_auto ya existe
+        const motorExist = await Motor.findOne({ where: { id_motor } });
+        if (motorExist) {
+            return res.status(400).json({ msg: "El id_motor ya existe" });
+        }
 
         const [updated] = await Motor.update(req.body, {
             where: { id }
