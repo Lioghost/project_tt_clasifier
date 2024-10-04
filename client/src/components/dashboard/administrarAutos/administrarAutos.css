@@ -164,7 +164,7 @@
     top: 75%;
 }
 
-.get-success-message-auto, .delete-success-message-auto, .add-success-message-auto, .assign-success-message-auto {
+.get-success-message-auto, .delete-success-message-auto, .add-success-message-auto, .edit-success-message-auto, .assign-success-message-auto {
     position: fixed;
     top: 25%;
     left: 50%;
@@ -371,6 +371,11 @@
     color: var(--color-primary-hover);
 }
 
+.select-motores {
+    width: 100%; /* Establecer un ancho fijo */
+    max-width: 100%;
+}
+
 .assign-auto-modal-overlay {
     position: fixed;
     top: 0;
@@ -390,8 +395,16 @@
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: left; /* Cambié de "center" a "left" para que los datos se alineen a la izquierda */
-    max-width: 400px;
+    max-width: 800px;
+    margin-top: 4rem;
     width: 100%;
+}
+
+.assign-auto-modal-content h2{
+    display: block;
+    margin-bottom: 25px;
+    margin: 0 auto; /* Asegúrate de que el margin sea auto */
+    text-align: center; /* Añade esta línea para centrar el texto */
 }
 
 /* Para los detalles de la información en span */
@@ -457,7 +470,7 @@
 
 .assign-auto-modal-button.confirm:hover {
     background-color: var(--color-primary-hover);
-    color: var(--color-white);
+    color: var(--color-black);
 }
 
 /* Para ajustar el tamaño de la ventana emergente en pantallas más pequeñas */
