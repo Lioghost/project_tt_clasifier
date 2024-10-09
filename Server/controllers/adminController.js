@@ -98,7 +98,8 @@ const marcaUpdate = async (req, res) => {
 
         if (newMarca) {
             const existingMarca = await Marca.findOne({ where: { marca: newMarca } });
-            if (existingMarca) {
+            
+            if (existingMarca && marca.id !== existingMarca.id) {
                 return res.status(400).json({ msj: "El nombre de la marca ya existe" });
             }
         }
@@ -241,7 +242,7 @@ const autoUpdate = async (req, res) => {
 
         // Verificar si el id_auto ya existe
         const autoExist = await Automovil.findOne({ where: { id_auto } });
-        if (autoExist) {
+        if (autoExist && autoExist.id !== id) {
             return res.status(400).json({ msg: "El id_auto ya existe" });
         }
 
