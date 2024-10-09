@@ -86,6 +86,8 @@ router.get('/juntas-g-id', authenticate, authorize(['Admin']), generateJuntasId)
 
 router.get('/juntas-g', authenticate, authorize(['Admin']), juntasG);
 
+//router.get('/juntas-g/:id', authenticate, authorize(['Admin']), juntasGUpdateGet);
+
 router.post('/juntas-g', authenticate, authorize(['Admin']), upload.single('imagen'), juntasGCreate);
 
 router.delete('/juntas-g/:id', authenticate, authorize(['Admin']), juntasGDelete);

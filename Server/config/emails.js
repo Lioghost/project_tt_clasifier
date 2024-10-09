@@ -2,16 +2,17 @@ import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
 dotenv.config({path: '../../env'});
 
+const transport = nodemailer.createTransport({
+  host: process.env.EMAIL_HOST,
+  port: process.env.EMAIL_PORT,
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
+  }
+});
+
 const emailRegistro = async (datos) => {
     //Datos de nodemailtrap
-    const transport = nodemailer.createTransport({
-        host: process.env.EMAIL_HOST,
-        port: process.env.EMAIL_PORT,
-        auth: {
-          user: process.env.EMAIL_USER,
-          pass: process.env.EMAIL_PASS
-        }
-      });
 
     //Datos se pasar de usuarioController en envio de email
     const { username, email, token } = datos
@@ -75,14 +76,6 @@ const emailRegistro = async (datos) => {
 
 const emailOlvidePassword = async (datos) => {
   //Datos de nodemailtrap
-  const transport = nodemailer.createTransport({
-      host: process.env.EMAIL_HOST,
-      port: process.env.EMAIL_PORT,
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-      }
-    });
 
   const { username, email, token } = datos
 
@@ -142,7 +135,29 @@ const emailOlvidePassword = async (datos) => {
   });
 }
 
+const emailSendJunta = async (datos) => {
 
+  const { message, req } = datos
+
+  // Opciones del correo electrónico
+  const mailOptions = {
+    from: 'tuemail@dominio.com',
+    to: 'admin@dominio.com',
+    subject: 'Nueva Solicitud de Producto Desconocido',
+    text: `Mensaje del cliente: ${message}`,
+    attachments: [
+      {
+          filename: req.file.originalname,
+          content: req.file.buffer,
+          contentType: req.file.mimetype
+      }
+    ]
+  };
+
+  // Enviar el correo
+  await transport.sendMail(mailOptions);
+
+}
 
 export {
   emailRegistro,

@@ -242,7 +242,7 @@ const autoUpdate = async (req, res) => {
 
         // Verificar si el id_auto ya existe
         const autoExist = await Automovil.findOne({ where: { id_auto } });
-        if (autoExist && autoExist.id !== id) {
+        if (autoExist && autoExist.id != id) {
             return res.status(400).json({ msg: "El id_auto ya existe" });
         }
 
@@ -336,7 +336,7 @@ const motorUpdate = async (req, res) => {
 
         // Verificar si el id_auto ya existe
         const motorExist = await Motor.findOne({ where: { id_motor } });
-        if (motorExist) {
+        if (motorExist && motorExist.id != id) {
             return res.status(400).json({ msg: "El id_motor ya existe" });
         }
 

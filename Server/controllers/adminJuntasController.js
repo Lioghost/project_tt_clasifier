@@ -40,6 +40,19 @@ const juntasGCreate = async (req, res) => {
     }
 }
 
+const juntasGUpdateGet = async (req, res) => {
+    try {
+        const junta = await Junta.findByPk(req.params.id)
+
+        if(!junta)
+            return res.status(400).json({msg: 'Junta no encontrada'})
+
+        return res.status(200).json({ msg: "Junta recuperada con éxito", data: junta });
+    } catch (error) {
+        return res.status(500).json({ msg: "Error al recuperar Junta", error: error.message });
+    }
+}
+
 const juntasGUpdate = async (req, res) => {
     const junta = await Junta.findByPk(req.params.id)
 
