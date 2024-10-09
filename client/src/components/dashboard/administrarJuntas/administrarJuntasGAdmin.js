@@ -169,13 +169,12 @@ const AdministrarJuntasGAdmin = () => {
             });
             const data = await response.json();
             if (response.ok) {
-                setSuccessDeleteMessage(data.msg);
-                setJuntasg(juntasg.filter(junta => junta.id !== juntagToDelete));
+                setSuccessDeleteMessage(data.msj);
+                setJuntasg(juntasg.filter(junta => junta.id_junta !== juntagToDelete));
                 setJuntagToDelete('');
                 fetchJuntasg(); // Fetch the updated list of junta g
             } else {
-                setErrorDeleteMessage(data.g);
-                console.log(`No se pudo eliminar la junta gasketgenius con id: ${juntagToDelete}`);
+                setErrorDeleteMessage(data.mj);
             }
         } catch (error) {
             setErrorDeleteMessage('Error el eliminar junta gasketgenius');
@@ -207,7 +206,7 @@ const AdministrarJuntasGAdmin = () => {
             const data = await response.json();
             if (response.ok) {
                 setNewJuntagId(data.junta_id); // Establecer el ID en el estado
-                setNewJuntagIdImage(`${data.junta_id}.png`);  // Establecer el ID de la imagen con la extensión .jpg
+                setNewJuntagIdImage(`${data.junta_id}.jpg`);  // Establecer el ID de la imagen con la extensión .jpg
             } else {
                 console.error("Error al obtener el ID de la junta");
             }
@@ -244,28 +243,19 @@ const AdministrarJuntasGAdmin = () => {
     // Función para agregar junta g
     const handleAddJuntag = async (event) => {
         event.preventDefault();
-        const newErrors = {};
-    
-        // Validar ID_Junta (VARCHAR(100), obligatorio)
-        if (newJuntagId.trim() === '' || newJuntagId.length > 100) {
-            newErrors.newJuntagId = 'El Identificador de la junta no puede estar vacío ni exceder los 100 caracteres.';
-        }
-
-        // Si hay errores, los mostramos
-        if (Object.keys(newErrors).length > 0) {
-            setErrorAddMessage(newErrors); // Almacenar los errores en el estado
-            return; // Salir si hay errores
-        }
-
-        // Si no hay errores, proceder con el envío de datos
-        setErrorAddMessage({});
         const role = localStorage.getItem('role');
         const token = localStorage.getItem('token');
-
+    
+        // Validación: Asegúrate de que se haya seleccionado una imagen
+        if (!selectedNewJuntagImageFile) {
+            setErrorAddMessage({ form: 'Por favor, selecciona una imagen antes de enviar el formulario.' });
+            return; // Evita que se continúe con la solicitud si no hay imagen
+        }
+    
         const formData = new FormData();
         formData.append('id_junta', newJuntagId);
         formData.append('imagen', selectedNewJuntagImageFile);
-
+    
         try {
             const response = await fetch('http://localhost:3000/admin/juntas-g', {
                 method: 'POST',
@@ -275,11 +265,11 @@ const AdministrarJuntasGAdmin = () => {
                 },
                 body: formData
             });
-
+        
             const data = await response.json();
             if (response.ok) {
                 setSuccessAddMessage(data.msg);
-                fetchJuntasg(); // Refresca la lista de motores
+                fetchJuntasg(); // Refresca la lista de juntas
                 closeAddModal();
             } else {
                 setErrorAddMessage({ form: data.msg || 'Error al agregar junta GasketGenius.' });
@@ -288,6 +278,7 @@ const AdministrarJuntasGAdmin = () => {
             setErrorAddMessage({ form: 'Error al conectar con el servidor.' });
         }
     };
+
 
      // Funciones para agregar junta g
     const handleNewJuntagIdChange = (e) => {
@@ -308,107 +299,86 @@ const AdministrarJuntasGAdmin = () => {
     };
 
     /* ------- Para editar junta g */
-    const openEditModal = (juntagId) => {
-        const role = localStorage.getItem('role');
-        const token = localStorage.getItem('token');
+    const openEditModal = (juntagId, juntagIdImage) => { 
+        const IdJunta = juntagId;
+        const IdImage = juntagIdImage;
+        const ImgURL = `http://localhost:3000/juntas/${IdImage}`
 
-        /* Función para la petición de la información del auto a editar */
-        const fetchJuntaData = async () => {
-            try {
-                const response = await fetch(`http://localhost:3000/admin/juntas-g/${juntagId}`, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Role': role,
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-                const data = await response.json();
-                if (response.ok) {
-                    const juntagData = data.data;
-                    setJuntagToEdit(juntagData);
-                    setEditJuntagId(juntagData.id_junta);
-                    setEditJuntagIdImage(juntagData.id_image);
-                    setSelectedEditJuntagImagePreview(juntagData.imagen);
-                    setSelectedEditJuntagImageFile();
-
-                    setShowEditModal(true);
-                } else {
-                    setErrorEditMessage(data.msj);
-                }
-            } catch (error) {
-                setErrorEditMessage('No se pudo obtener la información del la junta GasketGenius');
-            }
-        };
-
-        fetchJuntaData(juntagId)
+        setJuntagToEdit(IdJunta);
+        setEditJuntagId(IdJunta);
+        setEditJuntagIdImage(IdImage);
+        setSelectedEditJuntagImagePreview(ImgURL);
+        setSelectedEditJuntagImageFile();
+        setShowEditModal(true);
     };
 
-    // Función para editar junta g
+    // Función para manejar el drop de las imágenes
+    const onEditDrop = useCallback((acceptedFiles) => {
+        const file = acceptedFiles[0];
+        if (file) {
+            const validMimeTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+            if (!validMimeTypes.includes(file.type)) {
+                console.error('Invalid file type');
+                return;
+            }
+            const imageUrl = URL.createObjectURL(file);
+            setSelectedEditJuntagImagePreview(imageUrl); // Guarda la URL para la vista previa
+            setSelectedEditJuntagImageFile(file); // Guarda el archivo real para enviarlo
+        }
+    }, []);
+
+    const { getRootProps: getEditRootProps, getInputProps: getEditInputProps, isDragActive: isEditDragActive } = useDropzone({
+        onDrop: onEditDrop,
+        accept: {
+            'image/jpeg': [],
+            'image/png': [],
+            'image/jpg': []
+        },
+        maxFiles: 1
+    });
+
+    // Función para editar la junta g
     const handleEditJuntag = async (event) => {
         event.preventDefault();
-        const newErrors = {};
-    
-        // Validar ID_Junta (VARCHAR(100), obligatorio)
-        if (editJuntagId.trim() === '' || editJuntagId.length > 100) {
-            newErrors.editJuntagId = 'El Identificador de la junta no puede estar vacío ni exceder los 100 caracteres.';
-        }
-
-        // Validar ID_Image (VARCHAR(100), obligatorio)
-        if (newJuntagIdImage.trim() === '' || newJuntagIdImage.length > 100) {
-            newErrors.newJuntagIdImage = 'El Identificador del la imagen de la junta no puede estar vacío ni exceder los 100 caracteres.';
-        }
-    
-        // Si hay errores, los mostramos
-        if (Object.keys(newErrors).length > 0) {
-            setErrorAddMessage(newErrors); // Almacenar los errores en el estado
-            return; // Salir si hay errores
-        }
-    
-        // Limpiar los errores y enviar los datos si no hay errores
-        setErrorEditMessage({});
         const role = localStorage.getItem('role');
         const token = localStorage.getItem('token');
-    
+
+        const formData = new FormData();
+        formData.append('id_junta', editJuntagId);
+        if (selectedEditJuntagImageFile) {
+            formData.append('imagen', selectedEditJuntagImageFile); // Incluir la imagen si existe
+        }
+
         try {
-            const response = await fetch(`http://localhost:3000/admin/motor/${juntagToEdit.id}`, {
+            const response = await fetch(`http://localhost:3000/admin/juntas-g/${juntagToEdit}`, {
                 method: 'PATCH',
                 headers: {
-                    'Content-Type': 'application/json',
                     'Role': role,
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify({
-                    id_junta: editJuntagId,
-                    id_image: editJuntagIdImage
-                })
+                body: formData
             });
+
             const data = await response.json();
             if (response.ok) {
                 setSuccessEditMessage(data.msg);
-                fetchJuntasg(); // Refresca la lista de juntas g
+                fetchJuntasg(); // Refresca la lista de juntas
                 closeEditModal();
             } else {
-                setErrorEditMessage(data.msg);
+                setErrorEditMessage(data.msg || 'Error al editar la junta.');
             }
         } catch (error) {
-            setErrorEditMessage('Error al editar junta gasketgenius');
+            setErrorEditMessage('Error al conectar con el servidor.');
         }
     };
 
-    // Funciones para editar junta g
-    const handleEditJuntagIdChange = (e) => {
-        setEditJuntagId(e.target.value);
-    };
-    
-    const handleEditJuntagIdImageChange = (e) => {
-        setEditJuntagIdImage(e.target.value);
-    };
 
     // Cerrar el modal de editar junta g
     const closeEditModal = () => {
         setEditJuntagId('');
         setEditJuntagIdImage('');
-        setJuntagToEdit('');
+        setSelectedEditJuntagImageFile(null);
+        setSelectedEditJuntagImagePreview(null);
         setShowEditModal(false);
     };
 
@@ -518,7 +488,7 @@ const AdministrarJuntasGAdmin = () => {
                                 <td className="juntag-options-cell">
                                   <button
                                     className="juntag-edit-button"
-                                    onClick={() => openEditModal(juntag.id)}
+                                    onClick={() => openEditModal(juntag.id_junta, juntag.id_image)}
                                   >
                                     Editar
                                   </button>
@@ -600,24 +570,43 @@ const AdministrarJuntasGAdmin = () => {
             {showEditModal && (
                 <div className="edit-juntag-modal-overlay">
                     <div className="edit-juntag-modal-content">
-                      <h2>Editar {juntagToEdit?.id_image}</h2>
-                      <input 
-                        type="text" 
-                        placeholder="Identificador del la junta" 
-                        value={editJuntagId} 
-                        onChange={handleEditJuntagIdChange}
-                      />
-                      <input 
-                        type="text" 
-                        placeholder="Identificador de la imagen de la junta" 
-                        value={editJuntagIdImage} 
-                        onChange={handleEditJuntagIdImageChange}
-                      />
+                        <h2>Editar {juntagToEdit?.id_image}</h2>
+                        <input 
+                            type="text" 
+                            placeholder="Identificador de la junta" 
+                            value={editJuntagId} 
+                            readOnly // El ID es generado automáticamente, por lo que no permitimos editarlo
+                        />
 
-                      <div className="edit-juntag-modal-actions">
-                        <button className="edit-juntag-modal-button cancel" onClick={closeAddModal}>Cancelar</button>
-                        <button className="edit-juntag-modal-button confirm" onClick={handleEditJuntag}>Confirmar</button>
-                      </div>
+                        <input 
+                            type="text" 
+                            placeholder="Identificador de la imagen de la junta" 
+                            value={editJuntagIdImage} 
+                            readOnly // El ID es generado automáticamente, por lo que no permitimos editarlo
+                        />
+
+                        {/* DropZone para cargar una nueva imagen */}
+                        <div {...getEditRootProps()} className="dropzoneStyle">
+                            <input {...getEditInputProps()} />
+                            {isEditDragActive ? (
+                                <p>Suelta la imagen aquí...</p>
+                            ) : (
+                                <p>Arrastra y suelta una imagen aquí, o haz clic para seleccionarla.</p>
+                            )}
+
+                            {/* Mostrar la vista previa de la imagen */}
+                            {selectedEditJuntagImagePreview && (
+                                <div className="preview">
+                                    <img src={selectedEditJuntagImagePreview} alt="Imagen seleccionada" className="previewImage" />
+                                </div>
+                            )}
+                        </div>
+
+
+                        <div className="edit-juntag-modal-actions">
+                            <button className="edit-juntag-modal-button cancel" onClick={closeEditModal}>Cancelar</button>
+                            <button className="edit-juntag-modal-button confirm" onClick={handleEditJuntag}>Confirmar</button>
+                        </div>
                     </div>
                 </div>
             )}

@@ -527,11 +527,11 @@ const AdministrarAutosAdmin = () => {
             const data = await response.json();
 
             if (response.ok) {
-                setSuccessEditMessage(data.msj);
+                setSuccessEditMessage(data.msg);
                 fetchAutos(); // Fetch the updated list of autos
                 closeEditModal();
             } else {
-                setErrorEditMessage(data.msj);
+                setErrorEditMessage(data.msg);
             }
         } catch (error) {
             setErrorEditMessage('Error al editar auto');
@@ -566,7 +566,7 @@ const AdministrarAutosAdmin = () => {
             }
         };
     
-        /* Función para la petición de la información del auto a editar */
+        /* Función para la petición de la información del auto a asignar motores */
         const fetchAutoData = async () => {
             try {
                 const response = await fetch(`http://localhost:3000/admin/autos/${autoId}`, {
@@ -672,7 +672,6 @@ const AdministrarAutosAdmin = () => {
         setSelectedAssignMarcaId('');  // Para almacenar el id de la marca
         setAssignAutoMotores([]);
         setSelectedMotors([]);
-        setAutoToAssign('');
         setShowAssignModal(false);
     };
 
@@ -1010,4 +1009,4 @@ const AdministrarAutosAdmin = () => {
     );
 };
 
-export default AdministrarAutosAdmin;
+export default AdministrarAutosAdmin;                           
