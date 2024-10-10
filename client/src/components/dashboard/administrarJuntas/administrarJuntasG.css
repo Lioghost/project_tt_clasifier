@@ -429,6 +429,9 @@
     margin-bottom: 0px;
     display: block;
     width: 100%;
+    opacity: 0.8; /* Ajustar la opacidad */
+    color: #6c757d; /* Color de texto más claro para parecer deshabilitado */
+    pointer-events: none; /* Desactivar interacción con el mouse (si quieres que no sea editable) */
 }
 
 .edit-juntag-modal-actions {

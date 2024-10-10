@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate, NavLink } from 'react-router-dom';
+import Select from 'react-select';
+import { Tooltip } from 'react-tooltip'; // Cambia esta línea
 import '../Dashboard.css';
 import './administrarMotores.css'; 
 import LogoutButton from '../../logout/LogoutButton';
@@ -55,6 +57,23 @@ const AdministrarMotoresAdmin = () => {
     const [successEditMessage, setSuccessEditMessage] = useState('');
     const [errorEditMessage, setErrorEditMessage] = useState('');
 
+    /* Para asignarle al motor sus juntas GasketGenius */
+    const [showAssignModal, setShowAssignModal] = useState(false);
+    const [motorToAssign, setMotorToAssign] = useState('');
+    const [assignMotorId, setAssignMotorId] = useState('');
+    const [assignMotorLitros, setAssignMotorLitros] = useState('');
+    const [assignMotorArbol, setAssignMotorArbol] = useState('');
+    const [assignMotorValvulas, setAssignMotorValvulas] = useState('');
+    const [assignMotorPosicionPistones, setAssignMotorPosicionPistones] = useState('');
+    const [assignMotorNoPistones, setAssignMotorNoPistones] = useState('');
+    const [assignMotorInfoAdicional, setAssignMotorInfoAdicional] = useState([]);
+    const [assignMotorRangeYearI, setAssignMotorRangeYearI] = useState('');
+    const [assignMotorRangeYearF, setAssignMotorRangeYearF] = useState('');
+    const [assignMotorJuntasg, setAssignMotorJuntasG] = useState([]); // Para mostrar los motores disponibles
+    const [selectedJuntasg, setSelectedJuntasg] = useState([]); // Para mostrar los motores seleccionados
+    const [successAssignMessage, setSuccessAssignMessage] = useState('');
+    const [errorAssignMessage, setErrorAssignMessage] = useState('');
+
     // Verificar si el usuario está autenticado
     useEffect(() => {
         if (!isAuthenticated) {
@@ -106,6 +125,17 @@ const AdministrarMotoresAdmin = () => {
         }
     }, [successEditMessage, errorEditMessage]);
 
+    // Mostrar mensajes de éxito o error al asignarle al motor sus juntas
+    useEffect(() => {
+        if (successAssignMessage || errorAssignMessage) {
+            const timer = setTimeout(() => {
+                setSuccessAssignMessage('');
+                setErrorAssignMessage('');
+            }, 3000);
+            return () => clearTimeout(timer);
+        }
+    }, [successAssignMessage, errorAssignMessage]);
+
     // Funciones para el sidebar
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
@@ -116,7 +146,7 @@ const AdministrarMotoresAdmin = () => {
         setIsDropdownOpen(!isDropdownOpen);
     };
 
-    // Función para obtener la lista de motores
+    /* ------- Para mostrar los motores */
     const fetchMotores = async () => {
         const role = localStorage.getItem('role');
         const token = localStorage.getItem('token');
@@ -178,7 +208,7 @@ const AdministrarMotoresAdmin = () => {
             });
             const data = await response.json();
             if (response.ok) {
-                setSuccessDeleteMessage(data.msj);
+                setSuccessDeleteMessage(data.msg);
                 setMotores(motores.filter(motor => motor.id !== motorToDelete));
                 setMotorToDelete('');
                 fetchMotores(); // Fetch the updated list of motores
@@ -302,7 +332,6 @@ const AdministrarMotoresAdmin = () => {
         }
     };
     
-
     // Funciones para agregar motor
     const handleNewMotorIdChange = (e) => {
         setNewMotorId(e.target.value);
@@ -388,7 +417,7 @@ const AdministrarMotoresAdmin = () => {
                     setErrorEditMessage(data.msj);
                 }
             } catch (error) {
-                setErrorEditMessage('No se pudo obtener la información del motor');
+                setErrorEditMessage('No se pudo obtener la información del motor seleccionado para editar.');
             }
         };
 
@@ -531,15 +560,166 @@ const AdministrarMotoresAdmin = () => {
             });
             const data = await response.json();
             if (response.ok) {
-                setSuccessEditMessage(data.msj);
+                setSuccessEditMessage(data.msg);
                 fetchMotores(); // Refresca la lista de motores
                 closeEditModal();
             } else {
-                setErrorEditMessage(data.msj);
+                setErrorEditMessage(data.msg);
             }
         } catch (error) {
             setErrorEditMessage('Error al editar motor');
         }
+    };
+
+    /* ------- Para asignarle al auto sus motores */
+    const openAssignModal = (motorId) => {
+        const role = localStorage.getItem('role');
+        const token = localStorage.getItem('token');
+    
+        /* Función para traer las juntas GasketGenius */
+        const fetchJuntasG = async () => {
+            try {
+                const response = await fetch(`http://localhost:3000/admin/juntas-g`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Role': role,
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    // Filtrar las juntas GasketGenius en orden alfabetico
+                    const filteredJuntasG = data.data.sort((a, b) => a.id_junta.localeCompare(b.id_junta));
+                    setAssignMotorJuntasG(filteredJuntasG); // Asignamos los motores filtrados
+                } else {
+                    setErrorAssignMessage(data.msj);
+                }
+            } catch (error) {
+                setErrorAssignMessage('Error al obtener las Juntas GasketGenius.');
+            }
+        };
+    
+        /* Función para la petición de la información del motor a assignar juntas GasketGenius */
+        const fetchMotorData = async () => {
+            try {
+                const response = await fetch(`http://localhost:3000/admin/motor/${motorId}`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Role': role,
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    const motorData = data.data;
+                    setMotorToAssign(motorData);
+                    setAssignMotorId(motorData.id_motor);
+                    setAssignMotorLitros(motorData.numero_litros);
+                    setAssignMotorArbol(motorData.tipo_arbol);
+                    setAssignMotorValvulas(motorData.numero_valvulas);
+                    setAssignMotorPosicionPistones(motorData.posicion_pistones);
+                    setAssignMotorNoPistones(motorData.numero_pistones);
+                    setAssignMotorInfoAdicional(motorData.info_adicional.join(", "));
+                    setAssignMotorRangeYearI(motorData.range_year_i);
+                    setAssignMotorRangeYearF(motorData.range_year_f);
+
+                    /* Asignar las GasketGenius seleccionadas
+                    const selectedJuntasgIds = motorData.juntasg.map(juntag => juntag.id_junta);
+                    setSelectedJuntasg(selectedJuntasgIds); */
+    
+                    setSuccessAssignMessage(data.msj);
+                    fetchJuntasG();
+                    setShowAssignModal(true);
+                } else {
+                    setErrorAssignMessage(data.msj);
+                }
+            } catch (error) {
+                setErrorAssignMessage('No se pudo obtener la información del motor seleccionado para asignar Juntas GasketGenius.');
+            }
+        };
+    
+        fetchMotorData(motorId);
+    };
+
+    // Función para asignarle al auto sus motores
+    const handleAssignMotor = async (event) => {
+        event.preventDefault();
+        const role = localStorage.getItem('role');
+        const token = localStorage.getItem('token');
+
+        // Verificar si hay GasketGenius seleccionadas
+        // const juntasgIdsToSend = selectedJuntasg.length > 0 ? selectedJuntasg : [""]; // Enviar [""] si no hay GasketGenius seleccionadas
+        const cleanedInfoAdicional = assignMotorInfoAdicional
+            .split(',')
+            .map(item => item.trim())  // Eliminar espacios extras en cada elemento
+            .filter(item => item !== '');  // Eliminar elementos vacíos si los hay
+
+        try {
+            const response = await fetch(`http://localhost:3000/admin/motor/${motorToAssign.id}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Role': role,
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    id_motor: assignMotorId,
+                    numero_litros: parseFloat(assignMotorLitros),
+                    tipo_arbol: assignMotorArbol,
+                    numero_valvulas: parseInt(assignMotorValvulas),
+                    posicion_pistones: assignMotorPosicionPistones,
+                    numero_pistones: parseInt(assignMotorNoPistones),
+                    info_adicional: cleanedInfoAdicional,
+                    range_year_i: assignMotorRangeYearI,
+                    range_year_f: assignMotorRangeYearF,
+                    // junta_ids: juntasgIdsToSend // Aquí enviamos [""] si no hay motores seleccionados
+                })
+            });
+    
+            const data = await response.json();
+    
+            if (response.ok) {
+                setSuccessAssignMessage(data.msj);
+                fetchMotores(); // Fetch the updated list of autos
+                closeAssignModal();
+            } else {
+                setErrorAssignMessage(data.msj);
+            }
+        } catch (error) {
+            setErrorAssignMessage('Error al editar motor');
+        }
+    };
+
+    // Función para seleccionar los motores
+    const handleJuntagSelect = (selectedOptions) => {
+        const selectedJuntagIds = selectedOptions ? selectedOptions.map(option => option.value) : [];
+        setSelectedJuntasg(selectedJuntagIds);
+    };
+
+    // Función para optener los motores disponibles para opción
+    const getJuntasgOptions = () => {
+        return assignMotorJuntasg.map(juntag => ({
+            value: juntag.id_junta,
+            label: `GaskeyGenius ID: ${juntag.id_junta}`,
+            dataTooltip: `Imagen: ${juntag.id_image}`
+        }));
+    };
+
+    // Cerrar el modal para asignarle al auto sus motores
+    const closeAssignModal = () => { 
+        setMotorToAssign('');
+        setAssignMotorId('');
+        setAssignMotorLitros('');
+        setAssignMotorArbol('');
+        setAssignMotorValvulas('');
+        setAssignMotorPosicionPistones('');
+        setAssignMotorNoPistones('');
+        setAssignMotorInfoAdicional([]);
+        setAssignMotorRangeYearI('');
+        setAssignMotorRangeYearF('');
+        setAssignMotorJuntasG([]); // Para mostrar las juntas GasketGenius disponibles
+        setSelectedJuntasg([]);
+        setShowAssignModal(false);
     };
     
     /* Componente para administrar motores */
@@ -632,6 +812,15 @@ const AdministrarMotoresAdmin = () => {
                             </div>
                         )}
 
+                        {successAssignMessage && <div className="assign-success-message-motor">{successAssignMessage}</div>}
+                        {Object.keys(errorAssignMessage || {}).length > 0 && (
+                            <div className="assign-error-message-motor">
+                                {Object.keys(errorAssignMessage).map((key) => (
+                                    <span key={key}>{errorAssignMessage[key]}</span> // Muestra cada error
+                                ))}
+                            </div>
+                        )}
+
                         <table className="motor-table">
                           <thead>
                             <tr>
@@ -642,7 +831,7 @@ const AdministrarMotoresAdmin = () => {
                               <th>Pistones y Posición</th>
                               <th>Información adicional</th>
                               <th>Rango de años</th>
-                              <th>Acciones</th>
+                              <th>Opciones</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -656,18 +845,24 @@ const AdministrarMotoresAdmin = () => {
                                 <td>{Array.isArray(motor.info_adicional) ? motor.info_adicional.join(", ") : motor.info_adicional}</td>
                                 <td>{`${motor.range_year_i} - ${motor.range_year_f}`}</td>
                                 <td className="motor-options-cell">
-                                  <button
-                                    className="motor-edit-button"
-                                    onClick={() => openEditModal(motor.id)}
-                                  >
-                                    Editar
-                                  </button>
-                                  <button
-                                    className="motor-delete-button"
-                                    onClick={() => openDeleteModal(motor.id)}
-                                  >
-                                    Eliminar
-                                  </button>
+                                    <button
+                                        className="motor-edit-button"
+                                        onClick={() => openEditModal(motor.id)}
+                                    >
+                                        Editar
+                                    </button>
+                                    <button 
+                                        className="motor-assign-button"
+                                        onClick={() => openAssignModal(motor.id)}
+                                    >
+                                        GasketGenius
+                                    </button>
+                                    <button
+                                        className="motor-delete-button"
+                                        onClick={() => openDeleteModal(motor.id)}
+                                    >
+                                        Eliminar
+                                    </button>
                                 </td>
                               </tr>
                             ))}
@@ -828,6 +1023,82 @@ const AdministrarMotoresAdmin = () => {
                         <button className="add-motor-modal-button cancel" onClick={closeEditModal}>Cancelar</button>
                         <button className="add-motor-modal-button confirm" onClick={handleEditAuto}>Confirmar</button>
                       </div>
+                    </div>
+                </div>
+            )}
+
+            {showAssignModal && (
+                <div className="assign-motor-modal-overlay">
+                    <div className="assign-motor-modal-content">
+                        <h2>Motores para {motorToAssign?.id_motor}</h2>
+            
+                        {/* Detalles del auto */}
+                        <div className="assign-motor-detail">
+                            <label>Identificador:</label>
+                            <span className="assign-motor-value">{assignMotorId}</span>
+                        </div>
+                        <div className="assign-motor-detail">
+                            <label>Litros:</label>
+                            <span className="assign-motor-value">{assignMotorLitros}</span>
+                        </div>
+                        <div className="assign-motor-detail">
+                            <label>Tipo de Árbol:</label>
+                            <span className="assign-motor-value">{assignMotorArbol}</span>
+                        </div>
+                        <div className="assign-motor-detail">
+                            <label>No. de vávulas:</label>
+                            <span className="assign-motor-value">{assignMotorValvulas}</span>
+                        </div>
+                        <div className="assign-motor-detail">
+                            <label>Pistones y Posición:</label>
+                            <span className="assign-motor-value">{assignMotorNoPistones} {assignMotorPosicionPistones}</span>
+                        </div>
+                        <div className="assign-motor-detail">
+                            <label>Información adicional:</label>
+                            <span className="assign-motor-value">{assignMotorInfoAdicional}</span>
+                        </div>
+                        <div className="assign-motor-detail">
+                            <label>Rango de años:</label>
+                            <span className="assign-motor-value">{assignMotorRangeYearI} - {assignMotorRangeYearF}</span>
+                        </div>
+
+                        {/* React Select para elegir juntas GasketGenius */}
+                        <Select
+                            className="select-juntas-g"
+                            classNamePrefix="select-juntas-g"
+                            isMulti
+                            value={getJuntasgOptions().filter(option => selectedJuntasg.includes(option.value))}
+                            options={getJuntasgOptions()}
+                            onChange={handleJuntagSelect}
+                            placeholder="Seleccionar GasketGenius"
+                            formatOptionLabel={(juntagOption) => (
+                                <div>
+                                    <span data-tooltip-id={`juntag-${juntagOption.value}`}>
+                                        {juntagOption.label}
+                                    </span>
+                                    <Tooltip id={`juntag-${juntagOption.value}`} effect="solid">
+                                        {juntagOption.dataTooltip}
+                                    </Tooltip>
+                                </div>
+                            )}
+                        />
+                            
+                        {/* Mostrar los motores seleccionados */}
+                        <div className="assign-motor-detail">
+                            <label>GasketGenius seleccionadas:</label>
+                            <input
+                                type="text"
+                                value={selectedJuntasg.join(', ')}
+                                readOnly
+                            />
+                        </div>
+                        
+                            
+                        {/* Acciones del modal */}
+                        <div className="assign-motor-modal-actions">
+                            <button className="assign-motor-modal-button cancel" onClick={closeAssignModal}>Cancelar</button>
+                            <button className="assign-motor-modal-button confirm" onClick={handleAssignMotor}>Confirmar</button>
+                        </div>
                     </div>
                 </div>
             )}

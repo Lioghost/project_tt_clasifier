@@ -82,7 +82,8 @@
     gap: 0.5rem;
 }
 
-.motor-edit-button, 
+.motor-edit-button,
+.motor-assign-button,
 .motor-delete-button {
     font-size: 16px;
     background: none;
@@ -109,7 +110,7 @@
     display: block; /* Asegura que se mantenga en bloque */
 }
 
-.get-error-message-motor, .delete-error-message-motor, .add-error-message-motor, .edit-error-message-motor {
+.get-error-message-motor, .delete-error-message-motor, .add-error-message-motor, .edit-error-message-motor, .assign-error-message-motor {
     position: fixed;
     top: 25%;
     left: 50%;
@@ -163,7 +164,7 @@
     top: 75%;
 }
 
-.get-success-message-motor, .delete-success-message-motor, .add-success-message-motor, .edit-success-message-motor {
+.get-success-message-motor, .delete-success-message-motor, .add-success-message-motor, .edit-success-message-motor, .assign-success-message-motor {
     position: fixed;
     top: 25%;
     left: 50%;
@@ -416,6 +417,108 @@
 .edit-motor-modal-button.confirm:hover {
     background-color: var(--color-primary-hover);
     color: var(--color-primary-hover);
+}
+
+.select-juntas-g {
+    width: 100%; /* Establecer un ancho fijo */
+    max-width: 100%;
+}
+
+.assign-motor-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.assign-motor-modal-content {
+    background: var(--color-white);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: left; /* Cambié de "center" a "left" para que los datos se alineen a la izquierda */
+    max-width: 800px;
+    margin-top: 4rem;
+    width: 100%;
+}
+
+.assign-motor-modal-content h2{
+    display: block;
+    margin-bottom: 25px;
+    margin: 0 auto; /* Asegúrate de que el margin sea auto */
+    text-align: center; /* Añade esta línea para centrar el texto */
+}
+
+/* Para los detalles de la información en span */
+.assign-motor-detail {
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--color-border);
+    padding: 0.5rem 0;
+}
+
+.assign-motor-detail label {
+    font-weight: bold;
+    color: var(--color-grey);
+    font-size: 1rem;
+    margin-right: 10px;
+}
+
+.assign-motor-detail span.assign-motor-value {
+    color: var(--color-secondary);
+    background-color: #f0f0f0;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    font-size: 1rem;
+    text-align: right;
+    width: 50%; /* Para asegurarse que el span ocupe un espacio fijo */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Si el contenido es muy largo, mostrará "..." */
+}
+
+/* Mantener la estética de los botones */
+.assign-motor-modal-actions {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 1.5rem;
+}
+
+.assign-motor-modal-button {
+    padding: 0.8rem 2rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color var(--transition-speed);
+}
+
+.assign-motor-modal-button.cancel {
+    background-color: var(--color-border);
+    color: #333;
+}
+
+.assign-motor-modal-button.confirm {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+}
+
+.assign-motor-modal-button.cancel:hover {
+    background-color: var(--color-error);
+    color: var(--color-white);
+}
+
+.assign-motor-modal-button.confirm:hover {
+    background-color: var(--color-primary-hover);
+    color: var(--color-black);
 }
 
 /* Ajustes responsivos SOLO para el header (buscador y botón) */
