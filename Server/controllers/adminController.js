@@ -1,5 +1,5 @@
 import Usuario from "../models/Usuario.js";
-import {Automovil, Marca, Motor} from "../models/indexModels.js";
+import {Automovil, Marca, Motor, Junta} from "../models/indexModels.js";
 import { console } from "node:inspector";
 
 const dashboard = (req, res) => {
@@ -274,7 +274,9 @@ const autoUpdate = async (req, res) => {
 
 const motores = async (req, res) => {
     try {
-        const motores = await Motor.findAll();
+        const motores = await Motor.findAll({
+            include: { model: Junta, as: 'juntas' }
+        });
 
         if (motores.length === 0) {
             return res.status(404).json({ msj: "No se encontraron Motores" });
@@ -290,7 +292,7 @@ const motores = async (req, res) => {
 // Crear Motor
 const motorCreate = async (req, res) => {
     try {
-        const { id_motor, auto_ids } = req.body;
+        const { id_motor, auto_ids, junta_ids } = req.body;
 
         // Verificar si la marca existe
         const motor = await Motor.findByPk(id_motor);
@@ -305,6 +307,13 @@ const motorCreate = async (req, res) => {
             const autos = await Automovil.findAll({ where: { id: auto_ids } });
             await nuevoMotor.addAutomoviles(autos);  // Asociar automóviles al motor
         }
+
+        // Asociar juntas al motor si `junta_ids` está presente
+        if (junta_ids && junta_ids.length > 0) {
+            const juntas = await Junta.findAll({ where: { id_junta: junta_ids } });
+            await nuevoMotor.addJuntas(juntas)  // Asociar automóviles al motor
+        }
+        
         return res.status(201).json({ msg: 'Motor creado exitosamente', data: nuevoMotor });
     } catch (error) {
         return res.status(500).json({ msg: 'Error al crear Motor', error: error.message });
@@ -317,7 +326,12 @@ const motorGet = async (req, res) => {
         if (!id) 
             return res.status(400).json({ msj: "ID inválido!" });
 
-        const motor = await Motor.findByPk(id); 
+        const motor = await Motor.findByPk(id, {
+            include: [
+                {model: Junta, as: 'juntas'},
+                //{model: Automovil, as: 'automoviles'}
+            ]
+        }); 
 
         if (!motor)
             return res.status(404).json({ msj: "Motor no encontrado" });
@@ -332,7 +346,7 @@ const motorGet = async (req, res) => {
 const motorUpdate = async (req, res) => {
     try {
         const { id } = req.params;
-        const {auto_ids, id_motor} = req.body
+        const {auto_ids, id_motor, junta_ids} = req.body
 
         // Verificar si el id_auto ya existe
         const motorExist = await Motor.findOne({ where: { id_motor } });
@@ -351,14 +365,22 @@ const motorUpdate = async (req, res) => {
         // Actualizar las asociaciones de automóviles si `auto_ids` está presente
         if (auto_ids && auto_ids.length >= 0) {
             const motor = await Motor.findByPk(id);
-            const autos = await Automovil.findAll({ where: { id_motor: auto_ids } });
+            const autos = await Automovil.findAll({ where: { id_auto: auto_ids } });
             await motor.setAutomoviles(autos);  // Reemplazar asociaciones anteriores
             await motor.save()
         }
 
-        const motorUpdate = await Motor.findByPk(id, {
-            include: { model: Automovil }
-        });
+        // Actualizar las asociaciones de motores si `motor_ids` está presente
+        if (junta_ids && junta_ids.length > 0) {
+            const motor = await Motor.findByPk(id);
+            const juntas = await Junta.findAll({ where: { id_junta: junta_ids } });
+            await motor.setJuntas(juntas);  // Reemplazar asociaciones anteriores
+            await motor.save()
+        }
+
+        //const motorUpdate = await Motor.findByPk(id, {
+        //    include: { model: Automovil }
+        //});
 
         return res.status(200).json({ msj: "Motor actualizado exitosamente", data: motorUpdate });
     } catch (error) {

@@ -9,10 +9,10 @@ const generateJuntasId = async (req, res) => {
 const juntasG = async (req, res) => {
     try {
         const juntas = await Junta.findAll({
-            include: {
-                model: RefaccionMarca,
-                as: 'refaccion_marcas'
-            }
+            //include: {
+            //    model: RefaccionMarca,
+            //    as: 'refaccion_marcas'
+            //}
         });
 
         if (juntas.length === 0) {
