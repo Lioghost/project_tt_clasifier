@@ -164,6 +164,7 @@
     top: 75%;
 }
 
+/* Estilo para los mensajes de éxito */
 .get-success-message-auto, .delete-success-message-auto, .add-success-message-auto, .edit-success-message-auto, .assign-success-message-auto {
     position: fixed;
     top: 25%;
@@ -189,6 +190,7 @@
     top: 75%;
 }
 
+/* Estilos para la ventana modal de aliminación */
 .confirm-delete-modal-overlay {
     position: fixed;
     top: 0;
@@ -245,6 +247,7 @@
     color: var(--color-primary-hover);
 }
 
+/* Estilo para la ventana modal de agregación */
 .add-auto-modal-overlay {
     position: fixed;
     top: 0;
@@ -308,6 +311,7 @@
     color: var(--color-primary-hover);
 }
 
+/* Estilos para la ventana modal de edición */
 .edit-auto-modal-overlay {
     position: fixed;
     top: 0;
@@ -371,6 +375,7 @@
     color: var(--color-primary-hover);
 }
 
+/* Estilos para la ventana modal de asignación de motores a autos */
 .select-motores {
     width: 100%; /* Establecer un ancho fijo */
     max-width: 100%;
@@ -473,14 +478,13 @@
     color: var(--color-black);
 }
 
-/* Para ajustar el tamaño de la ventana emergente en pantallas más pequeñas */
+/* Estilos para pantañas pequeñas */
 @media (max-width: 600px) {
     .assign-auto-modal-content {
         width: 90%;
     }
 }
 
-/* Ajustes responsivos SOLO para el header (buscador y botón) */
 @media (max-width: 768px) {
     .auto-header {
         flex-direction: column;

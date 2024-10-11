@@ -163,6 +163,7 @@
     top: 75%;
 }
 
+/* Estilos para los mensajes de éxito */
 .get-success-message-juntag, .delete-success-message-juntag, .add-success-message-juntag, .edit-success-message-juntag {
     position: fixed;
     top: 25%;
@@ -188,6 +189,7 @@
     top: 75%;
 }
 
+/* Estilos para la ventana modal */
 .confirm-delete-modal-overlay {
     position: fixed;
     top: 0;
@@ -244,6 +246,7 @@
     color: var(--color-primary-hover);
 }
 
+/* Ventana modal de agregación */
 .add-juntag-modal-overlay {
     position: fixed;
     top: 0;
@@ -379,6 +382,7 @@
     color: var(--color-primary-hover);
 }
 
+/* Ventana modal de edición */
 .edit-juntag-modal-overlay {
     position: fixed;
     top: 0;
@@ -403,6 +407,8 @@
     width: 400px;
     max-height: 80vh;
     overflow-y: auto;
+    margin: 4rem auto;
+    margin-top: 8rem;
 }
 
 /* Personalización del scrollbar en el modal */

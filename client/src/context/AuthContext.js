@@ -16,14 +16,19 @@ const AuthProvider = ({ children }) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        localStorage.setItem('isAuthenticated', isAuthenticated);
-        localStorage.setItem('user', JSON.stringify(user));
+        // Solo guardar en localStorage si el user no es null
+        if (user) {
+            localStorage.setItem('isAuthenticated', isAuthenticated);
+            localStorage.setItem('user', JSON.stringify(user));
+        } else {
+            localStorage.removeItem('isAuthenticated');
+            localStorage.removeItem('user');
+        }
     }, [isAuthenticated, user]);
 
     const login = (userData) => {
         setIsAuthenticated(true);
         setUser(userData);
-        localStorage.setItem('role', userData.role); // Guardar el role en el localStorage
         localStorage.setItem('token', userData.token); // Guardar el token en el localStorage
     };
 
@@ -32,7 +37,6 @@ const AuthProvider = ({ children }) => {
         setUser(null);
         localStorage.removeItem('isAuthenticated');
         localStorage.removeItem('user');
-        localStorage.removeItem('role'); // Eliminar el role del localStorage
         localStorage.removeItem('token'); // Eliminar el token del localStorage
         navigate('/login');
     };

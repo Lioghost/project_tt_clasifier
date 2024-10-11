@@ -164,6 +164,7 @@
     top: 75%;
 }
 
+/* Estilos para los mensajes de éxito */
 .get-success-message-motor, .delete-success-message-motor, .add-success-message-motor, .edit-success-message-motor, .assign-success-message-motor {
     position: fixed;
     top: 25%;
@@ -189,6 +190,7 @@
     top: 75%;
 }
 
+/* Estilos para la ventana modal */
 .confirm-delete-modal-overlay {
     position: fixed;
     top: 0;
@@ -245,6 +247,7 @@
     color: var(--color-primary-hover);
 }
 
+/* Ventana modal de agregación */
 .add-motor-modal-overlay {
     position: fixed;
     top: 0;
@@ -269,6 +272,8 @@
     width: 400px;
     max-height: 80vh;
     overflow-y: auto;
+    margin: 4rem auto;
+    margin-top: 8rem;
 }
 
 /* Personalización del scrollbar en el modal */
@@ -332,6 +337,7 @@
     color: var(--color-primary-hover);
 }
 
+/* Ventana modal de edición */
 .edit-motor-modal-overlay {
     position: fixed;
     top: 0;
@@ -356,6 +362,8 @@
     width: 400px;
     max-height: 80vh;
     overflow-y: auto;
+    margin: 4rem auto;
+    margin-top: 8rem;
 }
 
 /* Personalización del scrollbar en el modal */
@@ -419,8 +427,9 @@
     color: var(--color-primary-hover);
 }
 
+/* Ventana modal de asignación de juntas a mnotores */
 .select-juntas-g {
-    width: 100%; /* Establecer un ancho fijo */
+    width: 100%;
     max-width: 100%;
 }
 
@@ -439,23 +448,41 @@
 
 .assign-motor-modal-content {
     background: var(--color-white);
-    padding: 2rem;
+    padding: 1.5rem;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: left; /* Cambié de "center" a "left" para que los datos se alineen a la izquierda */
+    text-align: left;
     max-width: 800px;
-    margin-top: 4rem;
-    width: 100%;
+    width: 90%;
+    height: 80vh; /* Para ajustar el tamaño de la ventana modal en pantallas pequeñas */
+    overflow-y: auto; /* Habilitar scroll en caso de que el contenido sea más grande */
+    margin: 4rem auto;
+    margin-top: 8rem;
 }
 
-.assign-motor-modal-content h2{
-    display: block;
+.assign-motor-modal-content::-webkit-scrollbar {
+    width: 8px; /* Ancho de la barra de desplazamiento */
+}
+
+.assign-motor-modal-content::-webkit-scrollbar-track {
+    background: var(--color--scrollbar-track); /* Color de fondo de la pista del scrollbar */
+    border-radius: 10px; /* Bordes redondeados para la pista */
+}
+
+.assign-motor-modal-content::-webkit-scrollbar-thumb {
+    background: var(--color--scrollbar-thumb); /* Color del pulgar (la parte que se mueve del scrollbar) */
+    border-radius: 10px; /* Bordes redondeados */
+}
+
+.assign-motor-modal-content::-webkit-scrollbar-thumb:hover {
+    background: var(--color--scrollbar-thumb_hover); /* Color del pulgar al pasar el mouse */
+}
+
+.assign-motor-modal-content h2 {
     margin-bottom: 25px;
-    margin: 0 auto; /* Asegúrate de que el margin sea auto */
-    text-align: center; /* Añade esta línea para centrar el texto */
+    text-align: center;
 }
 
-/* Para los detalles de la información en span */
 .assign-motor-detail {
     margin-bottom: 10px;
     display: flex;
@@ -479,13 +506,12 @@
     border-radius: 5px;
     font-size: 1rem;
     text-align: right;
-    width: 50%; /* Para asegurarse que el span ocupe un espacio fijo */
+    width: 50%;
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis; /* Si el contenido es muy largo, mostrará "..." */
+    text-overflow: ellipsis;
 }
 
-/* Mantener la estética de los botones */
 .assign-motor-modal-actions {
     display: flex;
     justify-content: space-around;
@@ -521,8 +547,24 @@
     color: var(--color-black);
 }
 
-/* Ajustes responsivos SOLO para el header (buscador y botón) */
+/* Ajustes responsivos para pantallas pequeñas */
+@media (max-width: 1200px) {
+    .assign-motor-modal-content {
+        width: 85%;
+    }
+}
+
+@media (max-width: 992px) {
+    .assign-motor-modal-content {
+        width: 80%;
+    }
+}
+
 @media (max-width: 768px) {
+    .assign-motor-modal-content {
+        width: 75%;
+    }
+
     .motor-header {
         flex-direction: column;
         align-items: flex-start;
@@ -541,5 +583,11 @@
 
     .add-motor-button {
         width: 100%;
+    }
+}
+
+@media (max-width: 600px) {
+    .assign-motor-modal-content {
+        width: 90%;
     }
 }

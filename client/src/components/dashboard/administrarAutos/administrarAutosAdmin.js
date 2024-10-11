@@ -416,6 +416,7 @@ const AdministrarAutosAdmin = () => {
                 }
             } catch (error) {
                 setErrorEditMessage('No se pudo obtener la información del auto seleccionado');
+                console.log(autoId)
             }
         };
     

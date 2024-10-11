@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate, useLocation, matchPath } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 
 const ProtectedRoute = ({ children, roles }) => {
     const { isAuthenticated, user } = useContext(AuthContext);
     const location = useLocation();
 
-    // Definir una lista de rutas válidas
+    // Definir una lista de rutas válidas para visitantes
     const visitantRoutes = [
         '/',
         '/login',
@@ -17,21 +17,31 @@ const ProtectedRoute = ({ children, roles }) => {
         '/not-authorized'
     ];
 
-    // Comprobar si la URL actual está en la lista de rutas válidas
-    const isValidRoute = visitantRoutes.includes(location.pathname);
+    // Función para comprobar si la URL actual es una ruta de visitante
+    const isValidRoute = visitantRoutes.some(route => matchPath(route, location.pathname));
 
-    if (!isAuthenticated && roles.includes('Visitante')) {
+    // Si la ruta es válida para visitantes, permitir el acceso sin autenticación
+    if (isValidRoute) {
         return children;
-    } else if (isValidRoute && isAuthenticated) {
-        const userRole = user.role; // Asumiendo que el rol del usuario está disponible en el contexto de autenticación
+    }
+
+    // Si el usuario no está autenticado, redirigir a login
+    if (!isAuthenticated) {
+        return <Navigate to="/login" state={{ from: location }} />;
+    }
+
+    // Si el usuario está autenticado y en una ruta válida de visitante, redirigir a dashboard según su rol
+    if (isAuthenticated && isValidRoute) {
+        const userRole = user?.role;
         if (userRole === 'Admin') {
             return <Navigate to="/admin/dashboard" />;
         } else if (userRole === 'Client') {
             return <Navigate to="/client/dashboard" />;
         }
-    } 
+    }
 
-    if (roles && !roles.includes(user.role)) {
+    // Verificar si el rol del usuario es válido para la ruta actual
+    if (roles && (!user || !roles.includes(user.role))) {
         return <Navigate to="/not-authorized" />;
     }
 

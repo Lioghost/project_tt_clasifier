@@ -134,6 +134,7 @@
     top: 75%;
 }
 
+/* Estilo para los mensajes de éxito */
 .get-success-message-brand, .delete-success-message-brand, .add-success-message-brand, .edit-success-message-brand {
     position: fixed;
     top: 25%;
@@ -159,6 +160,7 @@
     top: 75%;
 }
 
+/* Estilo para la ventana modal de eliminación */
 .confirm-delete-modal-overlay {
     position: fixed;
     top: 0;
@@ -215,6 +217,7 @@
     color: var(--color-primary-hover);
 }
 
+/* Estilos para la ventana modal de agregación */
 .add-brand-modal-overlay {
     position: fixed;
     top: 0;
@@ -278,6 +281,7 @@
     color: var(--color-primary-hover);
 }
 
+/* Estilos para la ventana modal de edición */
 .edit-brand-modal-overlay {
     position: fixed;
     top: 0;

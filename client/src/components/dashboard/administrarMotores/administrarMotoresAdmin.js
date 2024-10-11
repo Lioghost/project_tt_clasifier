@@ -571,7 +571,7 @@ const AdministrarMotoresAdmin = () => {
         }
     };
 
-    /* ------- Para asignarle al auto sus motores */
+    /* ------- Para asignarle al motor sus juntas GasketGenius */
     const openAssignModal = (motorId) => {
         const role = localStorage.getItem('role');
         const token = localStorage.getItem('token');
@@ -599,7 +599,7 @@ const AdministrarMotoresAdmin = () => {
             }
         };
     
-        /* Función para la petición de la información del motor a assignar juntas GasketGenius */
+        /* Función para la petición de la información del motor a asignar juntas GasketGenius */
         const fetchMotorData = async () => {
             try {
                 const response = await fetch(`http://localhost:3000/admin/motor/${motorId}`, {
@@ -623,9 +623,9 @@ const AdministrarMotoresAdmin = () => {
                     setAssignMotorRangeYearI(motorData.range_year_i);
                     setAssignMotorRangeYearF(motorData.range_year_f);
 
-                    /* Asignar las GasketGenius seleccionadas
-                    const selectedJuntasgIds = motorData.juntasg.map(juntag => juntag.id_junta);
-                    setSelectedJuntasg(selectedJuntasgIds); */
+                    /* Asignar las GasketGenius seleccionadas */
+                    const selectedJuntasgIds = motorData.juntas.map(juntag => juntag.id_junta);
+                    setSelectedJuntasg(selectedJuntasgIds);
     
                     setSuccessAssignMessage(data.msj);
                     fetchJuntasG();
@@ -648,7 +648,7 @@ const AdministrarMotoresAdmin = () => {
         const token = localStorage.getItem('token');
 
         // Verificar si hay GasketGenius seleccionadas
-        // const juntasgIdsToSend = selectedJuntasg.length > 0 ? selectedJuntasg : [""]; // Enviar [""] si no hay GasketGenius seleccionadas
+        const juntasgIdsToSend = selectedJuntasg.length > 0 ? selectedJuntasg : [""]; // Enviar [""] si no hay GasketGenius seleccionadas
         const cleanedInfoAdicional = assignMotorInfoAdicional
             .split(',')
             .map(item => item.trim())  // Eliminar espacios extras en cada elemento
@@ -672,7 +672,7 @@ const AdministrarMotoresAdmin = () => {
                     info_adicional: cleanedInfoAdicional,
                     range_year_i: assignMotorRangeYearI,
                     range_year_f: assignMotorRangeYearF,
-                    // junta_ids: juntasgIdsToSend // Aquí enviamos [""] si no hay motores seleccionados
+                    junta_ids: juntasgIdsToSend // Aquí enviamos [""] si no hay motores seleccionados
                 })
             });
     
