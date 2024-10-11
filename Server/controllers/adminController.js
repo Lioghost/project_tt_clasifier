@@ -295,7 +295,7 @@ const motorCreate = async (req, res) => {
         const { id_motor, auto_ids, junta_ids } = req.body;
 
         // Verificar si la marca existe
-        const motor = await Motor.findByPk(id_motor);
+        const motor = await Motor.findOne({ where: { id_motor } });
         if (motor) {
             return res.status(404).json({ msg: "Motor previamente registrado" });
         }
