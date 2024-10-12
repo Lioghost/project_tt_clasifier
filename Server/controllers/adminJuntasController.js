@@ -92,7 +92,7 @@ const juntasMCreate = async (req, res) => {
         const {id} = req.params
 
         const juntaM = await RefaccionMarca.create({
-            id_refac: req.body.id_refac,
+            id_cod_marca: req.body.id_cod_marca,
             marca_refac: req.body.marca_refac,
             url_marca: req.body.url_marca,
             junta_id: id
@@ -151,7 +151,7 @@ const juntasMUpdate = async (req, res) => {
 
     try {
         const juntaMUpdate = await juntaM.update({
-            id_refac: req.body.id_refac,
+            id_cod_marca: req.body.id_cod_marca,
             marca_refac: req.body.marca_refac,
             url_marca: req.body.url_marca
         })
