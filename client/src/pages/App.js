@@ -18,10 +18,11 @@ import AdministrarCuentaAdmin from '../components/dashboard/administrarCuenta/ad
 import AdministrarCuentaClient from '../components/dashboard/administrarCuenta/administrarCuentaClient';
 
 import AdministrarJuntasGAdmin from '../components/dashboard/administrarJuntas/administrarJuntasGAdmin';
-// import AdministrarJuntasMAdmin from '../components/dashboard/administrarJuntas/administrarJuntasMAdmin';
+import AdministrarJuntasMAdmin from '../components/dashboard/administrarJuntas/administrarJuntasMAdmin';
 import AdministrarMotoresAdmin from '../components/dashboard/administrarMotores/administrarMotoresAdmin';
 import AdministrarAutosAdmin from '../components/dashboard/administrarAutos/administrarAutosAdmin';
 import AdministrarMarcasAdmin from '../components/dashboard/administrarMarcas/administrarMarcasAdmin';
+import AdministrarUsuariosAdmin from '../components/dashboard/administrarUsuarios/administrarUsuariosAdmin';
 
 import { AuthProvider } from '../context/AuthContext';
 import ProtectedRoute from '../components/ProtectedRoute';
@@ -60,11 +61,11 @@ function App() {
 
                   {/* Rutas restantes del administrador */}
                   <Route path="/admin/juntasg" element={<ProtectedRoute roles={['Admin']}><AdministrarJuntasGAdmin /></ProtectedRoute>} />
-                  {/*<Route path="/admin/juntasm" element={<ProtectedRoute roles={['Admin']}><AdministrarJuntasMAdmin /></ProtectedRoute>} /> */}
+                  <Route path="/admin/juntasm" element={<ProtectedRoute roles={['Admin']}><AdministrarJuntasMAdmin /></ProtectedRoute>} />
                   <Route path="/admin/motores" element={<ProtectedRoute roles={['Admin']}><AdministrarMotoresAdmin /></ProtectedRoute>} />
                   <Route path="/admin/autos" element={<ProtectedRoute roles={['Admin']}><AdministrarAutosAdmin /></ProtectedRoute>} />
                   <Route path="/admin/marcas" element={<ProtectedRoute roles={['Admin']}><AdministrarMarcasAdmin /></ProtectedRoute>} />
-                  <Route path="/admin/usuarios" element={<ProtectedRoute roles={['Admin']}><AdministrarCuentaAdmin /></ProtectedRoute>} />
+                  <Route path="/admin/usuarios" element={<ProtectedRoute roles={['Admin']}><AdministrarUsuariosAdmin /></ProtectedRoute>} />
 
                   <Route path="/not-authorized" element={<NotAuthorized />} />
                   <Route path="*" element={<NotFound />} />

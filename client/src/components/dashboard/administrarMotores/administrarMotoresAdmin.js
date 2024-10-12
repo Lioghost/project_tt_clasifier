@@ -469,7 +469,7 @@ const AdministrarMotoresAdmin = () => {
     };
 
     // Función para editar motor
-    const handleEditAuto = async (event) => {
+    const handleEditMotor = async (event) => {
         event.preventDefault();
         const newErrors = {};
     
@@ -759,8 +759,7 @@ const AdministrarMotoresAdmin = () => {
                         <li><NavLink to="/admin/catalogo">Catálogo</NavLink></li>
                         <li><NavLink to="/admin/identificador">Identificador</NavLink></li>
                         <li><NavLink to="/admin/cuenta">Administrar cuenta</NavLink></li>
-                        <li><NavLink to="/admin/juntasg">Administrar juntas G</NavLink></li>
-                        <li><NavLink to="/admin/juntasm">Administrar juntas M</NavLink></li>
+                        <li><NavLink to="/admin/juntasg">Administrar GasketGenius</NavLink></li>
                         <li><NavLink to="/admin/motores">Administrar motores</NavLink></li>
                         <li><NavLink to="/admin/autos">Administrar autos</NavLink></li>
                         <li><NavLink to="/admin/marcas">Administrar marcas</NavLink></li>
@@ -1021,7 +1020,7 @@ const AdministrarMotoresAdmin = () => {
 
                       <div className="add-motor-modal-actions">
                         <button className="add-motor-modal-button cancel" onClick={closeEditModal}>Cancelar</button>
-                        <button className="add-motor-modal-button confirm" onClick={handleEditAuto}>Confirmar</button>
+                        <button className="add-motor-modal-button confirm" onClick={handleEditMotor}>Confirmar</button>
                       </div>
                     </div>
                 </div>

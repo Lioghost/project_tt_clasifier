@@ -72,8 +72,7 @@ const AdminDashboard = () => {
             <li><NavLink to="/admin/catalogo">Catálogo</NavLink></li>
             <li><NavLink to="/admin/identificador">Identificador</NavLink></li>
             <li><NavLink to="/admin/cuenta">Administrar cuenta</NavLink></li>
-            <li><NavLink to="/admin/juntasg">Administrar juntas G</NavLink></li>
-            <li><NavLink to="/admin/juntasm">Administrar juntas M</NavLink></li>
+            <li><NavLink to="/admin/juntasg">Administrar GasketGenius</NavLink></li>
             <li><NavLink to="/admin/motores">Administrar motores</NavLink></li>
             <li><NavLink to="/admin/autos">Administrar autos</NavLink></li>
             <li><NavLink to="/admin/marcas">Administrar marcas</NavLink></li>
@@ -101,12 +100,8 @@ const AdminDashboard = () => {
             <span>Administrar cuenta</span>
           </NavLink>
           <NavLink className="card" to="/admin/juntasg">
-            <img src={meetingsImg} alt="Administrar juntas G" />
-            <span>Administrar juntas G</span>
-          </NavLink>
-          <NavLink className="card" to="/admin/juntasm">
-            <img src={meetingsImg} alt="Administrar juntas M" />
-            <span>Administrar juntas M</span>
+            <img src={meetingsImg} alt="Administrar GasketGenius" />
+            <span>Administrar GasketGenius</span>
           </NavLink>
           <NavLink className="card" to="/admin/motores">
             <img src={motorsImg} alt="Administrar motores" />

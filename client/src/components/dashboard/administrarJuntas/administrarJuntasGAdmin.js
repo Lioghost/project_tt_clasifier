@@ -419,8 +419,7 @@ const AdministrarJuntasGAdmin = () => {
                         <li><NavLink to="/admin/catalogo">Catálogo</NavLink></li>
                         <li><NavLink to="/admin/identificador">Identificador</NavLink></li>
                         <li><NavLink to="/admin/cuenta">Administrar cuenta</NavLink></li>
-                        <li><NavLink to="/admin/juntasg">Administrar juntas G</NavLink></li>
-                        <li><NavLink to="/admin/juntasm">Administrar juntas M</NavLink></li>
+                        <li><NavLink to="/admin/juntasg">Administrar GasketGenius</NavLink></li>
                         <li><NavLink to="/admin/motores">Administrar motores</NavLink></li>
                         <li><NavLink to="/admin/autos">Administrar autos</NavLink></li>
                         <li><NavLink to="/admin/marcas">Administrar marcas</NavLink></li>
@@ -431,7 +430,7 @@ const AdministrarJuntasGAdmin = () => {
 
             <main className={`main-content-dashboard ${isSidebarOpen ? 'sidebar-active' : ''}`}>
                 <section className="welcome-message">
-                    <h1>Administrar juntas GasketGenius</h1>
+                    <h1>Administrar GasketGenius</h1>
 
                     <div className="juntag-management">
                         <div className="juntag-header">
@@ -491,6 +490,11 @@ const AdministrarJuntasGAdmin = () => {
                                     onClick={() => openEditModal(juntag.id_junta, juntag.id_image)}
                                   >
                                     Editar
+                                  </button>
+                                  <button
+                                    className="juntag-compatible-button"
+                                  >
+                                    Compatibles
                                   </button>
                                   <button
                                     className="juntag-delete-button"
