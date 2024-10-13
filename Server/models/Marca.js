@@ -1,10 +1,20 @@
 import { DataTypes } from 'sequelize'
 import db from '../config/db.js'
+import {Automovil} from './indexModels.js'
 
 const Marca = db.define('marca', {
     marca: {
         type: DataTypes.STRING,
         allowNull: false
+    }
+}, {
+    hooks: {
+        beforeDestroy: async (marca) => {
+            const autosAsociados = await Automovil.count({ where: { marca_id: marca.id } })
+            if (autosAsociados > 0) {
+                throw new Error('No se puede eliminar la marca porque tiene autos asociados')
+            }
+        }
     }
 });
 

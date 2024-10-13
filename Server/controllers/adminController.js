@@ -56,11 +56,11 @@ const marcaCreate = async (req, res) => {
         return res.status(400).json({msg: 'La Marca ya está registrada'});
 
     //const usuario = await Usuario.create(req.body)
-    await Marca.create({
+    const newMarca = await Marca.create({
         marca
     });
 
-    return res.status(200).json({msg: 'Marca creada correctamente'});
+    return res.status(200).json({msg: 'Marca creada correctamente', data: newMarca});
 }
 
 const marcaGet = async (req, res) => {
@@ -122,8 +122,8 @@ const marcaDelete = async (req, res) => {
         if (!marca)
             return res.status(404).json({ msj: "Marca no encontrada" });
 
-        await marca.destroy();
-        return res.status(200).json({ msj: "Marca eliminada con éxito" });
+        const deleteMarca = await marca.destroy();
+        return res.status(200).json({ msj: "Marca eliminada con éxito", data: deleteMarca });
 
     } catch (error) {
         return res.status(500).json({ msj: "Error al eliminar la marca", error: error.message });
@@ -184,12 +184,19 @@ const autoDelete = async (req, res) => {
     try {
         const { id } = req.params;
         
-        const deleted = await Automovil.destroy({
-            where: { id }
-        });
+        // Obtener el automóvil e incluir su relación con los motores
+        const auto = await Automovil.findOne({ where: { id: id }});
 
-        if (!deleted)
+        if (!auto)
             return res.status(404).json({ msg: 'Automóvil no encontrado' });
+
+        // Usar countMotores para verificar si hay motores asociados
+        const motoresAsociados = await auto.countMotores();
+        if (motoresAsociados > 0)
+            return res.status(400).json({ msg: 'No se puede eliminar el automóvil porque tiene motores asociados.' });
+
+        // Proceder a eliminar el automóvil si no hay motores asociados
+        await Automovil.destroy({ where: { id: id } });
 
         return res.status(200).json({ msg: 'Automóvil eliminado exitosamente' });
 
@@ -378,9 +385,9 @@ const motorUpdate = async (req, res) => {
             await motor.save()
         }
 
-        //const motorUpdate = await Motor.findByPk(id, {
-        //    include: { model: Automovil }
-        //});
+        const motorUpdate = await Motor.findByPk(id, {
+            include: { model: Automovil }
+        });
 
         return res.status(200).json({ msj: "Motor actualizado exitosamente", data: motorUpdate });
     } catch (error) {
@@ -392,13 +399,19 @@ const motorDelete = async (req, res) => {
     try {
         const { id } = req.params;
         
-        const deleted = await Motor.destroy({
-            where: { id }
-        });
+        // Obtener el automóvil e incluir su relación con los motores
+        const motor = await Motor.findOne({ where: { id: id }});
 
-        if (!deleted) {
+        if (!motor)
             return res.status(404).json({ msg: 'Motor no encontrado' });
-        }
+
+        // Usar countMotores para verificar si hay motores asociados
+        const juntasAsociadas = await motor.countJuntas();
+        if (juntasAsociadas > 0)
+            return res.status(400).json({ msg: 'No se puede eliminar el motor porque tiene juntas asociados.' });
+
+        // Proceder a eliminar el automóvil si no hay motores asociados
+        await Motor.destroy({ where: { id: id } });
 
         return res.status(200).json({ msg: 'Motor eliminado exitosamente' });
 

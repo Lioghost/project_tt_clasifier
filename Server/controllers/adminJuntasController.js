@@ -73,18 +73,19 @@ const juntasGUpdate = async (req, res) => {
 
 const juntasGDelete = async (req, res) => {
 
-    const {id} = req.params
+    try {
+        const junta = await Junta.findByPk(req.params.id)
 
-    const junta = await Junta.findByPk(id)
+        if(!junta)
+            return res.status(400).json({msg: 'Junta no encontrada'});
 
-    if(!junta) {
-        return res.status(400).json({msg: 'Junta no encontrada'});
+        await unlink(`public/juntas/${junta.id_image}`)
+
+        await junta.destroy()
+        return res.status(200).json({ msj: "Junta eliminada con éxito" });
+    } catch (error) {
+        return res.status(500).json({ msg: "Error al eliminar Junta", error: error.message });
     }
-
-    await unlink(`public/juntas/${junta.id_image}`)
-
-    await junta.destroy()
-    return res.status(200).json({ msj: "Junta eliminada con éxito" });
 }
 
 const juntasMCreate = async (req, res) => {
@@ -133,7 +134,7 @@ const juntasMGet = async (req, res) => {
             return res.status(400).json({msg: 'Marca de Refacción no encontrada'});
         }
 
-        return res.status(200).json({ msj: "Marca de Refacción recuperada con éxito", data: juntaM });
+        return res.status(200).json({ msj: " de Refacción recuperada con éxito", data: juntaM });
 
     } catch (error) {
         return res.status(500).json({ msj: "Error al recuperar Marca de Refacción", error: error.message });
@@ -163,16 +164,20 @@ const juntasMUpdate = async (req, res) => {
 }
 
 const juntasMDelete = async (req, res) => {
-    const {id} = req.params
+    try {
+        const {id} = req.params
 
-    const juntaM = await RefaccionMarca.findByPk(id)
+        const juntaM = await RefaccionMarca.findByPk(id)
 
-    if(!juntaM) {
-        return res.status(400).json({msg: 'Marca de Refacción no encontrada'});
+        if(!juntaM) {
+            return res.status(400).json({msg: 'Marca de Refacción no encontrada'});
+        }
+
+        await juntaM.destroy()
+        return res.status(200).json({ msj: "Marca de Refacción eliminada con éxito" });
+    } catch (error) {
+        return res.status(500).json({ msg: "Error al eliminar Marca de Refacción", error: error.message });
     }
-
-    await juntaM.destroy()
-    return res.status(200).json({ msj: "Marca de Refacción eliminada con éxito" });
 }
 
 export {
