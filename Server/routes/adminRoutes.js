@@ -95,7 +95,7 @@ router.delete('/juntas-g/:id', authenticate, authorize(['Admin']), juntasGDelete
 router.patch("/juntas-g/:id", authenticate, authorize(['Admin']), upload.single('imagen'), juntasGUpdate)
 
 //JuntasM
-router.get('/juntas-m', authenticate, authorize(['Admin']), juntasM);
+router.get('/juntas-ms/:id', authenticate, authorize(['Admin']), juntasM);
 
 router.get('/juntas-m/:id', authenticate, authorize(['Admin']), juntasMGet);
 

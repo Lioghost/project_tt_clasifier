@@ -1,6 +1,9 @@
 import { unlink } from 'node:fs/promises'
 import { nanoid } from "nanoid";
 import { Junta, RefaccionMarca } from "../models/indexModels.js";
+import {dirname} from 'path';
+import fs from 'fs';
+import { fileURLToPath } from 'url';
 
 const generateJuntasId = async (req, res) => {
     return res.status(200).json({ junta_id: nanoid() });
@@ -34,6 +37,8 @@ const juntasGCreate = async (req, res) => {
             id_image: req.file.filename
         })
 
+        console.log(dirname(fileURLToPath(import.meta.url)));
+
         return res.status(201).json({ msg: "Junta creada exitosamente", data: new_junta });
     } catch (error) {
         return res.status(500).json({ msg: "Error al crear Junta", error: error.message });
@@ -60,15 +65,35 @@ const juntasGUpdate = async (req, res) => {
         return res.status(400).json({msg: 'Junta no encontrada'})
 
     try {
+
         const juntaUpdate = await junta.update({
             id_image: junta.id_image || req.file.filename
         })
-        //await unlink(`public/juntas/${junta.id_image}`)
+
+        const imageDirectory = path.join(__dirname, 'public', 'juntas');
+        console.log(__dirname);
+
+        // Extraer el nombre base del archivo actual de la Junta sin extensión
+        const currentImageName = req.file.filename.split('.')[0];
+
+        // Extensiones comunes de imágenes para verificar
+        const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp'];
+
+        // Buscar archivos con el mismo nombre base pero diferentes extensiones
+        for (const ext of imageExtensions) {
+            const imagePath = path.join(imageDirectory, `${currentImageName}${ext}`);
+
+            if (fs.existsSync(imagePath) && (imagePath !== req.file.filename)) {
+                // Si el archivo existe, eliminarlo
+                fs.unlinkSync(imagePath);
+                console.log(`Archivo eliminado: ${imagePath}`);
+            }
+        }
+
         return res.status(201).json({ msg: "Imagen de Junta actualizada exitosamente", data: juntaUpdate });
     } catch (error) {
         return res.status(500).json({ msg: "Error al actualizar Junta", error: error.message });
     }
-
 }
 
 const juntasGDelete = async (req, res) => {
