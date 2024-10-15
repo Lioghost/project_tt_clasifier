@@ -70,6 +70,7 @@ const juntasGUpdate = async (req, res) => {
             id_image: junta.id_image || req.file.filename
         })
 
+        /*
         const imageDirectory = path.join(__dirname, 'public', 'juntas');
         console.log(__dirname);
 
@@ -88,7 +89,7 @@ const juntasGUpdate = async (req, res) => {
                 fs.unlinkSync(imagePath);
                 console.log(`Archivo eliminado: ${imagePath}`);
             }
-        }
+        }*/
 
         return res.status(201).json({ msg: "Imagen de Junta actualizada exitosamente", data: juntaUpdate });
     } catch (error) {
@@ -179,7 +180,8 @@ const juntasMUpdate = async (req, res) => {
         const juntaMUpdate = await juntaM.update({
             id_cod_marca: req.body.id_cod_marca,
             marca_refac: req.body.marca_refac,
-            url_marca: req.body.url_marca
+            url_marca: req.body.url_marca,
+            junta_id: req.body.junta_id || juntaM.junta_id
         })
 
         return res.status(201).json({ msg: "Marca de Refacción actualizada exitosamente", data: juntaMUpdate });
