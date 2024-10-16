@@ -560,7 +560,7 @@ const AdministrarMotoresAdmin = () => {
             });
             const data = await response.json();
             if (response.ok) {
-                setSuccessEditMessage(data.msg);
+                setSuccessEditMessage(data.msj);
                 fetchMotores(); // Refresca la lista de motores
                 closeEditModal();
             } else {

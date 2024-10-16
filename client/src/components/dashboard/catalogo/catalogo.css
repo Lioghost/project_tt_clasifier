@@ -1,0 +1,419 @@
+/* General */
+.car-filter {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: flex-start; /* Cambiar a flex-start para alinear los selectores a la izquierda */
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 15px;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    gap: 20px; /* Añadir espacio entre los selectores */
+}
+
+
+.car-filter label {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin-right: 10px;
+}
+
+.car-filter-select {
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    min-width: 150px;
+    background-color: var(--color-white);
+    color: #333;
+    transition: border-color 0.3s ease;
+}
+
+.car-filter-select:hover, .car-filter-select:focus {
+    border-color: var(--color-thead);
+}
+
+.motor-selection {
+    background-color: var(--color-white);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.motor-selection h2 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.motor-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: var(--color-white);
+}
+
+.motor-table th, .motor-table td {
+    padding: 15px;
+    border-bottom: 2px solid var(--color-thead);
+    text-align: left;
+    color: #333;
+}
+
+.motor-table th {
+    background-color: var(--color-thead);
+    color: var(--color-white);
+    font-weight: 600;
+}
+
+.motor-table tbody tr {
+    transition: background-color 0.3s ease;
+}
+
+.motor-table tbody tr:hover {
+    background-color: #f4f4f4;
+    transition: background-color 0.3s ease;
+}
+
+.empty-table-message {
+    text-align: center;
+    padding: 80px;
+    color: #888;
+}
+
+.placeholder {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+    color: #555;
+}
+
+.motor-placeholder-image {
+    width: 120px;
+    height: auto;
+    opacity: 0.8;
+}
+
+/* Estilo del botón de selección */
+.button-seleccionar {
+    background-color: var(--color-secondary); /* Color de fondo azul */
+    color: var(--color-white);; /* Color del texto blanco */
+    border: none; /* Sin borde */
+    border-radius: 4px; /* Bordes redondeados */
+    padding: 10px 20px; /* Espaciado interno */
+    font-size: 16px; /* Tamaño de fuente */
+    cursor: pointer; /* Cambia el cursor al pasar el mouse */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Transición suave */
+}
+
+.button-seleccionar:hover {
+    background-color: var(--color-primary); /* Cambia a un azul más oscuro al hacer hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Agrega una sombra ligera */
+}
+
+.button-seleccionar:active {
+    background-color: var(--color-secondary); /* Aún más oscuro cuando se presiona */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Reducción de la sombra cuando se presiona */
+    transform: translateY(2px); /* Efecto de botón presionado */
+}
+
+.button-seleccionar:focus {
+    outline: none; /* Quita el borde de enfoque predeterminado */
+    box-shadow: 0 0 0 3px var(--color-button-active); /* Añade un borde de enfoque suave */
+}
+
+/* Estilo general del catálogo */
+.juntas-catalogo {
+    text-align: center;
+    margin-top: 40px;
+    position: relative;
+    padding-top: 30px;
+}
+
+.juntas-catalogo::before {
+    content: '';
+    width: 90%; /* Longitud del divisor */
+    height: 4px; /* Grosor del divisor */
+    background-color: var(--color-primary); /* Color del divisor */
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%); /* Centrar el divisor */
+    border-radius: 4px; /* Bordes redondeados */
+}
+
+/* Diseño de la cuadrícula de las juntas */
+.juntas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Tamaño mínimo más pequeño para ver más tarjetas */
+    gap: 40px; /* Espacio entre las tarjetas */
+    justify-items: center;
+    padding: 20px;
+}
+
+/* Tarjeta de cada junta */
+.junta-card {
+    border: none;
+    border-radius: 16px; /* Bordes más redondeados */
+    padding: 30px; /* Espacio interno amplio */
+    text-align: center;
+    background-color: var(--color-white); /* Fondo suave */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); /* Sombra más ligera */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 100%; /* Ancho completo dentro de la columna */
+    max-width: 320px; /* Tamaño máximo de la tarjeta */
+    min-height: 300px; /* Altura mínima */
+}
+
+.junta-card:hover {
+    transform: translateY(-8px); /* Efecto de elevación al hacer hover */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25); /* Sombra más pronunciada al hacer hover */
+}
+
+/* Imagen de la junta */
+.junta-image {
+    width: 180px; /* Aumentar el tamaño de la imagen */
+    height: auto;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease;
+}
+
+.junta-card:hover .junta-image {
+    transform: scale(1.1); /* Efecto de agrandamiento suave al hacer hover */
+}
+
+/* Texto del código de la junta */
+.junta-card p {
+    font-size: 18px; /* Texto más grande */
+    color: #333;
+    margin-bottom: 20px;
+    font-weight: 600; /* Peso del texto más fuerte */
+}
+
+/* Botón de información */
+.junta-info-button {
+    background-color: var(--color-secondary); /* Color del botón */
+    color: var(--color-white);
+    border: none;
+    padding: 14px 28px; /* Botón más grande y con mayor espaciado */
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px; /* Texto más grande en el botón */
+    font-weight: 700;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.junta-info-button:hover {
+    background-color: var(--color-primary); /* Azul más oscuro en hover */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Sombra en el botón */
+}
+
+/* Mensaje cuando no hay juntas */
+.no-juntas-message {
+    margin-top: 50px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #fff3cd; /* Fondo amarillo claro */
+    border: 1px solid #ffeeba;
+    color: #856404;
+    display: inline-block;
+    text-align: center;
+    max-width: 400px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.no-juntas-message h2 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.no-juntas-message p {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.no-juntas-message img {
+    width: 120px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/* Estilo del modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: var(--color-white);
+    padding: 20px 30px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 600px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    position: relative;
+}
+
+/* Estilo de la tabla en el modal */
+.junta-info-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.junta-info-table th,
+.junta-info-table td {
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+}
+
+.junta-info-table th {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    text-align: left;
+}
+
+.junta-info-table td a {
+    color: var(--color-secondary);
+    text-decoration: none;
+}
+
+.junta-info-table td a:hover {
+    text-decoration: underline;
+}
+
+/* Botón de cerrar el modal */
+.modal-close-button {
+    background-color: var(--color-error);
+    color: var(--color-white);
+    border: none;
+    padding: 10px 20px;
+    margin-top: 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease; /* Transición suave de color */
+}
+
+.modal-close-button:hover {
+    background-color: #c82333; /* Color más oscuro al hacer hover */
+}
+
+/* Estilos adicionales para mensajes */
+.get-success-message-user, .get-error-message-user {
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+
+.get-success-message-user {
+    background-color: #dff0d8;
+    color: var(--color-success);
+}
+
+.get-error-message-user {
+    background-color: #f2dede;
+    color: var(--color-error);
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+    /* Ajustar el filtro para apilar los elementos en pantallas pequeñas */
+    .car-filter {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .car-filter-select {
+        width: 100%; /* Hacer que cada selector ocupe el 100% en pantallas pequeñas */
+        margin-bottom: 10px;
+    }
+
+    /* Ajustar las celdas y el texto de las tablas */
+    .motor-table th, .motor-table td {
+        font-size: 14px; /* Reducir el tamaño de fuente */
+        padding: 10px;
+    }
+
+    .motor-selection h2 {
+        font-size: 20px; /* Disminuir ligeramente el tamaño del encabezado */
+    }
+
+    /* Ajustes de la grilla de juntas para pantallas pequeñas */
+    .juntas-grid {
+        grid-template-columns: 1fr; /* Las tarjetas ocupan todo el ancho */
+        gap: 20px; /* Reducir el espacio entre tarjetas */
+    }
+
+    /* Ajustes del modal para pantallas pequeñas */
+    .modal-content {
+        width: 90%; /* El modal ocupará el 90% del ancho de la pantalla en pantallas pequeñas */
+        padding: 15px;
+    }
+
+    .modal-close-button {
+        padding: 8px 16px; /* Reducir el tamaño del botón */
+        font-size: 14px;    /* Ajustar el tamaño de fuente del botón */
+    }
+
+    /* Tabla dentro del modal */
+    .junta-info-table th, .junta-info-table td {
+        padding: 8px; /* Reducir el padding de las celdas */
+        font-size: 14px; /* Reducir el tamaño de fuente */
+    }
+
+    /* Ajustar el tamaño de la imagen dentro de las tarjetas */
+    .junta-image {
+        width: 150px; /* Disminuir el tamaño de la imagen */
+    }
+}
+
+/* Ajustes adicionales para pantallas muy pequeñas */
+@media (max-width: 480px) {
+    .car-filter {
+        padding: 10px;
+    }
+
+    .car-filter-select {
+        padding: 8px;
+    }
+
+    .motor-table th, .motor-table td {
+        padding: 8px;
+        font-size: 12px; /* Reducir aún más el tamaño de fuente en pantallas muy pequeñas */
+    }
+
+    /* Ajustes del modal para pantallas muy pequeñas */
+    .modal-content {
+        width: 95%; /* Ocupar casi todo el ancho en pantallas muy pequeñas */
+        padding: 10px;
+    }
+
+    .modal-close-button {
+        padding: 6px 12px;
+        font-size: 12px; /* Reducir aún más el tamaño de fuente */
+    }
+
+    .junta-info-table th, .junta-info-table td {
+        font-size: 12px; /* Texto más pequeño en tablas del modal */
+    }
+
+    /* Imagen en las tarjetas de junta en pantallas muy pequeñas */
+    .junta-image {
+        width: 120px; /* Hacer la imagen más pequeña */
+    }
+}

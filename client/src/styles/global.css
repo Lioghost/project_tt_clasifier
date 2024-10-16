@@ -12,6 +12,7 @@
     --color-black: #000;
     --color-grey: #6a6a6a;
     --color-thead: #F39C12;
+    --color-button-active: rgba(0, 123, 255, 0.5);
 
     --color--scrollbar-track: #f1f1f1;
     --color--scrollbar-thumb: #888;
