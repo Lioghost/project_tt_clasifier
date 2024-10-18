@@ -36,7 +36,7 @@ const AdministrarJuntasGAdmin = () => {
     const [successAddMessage, setSuccessAddMessage] = useState('');
     const [errorAddMessage, setErrorAddMessage] = useState('');
 
-    /* Para editar junat g */
+    /* Para editar junta g */
     const [showEditModal, setShowEditModal] = useState(false);
     const [juntagToEdit, setJuntagToEdit] = useState('');
     const [editJuntagId, setEditJuntagId] = useState('');
@@ -45,6 +45,11 @@ const AdministrarJuntasGAdmin = () => {
     const [selectedEditJuntagImageFile, setSelectedEditJuntagImageFile] = useState(null); // Estado para el archivo real que se enviará
     const [successEditMessage, setSuccessEditMessage] = useState('');
     const [errorEditMessage, setErrorEditMessage] = useState('');
+
+    /* Para ir a las Juntas M compatibles con GasketGenius */
+    const openCompatibleView = (juntagId) => {
+        navigate(`/admin/juntasm/${juntagId}`);
+    };
 
     // Verificar si el usuario está autenticado
     useEffect(() => {
@@ -130,7 +135,7 @@ const AdministrarJuntasGAdmin = () => {
                 setErrorMessage(data.msj);
             }
         } catch (error) {
-            setErrorMessage('No hay juntas gasketgenius para mostrar');
+            setErrorMessage('No hay juntas GasketGenius para mostrar');
         }
     };
 
@@ -170,7 +175,7 @@ const AdministrarJuntasGAdmin = () => {
             const data = await response.json();
             if (response.ok) {
                 setSuccessDeleteMessage(data.msj);
-                setJuntasg(juntasg.filter(junta => junta.id_junta !== juntagToDelete));
+                setJuntasg(juntasg.filter(juntag => juntag.id_junta !== juntagToDelete));
                 setJuntagToDelete('');
                 fetchJuntasg(); // Fetch the updated list of junta g
             } else {
@@ -382,7 +387,7 @@ const AdministrarJuntasGAdmin = () => {
         setShowEditModal(false);
     };
 
-    /* ------- Componente para administrar motores */
+    /* ------- Componente para administrar GasketGenius */
     return (
         <div className="dashboard">
             <header className="header-dashboard">
@@ -493,6 +498,7 @@ const AdministrarJuntasGAdmin = () => {
                                   </button>
                                   <button
                                     className="juntag-compatible-button"
+                                    onClick={() => openCompatibleView(juntag.id_junta)}
                                   >
                                     Compatibles
                                   </button>

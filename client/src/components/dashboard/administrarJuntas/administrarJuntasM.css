@@ -1,4 +1,4 @@
-.motor-management {
+.juntam-management {
     background-color: var(--color-white);
     padding: 2rem;
     border-radius: var(--border-radius);
@@ -6,38 +6,38 @@
     margin: 2rem 0;
 }
 
-.motor-header {
+.juntam-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1.5rem;
 }
 
-.motor-header h1 {
+.juntam-header h1 {
     color: var(--color-secondary);
     font-size: 1.5rem;
     margin: 0;
 }
 
-.motor-actions {
+.juntam-actions {
     display: flex;
     gap: 1rem;
 }
 
-.motor-search-bar {
+.juntam-search-bar {
     padding: 0.5rem 1rem;
     border: 1px solid var(--color-border);
     border-radius: var(--border-radius);
     transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
 }
 
-.motor-search-bar:focus {
+.juntam-search-bar:focus {
     border-color: var(--color-primary);
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
     outline: none;
 }
 
-.add-motor-button {
+.add-juntam-button {
     padding: 0.5rem 1rem;
     background-color: var(--color-primary);
     color: var(--color-white);
@@ -47,44 +47,44 @@
     transition: background-color var(--transition-speed);
 }
 
-.add-motor-button:hover {
+.add-juntam-button:hover {
     background-color: var(--color-primary-disabled);
 }
 
 /* Contenedor centrado de la tabla */
-.motor-table-container {
+.juntam-table-container {
     display: flex;
     justify-content: center;
     margin-top: 1.5rem;
 }
 
-.motor-table {
+.juntam-table {
     width: 100%;
     max-width: 1200px; /* Tamaño máximo de la tabla */
     border-collapse: collapse;
     margin: 0 auto;
 }
 
-.motor-table th, 
-.motor-table td {
+.juntam-table th, 
+.juntam-table td {
     padding: 1rem;
     border: 1px solid var(--color-border);
     text-align: left;
 }
 
-.motor-table th {
+.juntam-table th {
     background-color: var(--color-thead);
     color: var(--color-white);
 }
 
-.motor-options-cell {
+.juntam-options-cell {
     display: flex;
     gap: 0.5rem;
 }
 
-.motor-edit-button,
-.motor-assign-button,
-.motor-delete-button {
+.juntam-edit-button, 
+.juntam-compatible-button,
+.juntam-delete-button {
     font-size: 16px;
     background: none;
     border: none;
@@ -93,16 +93,16 @@
     transition: color var(--transition-speed);
 }
 
-.motor-edit-button:hover {
+.juntam-edit-button:hover {
     color: var(--color-primary);
 }
 
-.motor-delete-button:hover {
+.juntam-delete-button:hover {
     color: var(--color-error);
 }
 
 /* Estilo para los mensajes de error */
-.error-message-motor {
+.error-message-juntam {
     color: var(--color-error); /* Color de error definido en tus variables de CSS */
     font-size: 0.9rem;
     margin-top: 0.3rem; /* Espacio entre el input y el mensaje de error */
@@ -110,7 +110,7 @@
     display: block; /* Asegura que se mantenga en bloque */
 }
 
-.get-error-message-motor, .delete-error-message-motor, .add-error-message-motor, .edit-error-message-motor, .assign-error-message-motor {
+.get-error-message-juntam, .delete-error-message-juntam, .add-error-message-juntam, .edit-error-message-juntam {
     position: fixed;
     top: 25%;
     left: 50%;
@@ -131,16 +131,16 @@
     z-index: 1100; /* Asegura que esté por encima de otros elementos */
 }
 
-.get-error-message-motor, .assign-error-message-motor{
+.get-error-message-juntam{
     top: 75%;
 }
 
-.add-error-message-motor{
+.add-error-message-juntam{
     animation: fadeInOut 5s forwards;
 }
 
 /* Estilos para los mensajes de éxito */
-.get-success-message-motor, .delete-success-message-motor, .add-success-message-motor, .edit-success-message-motor, .assign-success-message-motor {
+.get-success-message-juntam, .delete-success-message-juntam, .add-success-message-juntam, .edit-success-message-juntam {
     position: fixed;
     top: 25%;
     left: 50%;
@@ -161,7 +161,7 @@
     z-index: 1100; /* Asegura que esté por encima de otros elementos */
 }
 
-.get-success-message-motor{
+.get-success-message-juntam{
     top: 75%;
 }
 
@@ -223,7 +223,7 @@
 }
 
 /* Ventana modal de agregación */
-.add-motor-modal-overlay {
+.add-juntam-modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -237,7 +237,7 @@
     overflow: hidden;
 }
 
-.add-motor-modal-content {
+.add-juntam-modal-content {
     background: var(--color-white);
     padding: 2rem;
     border-radius: 10px;
@@ -247,43 +247,47 @@
     width: 400px;
     max-height: 80vh;
     overflow-y: auto;
-    margin: 4rem auto;
-    margin-top: 8rem;
 }
 
 /* Personalización del scrollbar en el modal */
-.add-motor-modal-content::-webkit-scrollbar {
+.add-juntam-modal-content::-webkit-scrollbar {
     width: 8px; /* Ancho de la barra de desplazamiento */
 }
 
-.add-motor-modal-content::-webkit-scrollbar-track {
+.add-juntam-modal-content::-webkit-scrollbar-track {
     background: var(--color--scrollbar-track); /* Color de fondo de la pista del scrollbar */
     border-radius: 10px; /* Bordes redondeados para la pista */
 }
 
-.add-motor-modal-content::-webkit-scrollbar-thumb {
+.add-juntam-modal-content::-webkit-scrollbar-thumb {
     background: var(--color--scrollbar-thumb); /* Color del pulgar (la parte que se mueve del scrollbar) */
     border-radius: 10px; /* Bordes redondeados */
 }
 
-.add-motor-modal-content::-webkit-scrollbar-thumb:hover {
+.add-juntam-modal-content::-webkit-scrollbar-thumb:hover {
     background: var(--color--scrollbar-thumb_hover); /* Color del pulgar al pasar el mouse */
 }
 
-.add-motor-modal-content input {
+.add-juntam-modal-content input {
     margin-top: 10px;
     margin-bottom: 0px;
     display: block;
     width: 100%;
 }
 
-.add-motor-modal-actions {
+.input-gasketGenius{
+    opacity: 0.8; /* Ajustar la opacidad */
+    color: #6c757d; /* Color de texto más claro para parecer deshabilitado */
+    pointer-events: none; /* Desactivar interacción con el mouse (si quieres que no sea editable) */
+}
+
+.add-juntam-modal-actions {
     display: flex;
     justify-content: space-around;
     margin-top: 1.5rem;
 }
 
-.add-motor-modal-button {
+.add-juntam-modal-button {
     padding: 0.8rem 2rem;
     border: none;
     border-radius: 5px;
@@ -292,28 +296,28 @@
     transition: background-color var(--transition-speed);
 }
 
-.add-motor-modal-button.cancel {
+.add-juntam-modal-button.cancel {
     background-color: var(--color-border);
     color: #333;
 }
 
-.add-motor-modal-button.confirm {
+.add-juntam-modal-button.confirm {
     background-color: var(--color-primary);
     color: var(--color-white);
 }
 
-.add-motor-modal-button.cancel:hover {
+.add-juntam-modal-button.cancel:hover {
     background-color: var(--color-error);
     color: var(--color-white);
 }
 
-.add-motor-modal-button.confirm:hover {
+.add-juntam-modal-button.confirm:hover {
     background-color: var(--color-primary-hover);
     color: var(--color-primary-hover);
 }
 
 /* Ventana modal de edición */
-.edit-motor-modal-overlay {
+.edit-juntam-modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -327,7 +331,7 @@
     overflow: hidden;
 }
 
-.edit-motor-modal-content {
+.edit-juntam-modal-content {
     background: var(--color-white);
     padding: 2rem;
     border-radius: 10px;
@@ -342,38 +346,38 @@
 }
 
 /* Personalización del scrollbar en el modal */
-.edit-motor-modal-content::-webkit-scrollbar {
+.edit-juntam-modal-content::-webkit-scrollbar {
     width: 8px; /* Ancho de la barra de desplazamiento */
 }
 
-.edit-motor-modal-content::-webkit-scrollbar-track {
+.edit-juntam-modal-content::-webkit-scrollbar-track {
     background: var(--color--scrollbar-track); /* Color de fondo de la pista del scrollbar */
     border-radius: 10px; /* Bordes redondeados para la pista */
 }
 
-.edit-motor-modal-content::-webkit-scrollbar-thumb {
+.edit-juntam-modal-content::-webkit-scrollbar-thumb {
     background: var(--color--scrollbar-thumb); /* Color del pulgar (la parte que se mueve del scrollbar) */
     border-radius: 10px; /* Bordes redondeados */
 }
 
-.edit-motor-modal-content::-webkit-scrollbar-thumb:hover {
+.edit-juntam-modal-content::-webkit-scrollbar-thumb:hover {
     background: var(--color--scrollbar-thumb_hover); /* Color del pulgar al pasar el mouse */
 }
 
-.edit-motor-modal-content input {
+.edit-juntam-modal-content input {
     margin-top: 10px;
     margin-bottom: 0px;
     display: block;
     width: 100%;
 }
 
-.edit-motor-modal-actions {
+.edit-juntam-modal-actions {
     display: flex;
     justify-content: space-around;
     margin-top: 1.5rem;
 }
 
-.edit-motor-modal-button {
+.edit-juntam-modal-button {
     padding: 0.8rem 2rem;
     border: none;
     border-radius: 5px;
@@ -382,187 +386,45 @@
     transition: background-color var(--transition-speed);
 }
 
-.edit-motor-modal-button.cancel {
+.edit-juntam-modal-button.cancel {
     background-color: var(--color-border);
     color: #333;
 }
 
-.edit-motor-modal-button.confirm {
+.edit-juntam-modal-button.confirm {
     background-color: var(--color-primary);
     color: var(--color-white);
 }
 
-.edit-motor-modal-button.cancel:hover {
+.edit-juntam-modal-button.cancel:hover {
     background-color: var(--color-error);
     color: var(--color-white);
 }
 
-.edit-motor-modal-button.confirm:hover {
+.edit-juntam-modal-button.confirm:hover {
     background-color: var(--color-primary-hover);
     color: var(--color-primary-hover);
 }
 
-/* Ventana modal de asignación de juntas a mnotores */
-.select-juntas-g {
-    width: 100%;
-    max-width: 100%;
-}
-
-.assign-motor-modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
-.assign-motor-modal-content {
-    background: var(--color-white);
-    padding: 1.5rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: left;
-    max-width: 800px;
-    width: 90%;
-    height: 80vh; /* Para ajustar el tamaño de la ventana modal en pantallas pequeñas */
-    overflow-y: auto; /* Habilitar scroll en caso de que el contenido sea más grande */
-    margin: 4rem auto;
-    margin-top: 8rem;
-}
-
-.assign-motor-modal-content::-webkit-scrollbar {
-    width: 8px; /* Ancho de la barra de desplazamiento */
-}
-
-.assign-motor-modal-content::-webkit-scrollbar-track {
-    background: var(--color--scrollbar-track); /* Color de fondo de la pista del scrollbar */
-    border-radius: 10px; /* Bordes redondeados para la pista */
-}
-
-.assign-motor-modal-content::-webkit-scrollbar-thumb {
-    background: var(--color--scrollbar-thumb); /* Color del pulgar (la parte que se mueve del scrollbar) */
-    border-radius: 10px; /* Bordes redondeados */
-}
-
-.assign-motor-modal-content::-webkit-scrollbar-thumb:hover {
-    background: var(--color--scrollbar-thumb_hover); /* Color del pulgar al pasar el mouse */
-}
-
-.assign-motor-modal-content h2 {
-    margin-bottom: 25px;
-    text-align: center;
-}
-
-.assign-motor-detail {
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid var(--color-border);
-    padding: 0.5rem 0;
-}
-
-.assign-motor-detail label {
-    font-weight: bold;
-    color: var(--color-grey);
-    font-size: 1rem;
-    margin-right: 10px;
-}
-
-.assign-motor-detail span.assign-motor-value {
-    color: var(--color-secondary);
-    background-color: #f0f0f0;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    font-size: 1rem;
-    text-align: right;
-    width: 50%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.assign-motor-modal-actions {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 1.5rem;
-}
-
-.assign-motor-modal-button {
-    padding: 0.8rem 2rem;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color var(--transition-speed);
-}
-
-.assign-motor-modal-button.cancel {
-    background-color: var(--color-border);
-    color: #333;
-}
-
-.assign-motor-modal-button.confirm {
-    background-color: var(--color-primary);
-    color: var(--color-white);
-}
-
-.assign-motor-modal-button.cancel:hover {
-    background-color: var(--color-error);
-    color: var(--color-white);
-}
-
-.assign-motor-modal-button.confirm:hover {
-    background-color: var(--color-primary-hover);
-    color: var(--color-black);
-}
-
-/* Ajustes responsivos para pantallas pequeñas */
-@media (max-width: 1200px) {
-    .assign-motor-modal-content {
-        width: 85%;
-    }
-}
-
-@media (max-width: 992px) {
-    .assign-motor-modal-content {
-        width: 80%;
-    }
-}
-
+/* Ajustes responsivos SOLO para el header (buscador y botón) */
 @media (max-width: 768px) {
-    .assign-motor-modal-content {
-        width: 75%;
-    }
-
-    .motor-header {
+    .juntam-header {
         flex-direction: column;
         align-items: flex-start;
     }
 
-    .motor-actions {
+    .juntam-actions {
         width: 100%;
         justify-content: flex-start;
         margin-top: 1rem;
     }
 
-    .motor-search-bar {
+    .juntam-search-bar {
         width: 100%;
         margin-bottom: 1rem;
     }
 
-    .add-motor-button {
+    .add-juntam-button {
         width: 100%;
-    }
-}
-
-@media (max-width: 600px) {
-    .assign-motor-modal-content {
-        width: 90%;
     }
 }

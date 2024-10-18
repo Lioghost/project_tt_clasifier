@@ -360,7 +360,7 @@ const AdministrarAutosAdmin = () => {
         }
     };
 
-    /* ------- Para editar la auto */
+    /* ------- Para editar el auto */
     const openEditModal = (autoId) => {
         const role = localStorage.getItem('role');
         const token = localStorage.getItem('token');
@@ -415,8 +415,7 @@ const AdministrarAutosAdmin = () => {
                     setErrorEditMessage(data.msj);
                 }
             } catch (error) {
-                setErrorEditMessage('No se pudo obtener la información del auto seleccionado');
-                console.log(autoId)
+                setErrorEditMessage('No se pudo obtener la información del auto seleccionado.');
             }
         };
     

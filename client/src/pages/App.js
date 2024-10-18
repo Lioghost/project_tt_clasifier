@@ -17,6 +17,8 @@ import NotFound from '../components/notFound/notFound';
 import AdministrarCuentaAdmin from '../components/dashboard/administrarCuenta/administrarCuentaAdmin';
 import AdministrarCuentaClient from '../components/dashboard/administrarCuenta/administrarCuentaClient';
 
+import Catalogo from '../components/dashboard/catalogo/catalogo';
+
 import AdministrarJuntasGAdmin from '../components/dashboard/administrarJuntas/administrarJuntasGAdmin';
 import AdministrarJuntasMAdmin from '../components/dashboard/administrarJuntas/administrarJuntasMAdmin';
 import AdministrarMotoresAdmin from '../components/dashboard/administrarMotores/administrarMotoresAdmin';
@@ -52,8 +54,8 @@ function App() {
                   <Route path="/client/cuenta" element={<ProtectedRoute roles={['Client']}><AdministrarCuentaClient /></ProtectedRoute>} />
 
                   {/* Rutas de catálogo */}
-                  <Route path="/admin/catalogo" element={<ProtectedRoute roles={['Admin']}><AdministrarCuentaAdmin /></ProtectedRoute>} />
-                  <Route path="/client/catalogo" element={<ProtectedRoute roles={['Client']}><AdministrarCuentaClient /></ProtectedRoute>} />
+                  <Route path="/admin/catalogo" element={<ProtectedRoute roles={['Admin']}><Catalogo /></ProtectedRoute>} />
+                  <Route path="/client/catalogo" element={<ProtectedRoute roles={['Client']}><Catalogo /></ProtectedRoute>} />
 
                   {/* Rutas de identificador */}
                   <Route path="/admin/identificador" element={<ProtectedRoute roles={['Admin']}><AdministrarCuentaAdmin /></ProtectedRoute>} />
@@ -61,7 +63,7 @@ function App() {
 
                   {/* Rutas restantes del administrador */}
                   <Route path="/admin/juntasg" element={<ProtectedRoute roles={['Admin']}><AdministrarJuntasGAdmin /></ProtectedRoute>} />
-                  <Route path="/admin/juntasm" element={<ProtectedRoute roles={['Admin']}><AdministrarJuntasMAdmin /></ProtectedRoute>} />
+                  <Route path="/admin/juntasm/:juntagId" element={<ProtectedRoute roles={['Admin']}><AdministrarJuntasMAdmin /></ProtectedRoute>} />
                   <Route path="/admin/motores" element={<ProtectedRoute roles={['Admin']}><AdministrarMotoresAdmin /></ProtectedRoute>} />
                   <Route path="/admin/autos" element={<ProtectedRoute roles={['Admin']}><AdministrarAutosAdmin /></ProtectedRoute>} />
                   <Route path="/admin/marcas" element={<ProtectedRoute roles={['Admin']}><AdministrarMarcasAdmin /></ProtectedRoute>} />
