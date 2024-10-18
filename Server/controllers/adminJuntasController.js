@@ -117,9 +117,15 @@ const juntasGDelete = async (req, res) => {
 const juntasMCreate = async (req, res) => {
     try {
         const {id} = req.params
+        const {id_cod_marca} = req.body
+
+        const existIdCodMarca = await RefaccionMarca.findOne({ where: { id_cod_marca } })
+    
+        if(existIdCodMarca)
+            return res.status(400).json({msg: 'El código de la junta ya está registrado'});
 
         const juntaM = await RefaccionMarca.create({
-            id_cod_marca: req.body.id_cod_marca,
+            id_cod_marca: id_cod_marca,
             marca_refac: req.body.marca_refac,
             url_marca: req.body.url_marca,
             junta_id: id
@@ -168,25 +174,29 @@ const juntasMGet = async (req, res) => {
 }
 
 const juntasMUpdate = async (req, res) => {
-    const {id} = req.params
-
-    const juntaM = await RefaccionMarca.findByPk(id)
-
-    if(!juntaM) {
-        return res.status(400).json({msg: 'Marca de Refacción no encontrada'});
-    }
 
     try {
-        const juntaMUpdate = await juntaM.update({
-            id_cod_marca: req.body.id_cod_marca,
-            marca_refac: req.body.marca_refac,
-            url_marca: req.body.url_marca,
-            junta_id: req.body.junta_id || juntaM.junta_id
-        })
 
-        return res.status(201).json({ msg: "Marca de Refacción actualizada exitosamente", data: juntaMUpdate });
+        const {id} = req.params
+        const {id_cod_marca} = req.body
+        
+        const existIdCodMarca = await RefaccionMarca.findOne({ where: { id_cod_marca } });
+        if (existIdCodMarca && existIdCodMarca.id != id) {
+            return res.status(400).json({ msg: "El código de la Junta ya fue registrado previamente" });
+        }
+
+        // Actualizar el automóvil
+        const [updated] = await RefaccionMarca.update(req.body, {
+            where: { id }
+        });
+
+        if (!updated) {
+            return res.status(404).json({ msg: 'Junta no encontrado' });
+        }
+
+        return res.status(201).json({ msg: "Refacción actualizada exitosamente", data: updated });
     } catch (error) {
-        return res.status(500).json({ msg: "Error al actualizar Marca de Refacción", error: error.message });
+        return res.status(500).json({ msg: "Error al actualizar la Refacción", error: error.message });
     }
 }
 
