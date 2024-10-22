@@ -1,21 +1,18 @@
-@import '../../styles/global.css';
-
 .main-view {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* Asegura que el contenedor cubra toda la altura de la pantalla */
-    background-image: url("../../assets/img/background.png");
-    background-repeat: no-repeat;
+    height: 100vh;
+    background: url("../../assets/img/background.png") no-repeat center center;
     background-size: cover;
-    background-attachment: fixed;
-    padding: 0; /* Elimina cualquier padding que pueda estar afectando */
+    padding: 0;
 }
 
 .main-content {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
+    text-align: center;
     max-width: 1100px;
     width: 100%;
     flex-wrap: wrap;
@@ -27,6 +24,14 @@
     width: 100%;
     height: auto;
     margin-bottom: 20px;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Añade una sombra */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Añade una transición suave */
+}
+
+.main-image:hover {
+    transform: scale(1.05); /* Escala la imagen ligeramente al pasar el ratón por encima */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Aumenta la sombra al pasar el ratón por encima */
 }
 
 .main-text {
@@ -34,17 +39,16 @@
     width: 100%;
     padding: 40px;
     box-sizing: border-box;
-    font-family: var(--font-family-base);
+    font-family: sans-serif;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
 }
 
 .main-text h1, .main-text p {
     color: var(--color-white);
     margin: 0;
-    text-align: left;
 }
 
 .main-text h1 {
@@ -63,17 +67,17 @@
     background-color: var(--color-primary);
     padding: 10px 20px;
     border: none;
-    border-radius: var(--border-radius);
-    transition: background-color var(--transition-speed);
+    border-radius: 5px;
+    transition: background-color 0.3s;
 }
 
 .main-button:hover {
-    background-color: var(--color-secondary);
+    background-color: var(--color-placeholder);
 }
 
-/* Estilos responsivos para pantallas medianas */
+/* Estilos responsivos */
 @media (max-width: 1200px) {
-    .main-content {
+    .main-content, .main-text {
         flex-direction: column;
         align-items: center;
         text-align: center;
@@ -81,61 +85,71 @@
 
     .main-text {
         padding: 20px;
-        text-align: center;
-        align-items: center;
     }
 
     .main-text h1 {
         font-size: 1.8em;
-        text-align: center;
     }
 
     .main-image {
-        max-width: 400px;
+        max-width: 500px;
     }
 }
 
-/* Estilos responsivos para pantallas pequeñas */
 @media (max-width: 800px) {
+    .main-view {
+        height: 100vh; /* Reducimos la altura */
+        background-position: center top; /* Aseguramos que el fondo esté bien alineado */
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover; /* Mantener la cobertura total del fondo */
+        display: flex;
+        align-items: flex-start; /* Alineamos el contenido al inicio */
+    }
+
     .main-content {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
+        margin-top: 100px; /* Eliminamos el margen superior */
     }
 
     .main-text {
-        font-size: 1em;
-        padding: 15px;
+        padding: 10px; /* Reducimos el padding */
     }
 
     .main-text h1, .main-text p {
         font-size: 1.5em;
+        margin-top: 10px; /* Opcional, para reducir el espacio superior */
     }
 
     .main-image {
         max-width: 350px;
+        margin-bottom: 15px; /* Reducimos el margen inferior */
     }
 }
 
-/* Estilos responsivos para pantallas extra pequeñas */
 @media (max-width: 500px) {
+    .main-view {
+        height: 100vh;
+        display: flex;
+        align-items: flex-start; /* Ajustamos la altura en pantallas muy pequeñas */
+    }
+
     .main-content {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
+        margin-top: 100px; /* Eliminamos el margen superior */
     }
 
     .main-image {
         max-width: 300px;
+        margin-bottom: 10px; /* Reducimos el margen inferior */
     }
 
     .main-text {
         max-width: 300px;
-        padding: 10px;
+        padding: 5px; /* Reducimos el padding */
     }
 
     .main-text h1, .main-text p {
         font-size: 1.2em;
+        margin-top: 5px; /* Reducimos el espacio superior */
     }
 
     .main-button {
