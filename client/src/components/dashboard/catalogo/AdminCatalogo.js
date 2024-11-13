@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate, NavLink } from 'react-router-dom';
 import '../Dashboard.css';
-import './catalogo.css'; 
+import './Catalogo.css'; 
 import LogoutButton from '../../logout/LogoutButton';
 import { AuthContext } from '../../../context/AuthContext';
 import logo from "../../../assets/img/header-logo.png";
@@ -9,7 +9,7 @@ import motor from "../../../assets/img/motors.png";
 import mecanic from "../../../assets/img/mecanic.png";
 import profile from "../../../assets/img/profile.png";
 
-const Catalogo = () => {
+const AdminCatalogo = () => {
     const { isAuthenticated, user } = useContext(AuthContext);
     const navigate = useNavigate();
     
@@ -455,4 +455,4 @@ const Catalogo = () => {
     );
 };
 
-export default Catalogo;
+export default AdminCatalogo;
