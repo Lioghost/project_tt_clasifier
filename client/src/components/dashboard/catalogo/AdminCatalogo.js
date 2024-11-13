@@ -448,7 +448,6 @@ const AdminCatalogo = () => {
                         </div>
                     )}
 
-
                 </section>
             </main>
         </div>
