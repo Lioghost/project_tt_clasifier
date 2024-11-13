@@ -5,6 +5,11 @@ client/node_modules/
 .env
 
 public/idenfifier/*
-public/uploads/*
-public/juntas/*
+*/public/uploads/*
+*/public/juntas/*
+
+classifier/Binary
+classifier/server
+*.pyc
+__pycache__/
 
