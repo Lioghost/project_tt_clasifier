@@ -269,11 +269,14 @@ const AdministrarMotoresAdmin = () => {
         }
     
         // Validar y limpiar Información Adicional (Debe ser un array y no debe exceder los 255 caracteres en total)
-        const cleanedInfoAdicional = newMotorInfoAdicional
-            .split(',')
-            .map(item => item.trim())  // Eliminar espacios extras en cada elemento
-            .filter(item => item !== '');  // Eliminar elementos vacíos si los hay
-    
+        let cleanedInfoAdicional = [];
+        if (typeof newMotorInfoAdicional === 'string') {
+            cleanedInfoAdicional = newMotorInfoAdicional
+                .split(',')
+                .map(item => item.trim())  // Eliminar espacios extras en cada elemento
+                .filter(item => item !== '');  // Eliminar elementos vacíos si los hay
+        }
+
         if (cleanedInfoAdicional.length === 0) {
             newErrors.newMotorInfoAdicional = 'La información adicional no puede estar vacía.';
         } else if (newMotorInfoAdicional.endsWith(',')) {

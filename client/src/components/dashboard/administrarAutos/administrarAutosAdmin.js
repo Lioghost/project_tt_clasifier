@@ -301,8 +301,8 @@ const AdministrarAutosAdmin = () => {
         }
     
         // Validar Submarca (VARCHAR(20), obligatorio)
-        if (newAutoSubmarca.trim() === '' || newAutoSubmarca.length > 20) {
-            newErrors.newAutoSubmarca = 'La submarca no puede estar vacía ni exceder los 20 caracteres.';
+        if (newAutoSubmarca.trim() === '' || newAutoSubmarca.length > 255) {
+            newErrors.newAutoSubmarca = 'La submarca no puede estar vacía ni exceder los 255 caracteres.';
         }
     
         // Validar Modelo (VARCHAR(4), obligatorio) 
@@ -477,8 +477,8 @@ const AdministrarAutosAdmin = () => {
         }
     
         // Validar Submarca (VARCHAR(20), obligatorio)
-        if (editAutoSubmarca.trim() === '' || editAutoSubmarca.length > 20) {
-            newErrors.editAutoSubmarca = 'La submarca no puede estar vacía ni exceder los 20 caracteres.';
+        if (editAutoSubmarca.trim() === '' || editAutoSubmarca.length > 255) {
+            newErrors.editAutoSubmarca = 'La submarca no puede estar vacía ni exceder los 255 caracteres.';
         }
     
         // Validar Modelo (VARCHAR(4), obligatorio) 
@@ -713,7 +713,6 @@ const AdministrarAutosAdmin = () => {
                         <li><NavLink to="/admin/identificador">Identificador</NavLink></li>
                         <li><NavLink to="/admin/cuenta">Administrar cuenta</NavLink></li>
                         <li><NavLink to="/admin/juntasg">Administrar GasketGenius</NavLink></li>
-                        <li><NavLink to="/admin/juntasm">Administrar juntas M</NavLink></li>
                         <li><NavLink to="/admin/motores">Administrar motores</NavLink></li>
                         <li><NavLink to="/admin/autos">Administrar autos</NavLink></li>
                         <li><NavLink to="/admin/marcas">Administrar marcas</NavLink></li>

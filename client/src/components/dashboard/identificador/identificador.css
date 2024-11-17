@@ -1,0 +1,342 @@
+/* Contenedor principal */
+.image-uploader-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Instrucciones y ejemplo (siempre visibles) */
+.upload-instructions {
+    max-width: 65%;
+    background-color: var(--color-white);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+}
+
+.attention-title {
+    color: var(--color-thead);
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.attention-description {
+    font-size: 16px;
+    color: var(--color-grey);
+    margin-bottom: 15px;
+}
+
+.conditions-list {
+    list-style-type: disc;
+    margin-left: 20px;
+    text-align: left;
+    color: var(--color-secondary);
+}
+
+.example-image-container {
+    margin-top: 15px;
+}
+
+.example-image, .processed-image {
+    max-width: 300px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    transition: transform var(--transition-speed) ease;
+    margin-top: 15px;
+}
+
+.example-image:hover, .uploaded-image:hover, .processed-image:hover {
+    transform: scale(1.05);
+}
+
+/* Dropzone */
+.dropzone {
+    max-width: 65%;
+    border: 2px dashed var(--color-primary);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    cursor: pointer;
+    transition: background-color var(--transition-speed) ease;
+    margin: 10px auto;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 150px;
+    animation: glow 1.5s infinite ease-in-out;
+}
+
+.dropzone:hover {
+    background-color: var(--color-primary-disabled);
+}
+
+.dropzone-placeholder {
+    color: var(--color-placeholder);
+    font-size: 16px;
+}
+
+/* Animación de resplandor */
+@keyframes glow {
+    0% {
+        border-color: var(--color-primary);
+        box-shadow: 0 0 8px rgba(0, 115, 230, 0.3);
+    }
+    50% {
+        border-color: #3399ff;
+        box-shadow: 0 0 12px rgba(51, 153, 255, 0.5);
+    }
+    100% {
+        border-color: var(--color-primary);
+        box-shadow: 0 0 8px rgba(0, 115, 230, 0.3);
+    }
+}
+
+/* Imagen cargada dentro del Dropzone */
+.uploaded-image {
+    max-width: 300px;
+    border-radius: var(--border-radius);
+    margin-top: 10px;
+    transition: transform var(--transition-speed) ease;
+}
+
+/* Estado de carga (loading) */
+.loading {
+    max-width: 65%;
+    text-align: center;
+    padding: 20px;
+    background-color: var(--color-white);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+}
+
+.loading p {
+    font-size: 24px;
+    color: var(--color-thead);
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.loading .description {
+    font-size: 18px;
+    color: var(--color-grey);
+    margin-top: 10px;
+}
+
+/* Spinner animado */
+.spinner {
+    width: 50px;
+    height: 50px;
+    margin: 20px auto;
+    border: 6px solid var(--color-border);
+    border-top: 6px solid var(--color-grey);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Estado de procesamiento (imagen lista para verificar) */
+.processing {
+    max-width: 65%;
+    text-align: center;
+    padding: 20px;
+    background-color: var(--color-white);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+}
+
+.processing p {
+    font-size: 24px;
+    color: var(--color-thead);
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.processing .description {
+    font-size: 16px;
+    color: var(--color-grey);
+    margin-top: 10px;
+}
+
+/* Botones en el estado de procesamiento */
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.verify-button {
+    background-color: var(--color-success);
+    color: var(--color-white);
+    padding: 10px 20px;
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease;
+}
+
+.verify-button:hover {
+    background-color: #388e3c;
+}
+
+.upload-another-button {
+    background-color: var(--color-background);
+    color: var(--color-secondary);
+    padding: 10px 20px;
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease;
+}
+
+.upload-another-button:hover {
+    background-color: #ccc;
+}
+
+/* Botones generales */
+button {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    padding: 10px 20px;
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease;
+    margin: 10px 5px;
+}
+
+button:hover {
+    background-color: var(--color-secondary);
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+.process-button {
+    background-color: var(--color-success);
+    margin-top: 15px;
+}
+
+.process-button:hover {
+    background-color: #388e3c;
+}
+
+.cancel-button {
+    background-color: var(--color-error);
+}
+
+.cancel-button:hover {
+    background-color: #c82333;
+}
+
+.continue-button {
+    background-color: var(--color-success);
+}
+
+.continue-button:hover {
+    background-color: #388e3c;
+}
+
+.final-step {
+    text-align: center;
+    background-color: var(--color-white);
+    border-radius: var(--border-radius);
+    padding: 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    max-width: 500px;
+}
+
+.final-step p {
+    font-size: 24px;
+    color: var(--color-thead);
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.final-step .description {
+    font-size: 16px;
+    color: var(--color-grey);
+    margin-top: 10px;
+}
+
+.final-step .success-icon {
+    width: 80px;
+    height: 80px;
+    margin: 10px 0;
+    animation: popIn 0.5s ease;
+}
+
+@keyframes popIn {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Estilos para la vista de "sin resultados" */
+.no-results {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 700px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.no-results h2 {
+    color: #ff6f61;
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.no-results p {
+    color: #555;
+    font-size: 1em;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.no-results-icon {
+    width: 100px;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+/* Estilos para el botón de "Intentar de nuevo" */
+.retry-button {
+    background-color: var(--color-success);
+    color: white;
+    font-size: 1em;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.retry-button:hover {
+    background-color: #388e3c;
+}
+
+
+/* SE USAN LOS ESTILOS DEL COMPONENTE CATÁLOGO PARA MOSTRAR LOS RESULTADOS DE LAS JUNTAS DE CABEZA */

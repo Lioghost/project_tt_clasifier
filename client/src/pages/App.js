@@ -17,7 +17,10 @@ import NotFound from '../components/notFound/notFound';
 import AdministrarCuentaAdmin from '../components/dashboard/administrarCuenta/administrarCuentaAdmin';
 import AdministrarCuentaClient from '../components/dashboard/administrarCuenta/administrarCuentaClient';
 
-import Catalogo from '../components/dashboard/catalogo/catalogo';
+import AdminCatalogo from '../components/dashboard/catalogo/AdminCatalogo';
+import ClientCatalogo from '../components/dashboard/catalogo/ClientCatalogo';
+import AdminIdentificador from '../components/dashboard/identificador/AdminIdentificador';
+import ClientIdentificador from '../components/dashboard/identificador/ClientIdentificador';
 
 import AdministrarJuntasGAdmin from '../components/dashboard/administrarJuntas/administrarJuntasGAdmin';
 import AdministrarJuntasMAdmin from '../components/dashboard/administrarJuntas/administrarJuntasMAdmin';
@@ -54,12 +57,12 @@ function App() {
                   <Route path="/client/cuenta" element={<ProtectedRoute roles={['Client']}><AdministrarCuentaClient /></ProtectedRoute>} />
 
                   {/* Rutas de catálogo */}
-                  <Route path="/admin/catalogo" element={<ProtectedRoute roles={['Admin']}><Catalogo /></ProtectedRoute>} />
-                  <Route path="/client/catalogo" element={<ProtectedRoute roles={['Client']}><Catalogo /></ProtectedRoute>} />
+                  <Route path="/admin/catalogo" element={<ProtectedRoute roles={['Admin']}><AdminCatalogo /></ProtectedRoute>} />
+                  <Route path="/client/catalogo" element={<ProtectedRoute roles={['Client']}><ClientCatalogo /></ProtectedRoute>} />
 
                   {/* Rutas de identificador */}
-                  <Route path="/admin/identificador" element={<ProtectedRoute roles={['Admin']}><AdministrarCuentaAdmin /></ProtectedRoute>} />
-                  <Route path="/client/identificador" element={<ProtectedRoute roles={['Client']}><AdministrarCuentaClient /></ProtectedRoute>} />
+                  <Route path="/admin/identificador" element={<ProtectedRoute roles={['Admin']}><AdminIdentificador /></ProtectedRoute>} />
+                  <Route path="/client/identificador" element={<ProtectedRoute roles={['Client']}><ClientIdentificador /></ProtectedRoute>} />
 
                   {/* Rutas restantes del administrador */}
                   <Route path="/admin/juntasg" element={<ProtectedRoute roles={['Admin']}><AdministrarJuntasGAdmin /></ProtectedRoute>} />

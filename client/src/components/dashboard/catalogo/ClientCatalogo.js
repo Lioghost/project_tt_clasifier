@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate, NavLink } from 'react-router-dom';
 import '../Dashboard.css';
-import './catalogo.css'; 
+import './Catalogo.css'; 
 import LogoutButton from '../../logout/LogoutButton';
 import { AuthContext } from '../../../context/AuthContext';
 import logo from "../../../assets/img/header-logo.png";
@@ -9,7 +9,7 @@ import motor from "../../../assets/img/motors.png";
 import mecanic from "../../../assets/img/mecanic.png";
 import profile from "../../../assets/img/profile.png";
 
-const Catalogo = () => {
+const ClientCatalogo = () => {
     const { isAuthenticated, user } = useContext(AuthContext);
     const navigate = useNavigate();
     
@@ -293,15 +293,10 @@ const Catalogo = () => {
                 <nav className="sidebar-nav">
                     <ul>
                         <li className="sidebar-header"><img src={logo} alt="GasketGenius" className="header-logo-dashboard" /></li>
-                        <li><NavLink to="/admin/dashboard">Inicio</NavLink></li> 
-                        <li><NavLink to="/admin/catalogo">Catálogo</NavLink></li>
-                        <li><NavLink to="/admin/identificador">Identificador</NavLink></li>
-                        <li><NavLink to="/admin/cuenta">Administrar cuenta</NavLink></li>
-                        <li><NavLink to="/admin/juntasg">Administrar GasketGenius</NavLink></li>
-                        <li><NavLink to="/admin/motores">Administrar motores</NavLink></li>
-                        <li><NavLink to="/admin/autos">Administrar autos</NavLink></li>
-                        <li><NavLink to="/admin/marcas">Administrar marcas</NavLink></li>
-                        <li><NavLink to="/admin/usuarios">Administrar usuarios</NavLink></li>
+                        <li><NavLink to="/client/dashboard">Inicio</NavLink></li> 
+                        <li><NavLink to="/client/catalogo">Catálogo</NavLink></li>
+                        <li><NavLink to="/client/identificador">Identificador</NavLink></li>
+                        <li><NavLink to="/client/cuenta">Administrar cuenta</NavLink></li>
                     </ul>
                 </nav>
             </aside>
@@ -455,4 +450,4 @@ const Catalogo = () => {
     );
 };
 
-export default Catalogo;
+export default ClientCatalogo;
