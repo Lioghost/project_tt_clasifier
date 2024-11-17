@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken'
 const authenticate = async (req, res, next) => {
     
     // Primero verifica si el encabezado Authorization está presente
-    console.log(req.body)
+    //console.log(req.body)
     const authHeader = req.header('Authorization');
     const token = req.cookies._token || (authHeader && authHeader.replace('Bearer ', ''));
 

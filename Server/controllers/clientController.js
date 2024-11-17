@@ -1,4 +1,5 @@
 import JuntaDesconocida from "../models/JuntaDesconocida.js";
+import { emailSendJunta } from '../config/emails.js'
 
 const dashboard = (req, res) => {
     // La función aquí simplemente confirma que el usuario tiene acceso.
@@ -13,6 +14,15 @@ const sendJuntasDesconocidas = async (req, res, next) => {
         //    message: req.body.message,
         //    image: req.file.filename
         //})
+
+        console.log(req.file)
+        console.log(req.user)
+
+        emailSendJunta({
+            user_email: req.user.email,
+            description: req.body.description,
+            file: req.file
+        })
 
         return res.status(200).json({msg: 'Solicitud enviada con éxito', msg2: req.body.message}) //Se envia respuesta al usuario
 

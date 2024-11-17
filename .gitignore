@@ -10,6 +10,7 @@ public/idenfifier/*
 
 classifier/Binary
 classifier/server
+classifier/app/uploads_temp/*
 *.pyc
 __pycache__/
 

@@ -137,19 +137,19 @@ const emailOlvidePassword = async (datos) => {
 
 const emailSendJunta = async (datos) => {
 
-  const { message, req } = datos
+  const { user_email, file } = datos
 
   // Opciones del correo electrónico
   const mailOptions = {
-    from: 'tuemail@dominio.com',
-    to: 'admin@dominio.com',
-    subject: 'Nueva Solicitud de Producto Desconocido',
-    text: `Mensaje del cliente: ${message}`,
+    from: user_email,
+    replyTo: user_email,
+    to: process.env.EMAIL_USER,
+    subject: 'Nueva Solicitud de Junta Desconocida',
+    text: "Mensaje del cliente: ",
     attachments: [
       {
-          filename: req.file.originalname,
-          content: req.file.buffer,
-          contentType: req.file.mimetype
+          filename: file.filename,
+          path: file.path
       }
     ]
   };
@@ -161,5 +161,6 @@ const emailSendJunta = async (datos) => {
 
 export {
   emailRegistro,
-  emailOlvidePassword
+  emailOlvidePassword,
+  emailSendJunta
 }

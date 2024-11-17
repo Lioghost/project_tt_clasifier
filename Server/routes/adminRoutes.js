@@ -39,7 +39,7 @@ import {
 const router = express.Router();
 
 // Ruta para el dashboard del cliente
-router.get('/dashboard', authenticate, authorize('Admin'), dashboard);
+router.get('/dashboard', authenticate, authorize(['Admin']), dashboard);
 
 // route to get all users
 router.get('/users', authenticate, authorize(['Admin']), users);
