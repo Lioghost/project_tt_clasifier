@@ -1,8 +1,7 @@
 from flask import Blueprint, render_template, jsonify, request, send_file
 from app.controller import binarizador
+from app.controller import classifier
 import os
-from io import BytesIO
-import cv2
 
 bp = Blueprint('main', __name__)
 
@@ -13,32 +12,51 @@ def test_binarized():
         return jsonify({"message": "No se encontró ninguna imagen"}), 400
     
     image = request.files['imagen']
-
-    if image.filename == '':
+    id_image = request.form.get('id_image')       
+    
+    if not image and not id_image:
         return jsonify({'error': 'No se seleccionó ningún archivo.'}), 400
+    
+    extension = image.filename.split('.')[-1].lower()
+    new_filename = f"{id_image}.{extension}"
+    #print(new_filename)
 
-    # Guardar la imagen en un directorio (opcional)
-    upload_folder = '/app/uploads_temp'
-    os.makedirs(upload_folder, exist_ok=True)  # Crear la carpeta si no existe
-    image_path = os.path.join(upload_folder, image.filename)
+    upload_folder = os.path.abspath('./app/uploads_temp')
+    os.makedirs(upload_folder, exist_ok=True)  
+    image_path = os.path.join(upload_folder, new_filename)
+    #print(image_path)
     image.save(image_path)
+    ##binary_image = binarizador.get_binariry_image(image)
     binarizador.get_binariry_image(image_path)
 
-    # Devolver la imagen directamente desde memoria
+    #Devolver la imagen directamente desde memoria
     return send_file(image_path, mimetype=image.mimetype)
 
-    # Leer la imagen en memoria
+    #Leer la imagen en memoria
     #image_bytes = BytesIO(image.read())
 
-    # Devolver la imagen cargada en la respuesta
+    #Devolver la imagen cargada en la respuesta
     #return send_file(image_bytes, mimetype=image.mimetype)
-    #return jsonify({'message': f'Imagen subida con éxito: {image.filename}'}), 200
-    
-    #return render_template("index.html", message="Bienvenido al servidor Flask")
-    #return jsonify({"message": "Hola, soy goku"})
 
-    # Guardar la imagen procesada en memoria para devolverla al cliente
-    #_, buffer = cv2.imencode('.jpg', binary_image)
-    #image_bytes = BytesIO(buffer)
+    ##Guardar la imagen procesada en memoria para devolverla al cliente
+    ##_, buffer = cv2.imencode('.jpg', binary_image)
+    ##image_bytes = BytesIO(buffer)
 
     #return send_file(image_bytes, mimetype='image/jpeg')
+
+@bp.route('/test-binarized/<id_image>', methods=['DELETE'])
+def test_binarized_delete(id_image):
+
+    image_path = f"./app/uploads_temp/{id_image}.jpg"
+    os.remove(image_path)
+
+    return jsonify({"message": "Archivo eliminados correctamente."}), 200
+
+
+@bp.route('/classification', methods=['POST'])
+def classficator():
+    id_image = request.form.get('id_image')
+
+    class_image = classifier.get_classification(id_image)
+
+    return jsonify(class_image), 200

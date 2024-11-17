@@ -2,13 +2,13 @@ import cv2
 import numpy as np
 
 def get_binariry_image(image_path):
-    # Cargar la imagen
+    #Cargar la imagen a memoria
     ##file_bytes = np.frombuffer(image.read(), np.uint8)  # Convertir a un array de bytes
     ##image = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)  # Decodificar la imagen desde bytes
     image = cv2.imread(image_path)
 
     #if image is None:
-    #raise ValueError("La imagen no pudo ser decodificada. Asegúrate de enviar un archivo válido.")
+    # raise ValueError("La imagen no pudo ser decodificada. Asegúrate de enviar un archivo válido.")
 
     #Convertir a escala de grises
     gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)

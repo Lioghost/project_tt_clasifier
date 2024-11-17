@@ -45,34 +45,6 @@ const storage = multer.diskStorage({
     }
 })
 
-/*
-// Almacenamiento en memoria (sin guardar el archivo en disco)
-const memoryStorage = multer.memoryStorage();
-
-// Middleware dinámico que selecciona el tipo de almacenamiento según la ruta
-const upload = (req, res, next) => {
-    let multerInstance;
-
-    // Si es la ruta específica que necesita almacenamiento en memoria
-    if (req.url === '/unknown-juntas') {
-        // Usamos almacenamiento en memoria para esta ruta
-        multerInstance = multer({ storage: memoryStorage }).single('image');
-    } else {
-        // Usamos almacenamiento en disco para otras rutas
-        multerInstance = multer({ storage: diskStorage }).single('image');
-    }
-
-    // Llamamos al middleware de multer seleccionado
-    multerInstance(req, res, (err) => {
-        if (err) {
-            return res.status(500).json({ error: err.message });
-        }
-        next();  // Continuar con la siguiente función middleware
-    });
-};
-
-*/
-
 const upload = multer({ storage }); //Usa multer con la configuracion que se le esta pasando
 
 export default upload;
