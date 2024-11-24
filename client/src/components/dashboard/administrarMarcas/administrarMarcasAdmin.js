@@ -332,7 +332,7 @@ const AdministrarMarcasAdmin = () => {
                                     <p className="profile-email">{user?.email || "Correo del usuario"}</p>
                                 </div>
                             </div>
-                            <div className="logout-button">
+                            <div className="logout-button-container">
                                 <LogoutButton />
                             </div>
                         </div>
@@ -361,12 +361,11 @@ const AdministrarMarcasAdmin = () => {
                 <section className="welcome-message">
                     <h1>Administrar marcas</h1>
 
-                    <div className="brand-management">
-                        <div className="brand-header">
+                    <div className="entity-management">
+                        <div className="entity-header">
                           <h1>Marcas</h1>
-                          <div className="brand-actions">
-                            <input type="text" placeholder="Búsqueda por nombre" className="brand-search-bar" />
-                            <button className="add-brand-button" onClick={openAddModal}>Agregar marca</button>
+                          <div className="entity-actions">
+                            <button className="add-entity-button" onClick={openAddModal}>Agregar marca</button>
                           </div>
                         </div>
 
@@ -382,7 +381,7 @@ const AdministrarMarcasAdmin = () => {
                         {successEditMessage && <div className="edit-success-message-brand">{successEditMessage}</div>}
                         {errorEditMessage && <div className="edit-error-message-brand">{errorEditMessage}</div>}
 
-                        <table className="brand-table">
+                        <table className="entity-table">
                           <thead>
                             <tr>
                               <th>Marca</th>
@@ -393,15 +392,15 @@ const AdministrarMarcasAdmin = () => {
                             {brands.map((brand) => (
                               <tr key={brand.id}>
                                 <td>{brand.marca}</td>
-                                <td className="brand-options-cell">
+                                <td className="entity-options-cell">
                                   <button 
-                                    className="brand-edit-button"
+                                    className="table-edit-button"
                                     onClick={() => openEditModal(brand.id)}
                                   >
                                     Editar
                                   </button>
                                   <button 
-                                    className="brand-delete-button" 
+                                    className="table-delete-button" 
                                     onClick={() => openDeleteModal(brand.id)}
                                   >
                                     Eliminar

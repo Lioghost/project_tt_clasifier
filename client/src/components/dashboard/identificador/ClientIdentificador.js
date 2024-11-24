@@ -138,7 +138,7 @@ const ClientIdentificador = () => {
                                     <p className="profile-email">{user?.email || "Correo del usuario"}</p>
                                 </div>
                             </div>
-                            <div className="logout-button">
+                            <div className="logout-button-container">
                                 <LogoutButton />
                             </div>
                         </div>
@@ -150,15 +150,10 @@ const ClientIdentificador = () => {
                 <nav className="sidebar-nav">
                     <ul>
                         <li className="sidebar-header"><img src={logo} alt="GasketGenius" className="header-logo-dashboard" /></li>
-                        <li><NavLink to="/admin/dashboard">Inicio</NavLink></li> 
-                        <li><NavLink to="/admin/catalogo">Catálogo</NavLink></li>
-                        <li><NavLink to="/admin/identificador">Identificador</NavLink></li>
-                        <li><NavLink to="/admin/cuenta">Administrar cuenta</NavLink></li>
-                        <li><NavLink to="/admin/juntasg">Administrar GasketGenius</NavLink></li>
-                        <li><NavLink to="/admin/motores">Administrar motores</NavLink></li>
-                        <li><NavLink to="/admin/autos">Administrar autos</NavLink></li>
-                        <li><NavLink to="/admin/marcas">Administrar marcas</NavLink></li>
-                        <li><NavLink to="/admin/usuarios">Administrar usuarios</NavLink></li>
+                        <li><NavLink to="/client/dashboard">Inicio</NavLink></li> 
+                        <li><NavLink to="/client/catalogo">Catálogo</NavLink></li>
+                        <li><NavLink to="/client/identificador">Identificador</NavLink></li>
+                        <li><NavLink to="/client/cuenta">Administrar cuenta</NavLink></li>
                     </ul>
                 </nav>
             </aside>

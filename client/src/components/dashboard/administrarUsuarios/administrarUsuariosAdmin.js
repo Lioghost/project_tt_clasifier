@@ -141,7 +141,7 @@ const AdministrarUsuariosAdmin = () => {
                                     <p className="profile-email">{user?.email || "Correo del usuario"}</p>
                                 </div>
                             </div>
-                            <div className="logout-button">
+                            <div className="logout-button-container">
                                 <LogoutButton />
                             </div>
                         </div>
@@ -170,12 +170,9 @@ const AdministrarUsuariosAdmin = () => {
                 <section className="welcome-message">
                     <h1>Administrar usuarios</h1>
 
-                    <div className="user-management">
-                        <div className="user-header">
+                    <div className="entity-management">
+                        <div className="entity-header">
                           <h1>Usuarios</h1>
-                          <div className="user-actions">
-                            <input type="text" placeholder="Búsqueda por nombre" className="user-search-bar" />
-                          </div>
                         </div>
 
                         {successMessage && <div className="get-success-message-user">{successMessage}</div>}
@@ -184,7 +181,7 @@ const AdministrarUsuariosAdmin = () => {
                         {successEditMessage && <div className="edit-success-message-user">{successEditMessage}</div>}
                         {errorEditMessage && <div className="edit-error-message-user">{errorEditMessage}</div>}
 
-                        <table className="user-table">
+                        <table className="entity-table">
                           <thead>
                             <tr>
                               <th>Apellidos</th>
@@ -217,7 +214,6 @@ const AdministrarUsuariosAdmin = () => {
                           </tbody>
 
                         </table>
-
 
                     </div>
 

@@ -138,7 +138,7 @@ const AdminIdentificador = () => {
                                     <p className="profile-email">{user?.email || "Correo del usuario"}</p>
                                 </div>
                             </div>
-                            <div className="logout-button">
+                            <div className="logout-button-container">
                                 <LogoutButton />
                             </div>
                         </div>

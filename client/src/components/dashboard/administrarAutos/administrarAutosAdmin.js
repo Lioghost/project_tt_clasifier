@@ -696,7 +696,7 @@ const AdministrarAutosAdmin = () => {
                                     <p className="profile-email">{user?.email || "Correo del usuario"}</p>
                                 </div>
                             </div>
-                            <div className="logout-button">
+                            <div className="logout-button-container">
                                 <LogoutButton />
                             </div>
                         </div>
@@ -725,12 +725,11 @@ const AdministrarAutosAdmin = () => {
                 <section className="welcome-message">
                     <h1>Administrar autos</h1>
 
-                    <div className="auto-management">
-                        <div className="auto-header">
+                    <div className="entity-management">
+                        <div className="entity-header">
                           <h1>Autos</h1>
-                          <div className="auto-actions">
-                            <input type="text" placeholder="Búsqueda por nombre" className="auto-search-bar" />
-                            <button className="add-auto-button" onClick={openAddModal}>Agregar auto</button>
+                          <div className="entity-actions">
+                            <button className="add-entity-button" onClick={openAddModal}>Agregar auto</button>
                           </div>
                         </div>
 
@@ -773,7 +772,7 @@ const AdministrarAutosAdmin = () => {
                             </div>
                         )}
 
-                        <table className="auto-table">
+                        <table className="entity-table">
                           <thead>
                             <tr>
                               <th>Identificador</th>
@@ -793,21 +792,21 @@ const AdministrarAutosAdmin = () => {
                                   <td>{auto.litros}</td>
                                   {/* Verificar que auto.marca no sea null o undefined */}
                                   <td>{auto.marca ? auto.marca.marca : 'Sin marca'}</td>
-                                  <td className="auto-options-cell">
+                                  <td className="entity-options-cell">
                                     <button 
-                                      className="auto-edit-button"
+                                      className="table-edit-button"
                                       onClick={() => openEditModal(auto.id)}
                                     >
                                       Editar
                                     </button>
                                     <button 
-                                      className="auto-assign-button"
+                                      className="table-assign-button"
                                       onClick={() => openAssignModal(auto.id)}
                                     >
                                       Motores
                                     </button>
                                     <button 
-                                      className="auto-delete-button" 
+                                      className="table-delete-button" 
                                       onClick={() => openDeleteModal(auto.id)}
                                     >
                                       Eliminar

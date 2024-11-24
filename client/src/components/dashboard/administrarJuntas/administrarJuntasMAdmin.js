@@ -427,7 +427,7 @@ const AdministrarJuntasMAdmin = () => {
                                     <p className="profile-email">{user?.email || "Correo del usuario"}</p>
                                 </div>
                             </div>
-                            <div className="logout-button">
+                            <div className="logout-button-container">
                                 <LogoutButton />
                             </div>
                         </div>
@@ -456,12 +456,11 @@ const AdministrarJuntasMAdmin = () => {
                 <section className="welcome-message">
                     <h1>Administrar Juntas de Cabeza</h1>
 
-                    <div className="juntam-management">
-                        <div className="juntam-header">
+                    <div className="entity-management">
+                        <div className="entity-header">
                           <h1>Juntas de Cabeza de {juntagId}</h1>
-                          <div className="juntam-actions">
-                            <input type="text" placeholder="Búsqueda por nombre" className="juntam-search-bar" />
-                            <button className="add-juntam-button" onClick={openAddModal}>Agregar nueva Junta de Cabeza</button>
+                          <div className="entity-actions">
+                            <button className="add-entity-button" onClick={openAddModal}>Agregar nueva Junta de Cabeza</button>
                           </div>
                         </div>
 
@@ -495,7 +494,7 @@ const AdministrarJuntasMAdmin = () => {
                             </div>
                         )}
 
-                        <table className="juntam-table">
+                        <table className="entity-table">
                           <thead>
                             <tr>
                               <th>Identificador en marca</th>
@@ -512,15 +511,15 @@ const AdministrarJuntasMAdmin = () => {
                                 <td>{juntam.marca_refac}</td>
                                 <td>{juntam.url_marca}</td>
                                 <td>{juntam.junta_id}</td>
-                                <td className="juntam-options-cell">
+                                <td className="entity-options-cell">
                                   <button
-                                    className="juntam-edit-button"
+                                    className="table-edit-button"
                                     onClick={() => openEditModal(juntam.id)}
                                   >
                                     Editar
                                   </button>
                                   <button
-                                    className="juntam-delete-button"
+                                    className="table-delete-button"
                                     onClick={() => openDeleteModal(juntam.id)}
                                   >
                                     Eliminar

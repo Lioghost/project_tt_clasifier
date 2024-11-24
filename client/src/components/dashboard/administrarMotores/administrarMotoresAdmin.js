@@ -746,7 +746,7 @@ const AdministrarMotoresAdmin = () => {
                                     <p className="profile-email">{user?.email || "Correo del usuario"}</p>
                                 </div>
                             </div>
-                            <div className="logout-button">
+                            <div className="logout-button-container">
                                 <LogoutButton />
                             </div>
                         </div>
@@ -775,12 +775,11 @@ const AdministrarMotoresAdmin = () => {
                 <section className="welcome-message">
                     <h1>Administrar motores</h1>
 
-                    <div className="motor-management">
-                        <div className="motor-header">
+                    <div className="entity-management">
+                        <div className="entity-header">
                           <h1>Motores</h1>
-                          <div className="motor-actions">
-                            <input type="text" placeholder="Búsqueda por nombre" className="motor-search-bar" />
-                            <button className="add-motor-button" onClick={openAddModal}>Agregar motor</button>
+                          <div className="entity-actions">
+                            <button className="add-entity-button" onClick={openAddModal}>Agregar motor</button>
                           </div>
                         </div>
 
@@ -823,7 +822,7 @@ const AdministrarMotoresAdmin = () => {
                             </div>
                         )}
 
-                        <table className="motor-table">
+                        <table className="entity-table">
                           <thead>
                             <tr>
                               <th>Identificador</th>
@@ -846,21 +845,21 @@ const AdministrarMotoresAdmin = () => {
                                 <td>{motor.numero_pistones} {motor.posicion_pistones}</td>
                                 <td>{Array.isArray(motor.info_adicional) ? motor.info_adicional.join(", ") : motor.info_adicional}</td>
                                 <td>{`${motor.range_year_i} - ${motor.range_year_f}`}</td>
-                                <td className="motor-options-cell">
+                                <td className="entity-options-cell">
                                     <button
-                                        className="motor-edit-button"
+                                        className="table-edit-button"
                                         onClick={() => openEditModal(motor.id)}
                                     >
                                         Editar
                                     </button>
                                     <button 
-                                        className="motor-assign-button"
+                                        className="table-assign-button"
                                         onClick={() => openAssignModal(motor.id)}
                                     >
                                         GasketGenius
                                     </button>
                                     <button
-                                        className="motor-delete-button"
+                                        className="table-delete-button"
                                         onClick={() => openDeleteModal(motor.id)}
                                     >
                                         Eliminar
@@ -1032,7 +1031,7 @@ const AdministrarMotoresAdmin = () => {
             {showAssignModal && (
                 <div className="assign-motor-modal-overlay">
                     <div className="assign-motor-modal-content">
-                        <h2>Motores para {motorToAssign?.id_motor}</h2>
+                        <h2>GasketGenius para {motorToAssign?.id_motor}</h2>
             
                         {/* Detalles del auto */}
                         <div className="assign-motor-detail">

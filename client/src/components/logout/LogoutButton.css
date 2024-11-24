@@ -1,15 +1,14 @@
-.logout-button {
+.logout-button-container #logout-button {
     color: var(--color-primary);
     border: none;
     background-color: transparent;
     text-decoration: none;
     font-size: 14px;
-    margin-top: 10px;
     text-decoration: underline transparent;
-    transition: text-decoration var(--transition-speed) ease;
+    transition: color var(--transition-speed) ease, text-decoration-color var(--transition-speed) ease;
 }
 
-.logout-button:hover {
+.logout-button-container #logout-button:hover {
     text-decoration-color: var(--color-primary);
     cursor: pointer;
 }

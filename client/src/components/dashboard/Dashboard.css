@@ -1,4 +1,4 @@
-/* Estilos generales */
+/* ------ Estilos generales */
 .dashboard {
     display: flex;
     font-family: var(--font-family-base);
@@ -16,7 +16,7 @@
     margin-left: 250px;
 }
 
-/* Sidebar */
+/* ------ Sidebar */
 .sidebar {
     width: 250px;
     height: 100vh;
@@ -68,7 +68,7 @@
     background-color: var(--color-primary);
 }
 
-/* Header */
+/* ------ Header */
 .header-dashboard {
     display: flex;
     justify-content: space-between;
@@ -103,7 +103,7 @@
     background-color: var(--color-primary);
 }
 
-/* Profile */
+/* ------ Profile */
 .profile {
     display: flex;
     align-items: center;
@@ -135,12 +135,10 @@
     background-color: var(--color-white);
     border-radius: 8px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    width: 300px; /* Ajustar el ancho */
+    width: 300px; 
     z-index: 1000;
-    padding: 20px; /* Aumenta el padding para dar más espacio */
+    padding: 20px; 
     border: 1px solid var(--color-border);
-    
-    /* Inicialmente oculto con opacidad y desplazamiento */
     opacity: 0;
     visibility: hidden;
     transform: translateY(-20px);
@@ -151,14 +149,12 @@
 .profile.isDropdownOpen .profile-dropdown {
     opacity: 1;
     visibility: visible;
-    transform: translateY(0); /* Vuelve a su posición original */
+    transform: translateY(0); 
 }
-
 
 .profile-dropdown-content {
     display: flex;
-    align-items: center;
-    margin-bottom: 10px; /* Espacio entre la imagen/texto y el botón */
+    align-items: center; 
 }
 
 .img-profile-dropdown {
@@ -194,13 +190,12 @@
     margin-top: 5px;
 }
 
-/* Estilo para el botón "Cerrar sesión" */
-.profile-dropdown .logout-button {
-    margin-top: 1px; /* Añadir espacio entre el correo y el botón */
-    text-align: right;
+/* Estilo para el contenedor del botón "Cerrar sesión" */
+.logout-button-container {
+    justify-content: end;
 }
 
-/* Welcome Message */
+/* ------ Welcome Message */
 .welcome-message {
     padding-top: 70px;
     text-align: center;
@@ -212,7 +207,7 @@
     color: var(--color-secondary);
 }
 
-/* Cards */
+/* ------ Cards */
 .cards {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -254,7 +249,7 @@
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
-/* Media queries */
+/* ------ Media queries */
 @media (max-width: 768px) {
     .sidebar {
         width: 200px;

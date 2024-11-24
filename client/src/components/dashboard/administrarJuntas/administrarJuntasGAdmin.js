@@ -408,7 +408,7 @@ const AdministrarJuntasGAdmin = () => {
                                     <p className="profile-email">{user?.email || "Correo del usuario"}</p>
                                 </div>
                             </div>
-                            <div className="logout-button">
+                            <div className="logout-button-container">
                                 <LogoutButton />
                             </div>
                         </div>
@@ -437,12 +437,11 @@ const AdministrarJuntasGAdmin = () => {
                 <section className="welcome-message">
                     <h1>Administrar GasketGenius</h1>
 
-                    <div className="juntag-management">
-                        <div className="juntag-header">
+                    <div className="entity-management">
+                        <div className="entity-header">
                           <h1>Juntas GasketGenius</h1>
-                          <div className="juntag-actions">
-                            <input type="text" placeholder="Búsqueda por nombre" className="juntag-search-bar" />
-                            <button className="add-juntag-button" onClick={openAddModal}>Agregar junta GasketGenius</button>
+                          <div className="entity-actions">
+                            <button className="add-entity-button" onClick={openAddModal}>Agregar junta GasketGenius</button>
                           </div>
                         </div>
 
@@ -476,7 +475,7 @@ const AdministrarJuntasGAdmin = () => {
                             </div>
                         )}
 
-                        <table className="juntag-table">
+                        <table className="entity-table">
                           <thead>
                             <tr>
                               <th>Identificador</th>
@@ -489,21 +488,21 @@ const AdministrarJuntasGAdmin = () => {
                               <tr key={juntag.id_junta}>
                                 <td>{juntag.id_junta}</td>
                                 <td>{juntag.id_image}</td>
-                                <td className="juntag-options-cell">
+                                <td className="entity-options-cell">
                                   <button
-                                    className="juntag-edit-button"
+                                    className="table-edit-button"
                                     onClick={() => openEditModal(juntag.id_junta, juntag.id_image)}
                                   >
                                     Editar
                                   </button>
                                   <button
-                                    className="juntag-compatible-button"
+                                    className="table-assign-button"
                                     onClick={() => openCompatibleView(juntag.id_junta)}
                                   >
                                     Compatibles
                                   </button>
                                   <button
-                                    className="juntag-delete-button"
+                                    className="table-delete-button"
                                     onClick={() => openDeleteModal(juntag.id_junta)}
                                   >
                                     Eliminar

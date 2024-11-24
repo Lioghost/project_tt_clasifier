@@ -66,12 +66,142 @@ body, html {
     font-style: italic;
 }
 
-/* Estilo para el borde del input cuando está enfocado */
 .form-group input:focus {
     border-color: var(--color-primary); /* Cambia el color del borde al enfoque */
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Añade una sombra alrededor del input */
     outline: none; /* Remueve el borde de enfoque predeterminado del navegador */
 }
+
+/* Estilos para las tablas de la administracción de las entidades */
+.entity-management {
+    background-color: var(--color-white);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 2rem 0;
+}
+
+.entity-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.entity-header h1 {
+    color: var(--color-secondary);
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+.entity-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.add-entity-button {
+    padding: 0.5rem 1rem;
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background-color var(--transition-speed);
+}
+
+.add-entity-button:hover {
+    background-color: var(--color-primary-disabled);
+}
+
+/* Contenedor centrado de la tabla */
+.entity-table-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+}
+
+.entity-table {
+    width: 100%;
+    max-width: 1200px; /* Tamaño máximo de la tabla */
+    border-collapse: collapse;
+    margin: 0 auto;
+}
+
+.entity-table th, 
+.entity-table td {
+    padding: 1rem;
+    border: 1px solid var(--color-border);
+    text-align: left;
+}
+
+.entity-table th {
+    background-color: var(--color-thead);
+    color: var(--color-white);
+}
+
+.entity-options-cell {
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* Estilos para los botones de las opciones en las tablas de administración*/
+.table-edit-button,
+.table-assign-button,
+.table-delete-button {
+    font-size: 16px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--color-secondary);
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: color var(--transition-speed), background-color var(--transition-speed);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Inter', sans-serif; /* Usa una fuente moderna */
+    font-weight: 500;
+}
+
+/* Estilo hover para el botón de edición */
+.table-edit-button:hover {
+    color: var(--color-primary);
+    background-color: rgba(0, 0, 0, 0.05); /* Fondo claro */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Efecto de sombra */
+}
+
+/* Estilo hover para el botón de asignación */
+.table-assign-button:hover {
+    color: var(--color-success); /* Color destacado para acción positiva */
+    background-color: rgba(0, 255, 0, 0.05); /* Fondo acorde al color de éxito */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo hover para el botón de eliminación */
+.table-delete-button:hover {
+    color: var(--color-error);
+    background-color: rgba(255, 0, 0, 0.05); /* Fondo rojo claro */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo de accesibilidad para focus */
+.table-edit-button:focus,
+.table-assign-button:focus,
+.table-delete-button:focus {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* Estilo de activación para botones */
+.table-edit-button:active,
+.table-assign-button:active,
+.table-delete-button:active {
+    transform: scale(0.98);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+
+
 
 @keyframes fadeInOut {
     0% {

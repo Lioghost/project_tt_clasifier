@@ -51,7 +51,7 @@ const ClientDashboard = () => {
                           <p className="profile-email">{user?.email || "Correo del usuario"}</p>
                         </div>
                       </div>
-                      <div className="logout-button">
+                      <div className="logout-button-container">
                         <LogoutButton />
                       </div>
                     </div>
@@ -60,17 +60,17 @@ const ClientDashboard = () => {
               </div>
             </header>
 
-          <aside className={`sidebar ${isSidebarOpen ? 'active' : ''}`}>
-            <nav className="sidebar-nav">
-              <ul>
-                <li className="sidebar-header"><img src={logo} alt="GasketGenius" className="header-logo-dashboard" /></li>
-                <li><NavLink to="/client/dashboard">Inicio</NavLink></li> 
-                <li><NavLink to="/client/catalogo">Catálogo</NavLink></li>
-                <li><NavLink to="/client/identificador">Identificador</NavLink></li>
-                <li><NavLink to="/client/cuenta">Administrar cuenta</NavLink></li>
-              </ul>
-            </nav>
-          </aside>
+            <aside className={`sidebar ${isSidebarOpen ? 'active' : ''}`}>
+                <nav className="sidebar-nav">
+                    <ul>
+                        <li className="sidebar-header"><img src={logo} alt="GasketGenius" className="header-logo-dashboard" /></li>
+                        <li><NavLink to="/client/dashboard">Inicio</NavLink></li> 
+                        <li><NavLink to="/client/catalogo">Catálogo</NavLink></li>
+                        <li><NavLink to="/client/identificador">Identificador</NavLink></li>
+                        <li><NavLink to="/client/cuenta">Administrar cuenta</NavLink></li>
+                    </ul>
+                </nav>
+            </aside>
     
           <main className={`main-content-dashboard ${isSidebarOpen ? 'sidebar-active' : ''}`}>
             <section className="welcome-message">

@@ -1,4 +1,4 @@
-/* Contenedor principal */
+/* ------ Contenedor principal */
 .image-uploader-container {
     text-align: center;
     margin-top: 20px;
@@ -75,7 +75,7 @@
     font-size: 16px;
 }
 
-/* Animación de resplandor */
+/* ------ Animación de resplandor */
 @keyframes glow {
     0% {
         border-color: var(--color-primary);
@@ -99,7 +99,7 @@
     transition: transform var(--transition-speed) ease;
 }
 
-/* Estado de carga (loading) */
+/* ------ Estado de carga (loading) */
 .loading {
     max-width: 65%;
     text-align: center;
@@ -139,7 +139,7 @@
     100% { transform: rotate(360deg); }
 }
 
-/* Estado de procesamiento (imagen lista para verificar) */
+/* ------ Estado de procesamiento (imagen lista para verificar) */
 .processing {
     max-width: 65%;
     text-align: center;
@@ -200,7 +200,7 @@
     background-color: #ccc;
 }
 
-/* Botones generales */
+/* ------ Botones generales */
 button {
     background-color: var(--color-primary);
     color: var(--color-white);
@@ -287,7 +287,7 @@ button:active {
     }
 }
 
-/* Estilos para la vista de "sin resultados" */
+/* ------ Estilos para la vista de "sin resultados" */
 .no-results {
     display: flex;
     flex-direction: column;
@@ -322,7 +322,7 @@ button:active {
     margin-bottom: 20px;
 }
 
-/* Estilos para el botón de "Intentar de nuevo" */
+/* ------ Estilos para el botón de "Intentar de nuevo" */
 .retry-button {
     background-color: var(--color-success);
     color: white;

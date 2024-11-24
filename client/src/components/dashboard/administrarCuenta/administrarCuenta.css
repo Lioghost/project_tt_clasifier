@@ -1,3 +1,4 @@
+/* ------ Estilos generales*/
 .account-management {
   display: flex;
   flex-direction: column;
@@ -8,18 +9,18 @@
 
 .account-details {
   display: flex;
-  flex-direction: column; /* Cambiado a columna para mejor alineación */
+  flex-direction: column; 
   align-items: center;
-  background-color: var(--color-white); /* Cambiado a blanco para un diseño más limpio */
+  background-color: var(--color-white); 
   padding: 2rem;
   border-radius: 10px;
-  width: 32rem; /* Ligera ampliación del ancho */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave para destacarse */
+  width: 32rem; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
 }
 
 .account-left {
   text-align: center;
-  margin-bottom: 1.5rem; /* Añadido margen inferior */
+  margin-bottom: 1.5rem; 
 }
 
 .user-avatar {
@@ -30,15 +31,15 @@
 }
 
 .account-center {
-  width: 100%; /* Asegura que el formulario ocupe todo el ancho disponible */
-  text-align: left; /* Añadido para alinear el texto a la izquierda */
+  width: 100%; 
+  text-align: left; 
 }
 
 .account-info {
   margin-bottom: 1.2rem;
 }
 
-/* Ajustar margen inferior de los inputs para evitar superposiciones */
+/* ------ Ajustar margen inferior de los inputs para evitar superposiciones */
 input {
   width: 100%;
   padding: 0.8rem;
@@ -49,13 +50,13 @@ input {
   transition: background-color var(--transition-speed), border-color var(--transition-speed);
   color: #333;
   outline: none;
-  margin-bottom: 1rem; /* Agrega un margen inferior para separar el input del mensaje */
+  margin-bottom: 1rem;
 }
 
 /* Cuando los inputs están habilitados para edición */
 input:focus {
   background-color: var(--color-white);
-  border-color: var(--color-primary); /* Color del borde cuando está activo */
+  border-color: var(--color-primary); 
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
 }
 
@@ -65,13 +66,13 @@ input:disabled {
   color: #6c757d;
 }
 
-/* Estilo para los mensajes de error */
+/* ------ Estilo para los mensajes */
 .error-message-account {
-  color: var(--color-error); /* Color de error definido en tus variables de CSS */
+  color: var(--color-error); 
   font-size: 0.9rem;
-  margin-top: 0.3rem; /* Espacio entre el input y el mensaje de error */
-  margin-bottom: 1rem; /* Espacio adicional debajo del mensaje */
-  display: block; /* Asegura que se mantenga en bloque */
+  margin-top: 0.3rem; 
+  margin-bottom: 1rem; 
+  display: block; 
 }
 
 .send-error-message-account {
@@ -83,7 +84,7 @@ input:disabled {
   max-width: 90%;
   padding: 15px;
   color: var(--color-white);
-  background-color: var(--color-error); /* Define este color en tus variables de CSS */
+  background-color: var(--color-error); 
   border-radius: 5px;
   text-align: center;
   font-family: var(--font-family-base);
@@ -92,7 +93,7 @@ input:disabled {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   opacity: 0;
   animation: fadeInOut 3s forwards;
-  z-index: 1000; /* Asegura que esté por encima de otros elementos */
+  z-index: 1000; 
 }
 
 .send-success-message-account {
@@ -104,7 +105,7 @@ input:disabled {
   max-width: 90%;
   padding: 15px;
   color: var(--color-white);
-  background-color: var(--color-success); /* Define este color en tus variables de CSS */
+  background-color: var(--color-success); 
   border-radius: 5px;
   text-align: center;
   font-family: var(--font-family-base);
@@ -113,10 +114,10 @@ input:disabled {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   opacity: 0;
   animation: fadeInOut 3s forwards;
-  z-index: 1000; /* Asegura que esté por encima de otros elementos */
+  z-index: 1000; 
 }
 
-/* Estilo para las etiquetas */
+/* ------ Estilo para las etiquetas */
 label {
   font-weight: 600;
   font-size: 1rem;
@@ -125,7 +126,7 @@ label {
   display: block;
 }
 
-/* Contenedor para hacer más visualmente atractivo */
+/* ------ Contenedor para hacer más visualmente atractivo */
 .account-info {
   margin-bottom: 1.5rem;
   display: flex;
@@ -137,7 +138,7 @@ p {
   color: #666;
 }
 
-/* Botón guardar o editar */
+/* ------ Botón guardar o editar */
 .save-button {
   padding: 0.8rem 2rem;
   background-color: var(--color-success);
@@ -150,21 +151,21 @@ p {
 }
 
 .save-button.active {
-  background-color: var(--color-primary); /* Color más fuerte */
+  background-color: var(--color-primary); 
 }
 
 .save-button:hover {
-  background-color: var(--color-secondary); /* Color más fuerte */
+  background-color: var(--color-secondary); 
 }
 
-/* Estilos responsivos para pantallas medianas */
+/* ------ Estilos responsivos para pantallas medianas */
 @media (max-width: 1200px) {
   .account-details {
       width: 28rem;
   }
 }
 
-/* Estilos responsivos para pantallas pequeñas */
+/* ------ Estilos responsivos para pantallas pequeñas */
 @media (max-width: 800px) {
   .account-details {
       width: 24rem;
@@ -176,7 +177,7 @@ p {
   }
 }
 
-/* Estilos responsivos para pantallas extra pequeñas */
+/* ------ Estilos responsivos para pantallas extra pequeñas */
 @media (max-width: 500px) {
   .account-details {
       width: 20rem;

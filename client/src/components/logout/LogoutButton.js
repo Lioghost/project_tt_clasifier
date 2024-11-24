@@ -23,7 +23,7 @@ const LogoutButton = () => {
     };
 
     return (
-        <button onClick={handleLogout} className="logout-button">Cerrar Sesión</button>
+        <button onClick={handleLogout} id="logout-button">Cerrar Sesión</button>
     );
 };
 

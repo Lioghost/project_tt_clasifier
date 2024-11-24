@@ -281,7 +281,7 @@ const ClientCatalogo = () => {
                                     <p className="profile-email">{user?.email || "Correo del usuario"}</p>
                                 </div>
                             </div>
-                            <div className="logout-button">
+                            <div className="logout-button-container">
                                 <LogoutButton />
                             </div>
                         </div>
@@ -346,7 +346,7 @@ const ClientCatalogo = () => {
                         {successMessage && <div className="get-success-message-user">{successMessage}</div>}
                         {errorMessage && <div className="get-error-message-user">{errorMessage}</div>}
 
-                        <table className="motor-table">
+                        <table className="filter-motor-table">
                             <thead>
                                 <tr>
                                     <th>Motor</th>
@@ -356,10 +356,10 @@ const ClientCatalogo = () => {
                             <tbody>
                                 {marca === '' ? (
                                     <tr>
-                                        <td colSpan="2" className="empty-table-message">
+                                        <td colSpan="2" className="empty-filter-motor-message">
                                             <div className="placeholder">
                                                 <p>¡Ingresa los datos de tu auto!</p>
-                                                <img src={motor} alt="Motor icon" className="motor-placeholder-image" />
+                                                <img src={motor} alt="Motor icon" className="filter-motor-placeholder-image" />
                                                 <p>Así podrás ver los motores</p>
                                             </div>
                                         </td>
@@ -376,7 +376,7 @@ const ClientCatalogo = () => {
                                         ))
                                     ) : (
                                         <tr>
-                                            <td colSpan="2" className="empty-table-message">
+                                            <td colSpan="2" className="empty-filter-motor-table-message">
                                                 <p>No se encontraron motores.</p>
                                             </td>
                                         </tr>

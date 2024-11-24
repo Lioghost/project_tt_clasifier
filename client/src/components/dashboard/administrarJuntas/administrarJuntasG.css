@@ -1,113 +1,10 @@
-.juntag-management {
-    background-color: var(--color-white);
-    padding: 2rem;
-    border-radius: var(--border-radius);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin: 2rem 0;
-}
-
-.juntag-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.5rem;
-}
-
-.juntag-header h1 {
-    color: var(--color-secondary);
-    font-size: 1.5rem;
-    margin: 0;
-}
-
-.juntag-actions {
-    display: flex;
-    gap: 1rem;
-}
-
-.juntag-search-bar {
-    padding: 0.5rem 1rem;
-    border: 1px solid var(--color-border);
-    border-radius: var(--border-radius);
-    transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
-}
-
-.juntag-search-bar:focus {
-    border-color: var(--color-primary);
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-    outline: none;
-}
-
-.add-juntag-button {
-    padding: 0.5rem 1rem;
-    background-color: var(--color-primary);
-    color: var(--color-white);
-    border: none;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    transition: background-color var(--transition-speed);
-}
-
-.add-juntag-button:hover {
-    background-color: var(--color-primary-disabled);
-}
-
-/* Contenedor centrado de la tabla */
-.juntag-table-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 1.5rem;
-}
-
-.juntag-table {
-    width: 100%;
-    max-width: 1200px; /* Tamaño máximo de la tabla */
-    border-collapse: collapse;
-    margin: 0 auto;
-}
-
-.juntag-table th, 
-.juntag-table td {
-    padding: 1rem;
-    border: 1px solid var(--color-border);
-    text-align: left;
-}
-
-.juntag-table th {
-    background-color: var(--color-thead);
-    color: var(--color-white);
-}
-
-.juntag-options-cell {
-    display: flex;
-    gap: 0.5rem;
-}
-
-.juntag-edit-button, 
-.juntag-compatible-button,
-.juntag-delete-button {
-    font-size: 16px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: var(--color-secondary);
-    transition: color var(--transition-speed);
-}
-
-.juntag-edit-button:hover {
-    color: var(--color-primary);
-}
-
-.juntag-delete-button:hover {
-    color: var(--color-error);
-}
-
-/* Estilo para los mensajes de error */
+/* ------ Estilo para los mensajes de error */
 .error-message-juntag {
-    color: var(--color-error); /* Color de error definido en tus variables de CSS */
+    color: var(--color-error); 
     font-size: 0.9rem;
-    margin-top: 0.3rem; /* Espacio entre el input y el mensaje de error */
-    margin-bottom: 1rem; /* Espacio adicional debajo del mensaje */
-    display: block; /* Asegura que se mantenga en bloque */
+    margin-top: 0.3rem; 
+    margin-bottom: 1rem; 
+    display: block; 
 }
 
 .get-error-message-juntag, .delete-error-message-juntag, .add-error-message-juntag, .edit-error-message-juntag {
@@ -119,7 +16,7 @@
     max-width: 90%;
     padding: 15px;
     color: var(--color-white);
-    background-color: var(--color-error); /* Define este color en tus variables de CSS */
+    background-color: var(--color-error); 
     border-radius: 5px;
     text-align: center;
     font-family: var(--font-family-base);
@@ -139,7 +36,7 @@
     animation: fadeInOut 5s forwards;
 }
 
-/* Estilos para los mensajes de éxito */
+/* ------ Estilos para los mensajes de éxito */
 .get-success-message-juntag, .delete-success-message-juntag, .add-success-message-juntag, .edit-success-message-juntag {
     position: fixed;
     top: 25%;
@@ -149,7 +46,7 @@
     max-width: 90%;
     padding: 15px;
     color: var(--color-white);
-    background-color: var(--color-success); /* Define este color en tus variables de CSS */
+    background-color: var(--color-success); 
     border-radius: 5px;
     text-align: center;
     font-family: var(--font-family-base);
@@ -165,7 +62,7 @@
     top: 75%;
 }
 
-/* Estilos para la ventana modal */
+/* ------ Estilos para la ventana modal */
 .confirm-delete-modal-overlay {
     position: fixed;
     top: 0;
@@ -222,7 +119,7 @@
     color: var(--color-primary-hover);
 }
 
-/* Ventana modal de agregación */
+/* ------ Ventana modal de agregación */
 .add-juntag-modal-overlay {
     position: fixed;
     top: 0;
@@ -358,7 +255,7 @@
     color: var(--color-primary-hover);
 }
 
-/* Ventana modal de edición */
+/* ------ Ventana modal de edición */
 .edit-juntag-modal-overlay {
     position: fixed;
     top: 0;
@@ -451,7 +348,7 @@
     color: var(--color-primary-hover);
 }
 
-/* Ajustes responsivos SOLO para el header (buscador y botón) */
+/* ------ Ajustes responsivos SOLO para el header (buscador y botón) */
 @media (max-width: 768px) {
     .juntag-header {
         flex-direction: column;
@@ -462,11 +359,6 @@
         width: 100%;
         justify-content: flex-start;
         margin-top: 1rem;
-    }
-
-    .juntag-search-bar {
-        width: 100%;
-        margin-bottom: 1rem;
     }
 
     .add-juntag-button {
