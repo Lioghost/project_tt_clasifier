@@ -33,50 +33,46 @@ import { AuthProvider } from '../context/AuthContext';
 import ProtectedRoute from '../components/ProtectedRoute';
 
 function App() {
-  return (
+    return (
       <Router>
-          <AuthProvider>
-              <Favicon />
-              <Routes>
-                  {/* Rutas del visitante */}
-                  <Route path="/" element={<><ProtectedRoute roles={['Visitante']}><Header /><MainView /></ProtectedRoute></>} />
-                  <Route path="/login" element={<><ProtectedRoute roles={['Visitante']}><Header /><Login /></ProtectedRoute></>} />
-                  <Route path="/register" element={<><ProtectedRoute roles={['Visitante']}><Header /><Register /></ProtectedRoute></>} />
+        <AuthProvider>
+            <Favicon />
+            <Routes>
+                {/* Rutas del visitante */}
+                <Route path="/" element={<><ProtectedRoute roles={['Visitante']}><Header /><MainView /></ProtectedRoute></>} />
+                <Route path="/login" element={<><ProtectedRoute roles={['Visitante']}><Header /><Login /></ProtectedRoute></>} />
+                <Route path="/register" element={<><ProtectedRoute roles={['Visitante']}><Header /><Register /></ProtectedRoute></>} />
+                
+                {/* Ruta que no incluye el Header */}
+                <Route path="/auth/confirmar/:token" element={<ConfirmarCuenta />} /> {/* Confirmar cuenta sin Header */}
+                <Route path="/forgot-password" element={<><ForgotPassword /></>} />   {/* Nueva ruta para recuperar contraseña */}
+                <Route path="/auth/olvide-password/:token" element={<ResetPassword />} /> {/* Nueva ruta para restablecer contraseña */}
+                
+                {/* Rutas de los Dashboard */}
+                <Route path="/admin/dashboard" element={<ProtectedRoute roles={['Admin']}><AdminDashboard /></ProtectedRoute>} />
+                <Route path="/client/dashboard" element={<ProtectedRoute roles={['Client']}><ClientDashboard /></ProtectedRoute>} />
                   
-                  {/* Ruta que no incluye el Header */}
-                  <Route path="/auth/confirmar/:token" element={<ConfirmarCuenta />} /> {/* Confirmar cuenta sin Header */}
-                  <Route path="/forgot-password" element={<><ForgotPassword /></>} />   {/* Nueva ruta para recuperar contraseña */}
-                  <Route path="/auth/olvide-password/:token" element={<ResetPassword />} /> {/* Nueva ruta para restablecer contraseña */}
-                  
-                  {/* Rutas de los Dashboard */}
-                  <Route path="/admin/dashboard" element={<ProtectedRoute roles={['Admin']}><AdminDashboard /></ProtectedRoute>} />
-                  <Route path="/client/dashboard" element={<ProtectedRoute roles={['Client']}><ClientDashboard /></ProtectedRoute>} />
-                    
-                  {/* Rutas de administrar cuenta */}
-                  <Route path="/admin/cuenta" element={<ProtectedRoute roles={['Admin']}><AdministrarCuentaAdmin /></ProtectedRoute>} />
-                  <Route path="/client/cuenta" element={<ProtectedRoute roles={['Client']}><AdministrarCuentaClient /></ProtectedRoute>} />
-
-                  {/* Rutas de catálogo */}
-                  <Route path="/admin/catalogo" element={<ProtectedRoute roles={['Admin']}><AdminCatalogo /></ProtectedRoute>} />
-                  <Route path="/client/catalogo" element={<ProtectedRoute roles={['Client']}><ClientCatalogo /></ProtectedRoute>} />
-
-                  {/* Rutas de identificador */}
-                  <Route path="/admin/identificador" element={<ProtectedRoute roles={['Admin']}><AdminIdentificador /></ProtectedRoute>} />
-                  <Route path="/client/identificador" element={<ProtectedRoute roles={['Client']}><ClientIdentificador /></ProtectedRoute>} />
-
-                  {/* Rutas restantes del administrador */}
-                  <Route path="/admin/juntasg" element={<ProtectedRoute roles={['Admin']}><AdministrarJuntasGAdmin /></ProtectedRoute>} />
-                  <Route path="/admin/juntasm/:juntagId" element={<ProtectedRoute roles={['Admin']}><AdministrarJuntasMAdmin /></ProtectedRoute>} />
-                  <Route path="/admin/motores" element={<ProtectedRoute roles={['Admin']}><AdministrarMotoresAdmin /></ProtectedRoute>} />
-                  <Route path="/admin/autos" element={<ProtectedRoute roles={['Admin']}><AdministrarAutosAdmin /></ProtectedRoute>} />
-                  <Route path="/admin/marcas" element={<ProtectedRoute roles={['Admin']}><AdministrarMarcasAdmin /></ProtectedRoute>} />
-                  <Route path="/admin/usuarios" element={<ProtectedRoute roles={['Admin']}><AdministrarUsuariosAdmin /></ProtectedRoute>} />
-
-                  <Route path="/not-authorized" element={<NotAuthorized />} />
-                  <Route path="*" element={<NotFound />} />
-              </Routes>
-          </AuthProvider>
-      </Router>
+                {/* Rutas de administrar cuenta */}
+                <Route path="/admin/cuenta" element={<ProtectedRoute roles={['Admin']}><AdministrarCuentaAdmin /></ProtectedRoute>} />
+                <Route path="/client/cuenta" element={<ProtectedRoute roles={['Client']}><AdministrarCuentaClient /></ProtectedRoute>} />
+                {/* Rutas de catálogo */}
+                <Route path="/admin/catalogo" element={<ProtectedRoute roles={['Admin']}><AdminCatalogo /></ProtectedRoute>} />
+                <Route path="/client/catalogo" element={<ProtectedRoute roles={['Client']}><ClientCatalogo /></ProtectedRoute>} />
+                {/* Rutas de identificador */}
+                <Route path="/admin/identificador" element={<ProtectedRoute roles={['Admin']}><AdminIdentificador /></ProtectedRoute>} />
+                <Route path="/client/identificador" element={<ProtectedRoute roles={['Client']}><ClientIdentificador /></ProtectedRoute>} />
+                {/* Rutas restantes del administrador */}
+                <Route path="/admin/juntasg" element={<ProtectedRoute roles={['Admin']}><AdministrarJuntasGAdmin /></ProtectedRoute>} />
+                <Route path="/admin/juntasm/:juntagId" element={<ProtectedRoute roles={['Admin']}><AdministrarJuntasMAdmin /></ProtectedRoute>} />
+                <Route path="/admin/motores" element={<ProtectedRoute roles={['Admin']}><AdministrarMotoresAdmin /></ProtectedRoute>} />
+                <Route path="/admin/autos" element={<ProtectedRoute roles={['Admin']}><AdministrarAutosAdmin /></ProtectedRoute>} />
+                <Route path="/admin/marcas" element={<ProtectedRoute roles={['Admin']}><AdministrarMarcasAdmin /></ProtectedRoute>} />
+                <Route path="/admin/usuarios" element={<ProtectedRoute roles={['Admin']}><AdministrarUsuariosAdmin /></ProtectedRoute>} />
+                <Route path="/not-authorized" element={<NotAuthorized />} />
+                <Route path="*" element={<NotFound />} />
+            </Routes>
+        </AuthProvider>
+    </Router>
   );
 }
 

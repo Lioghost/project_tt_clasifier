@@ -166,7 +166,7 @@ const AdministrarJuntasMAdmin = () => {
             });
 
             if (response.ok) {
-                setSuccessDeleteMessage(`Junta de Cabeza eliminada con éxito.`);
+                setSuccessDeleteMessage(`Junta de Cabeza ${juntamToDelete} eliminada con éxito.`);
                 setJuntasm(juntasm.filter(juntam => juntam.id !== juntamToDelete));
                 setJuntamToDelete('');
                 fetchJuntasm(juntagId);
@@ -291,10 +291,11 @@ const AdministrarJuntasMAdmin = () => {
                     setEditJuntamMarcaRefac(juntamData.marca_refac);
                     setEditJuntamUrlMarca(juntamData.url_marca);
                     setEditJuntamJuntag(juntamData.junta_id);
+                    setSuccessEditMessage('Información de la Junta de Cabeza obtenida con éxito.');
 
                     setShowEditModal(true);
                 } else {
-                    setErrorEditMessage(data.msj);
+                    setErrorEditMessage('Error al obtener la información de la Junta de Cabeza seleccionada.');
                 }
             } catch (error) {
                 setErrorEditMessage('No se pudo obtener la información de la Junta de Cabeza seleccionada.');
@@ -318,7 +319,7 @@ const AdministrarJuntasMAdmin = () => {
             newErrors.marca_refac = "La marca es obligatoria y no debe exceder 15 caracteres.";
         }
     
-        const urlPattern = /^(https?:\/\/|www\.)[^\s/$.?#].[^\s]*$/i;
+        const urlPattern = /^(https?:\/\/)?([a-zA-Z0-9.-]+\.[a-zA-Z]{2,}|No tiene)$/;
         if (!editJuntamUrlMarca || !urlPattern.test(editJuntamUrlMarca) || editJuntamUrlMarca.length > 255) {
             newErrors.url_marca = "La URL es obligatoria, debe ser válida y no debe exceder 255 caracteres.";
         }

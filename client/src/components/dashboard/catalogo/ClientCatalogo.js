@@ -54,9 +54,9 @@ const ClientCatalogo = () => {
             if (response.ok) {
                 const sortedBrands = data.data.sort((a, b) => a.marca.localeCompare(b.marca));
                 setMarcasOptions(sortedBrands);  // Guardar las marcas ordenadas
-                setSuccessMessage(data.msj);
+                setSuccessMessage('Marcas recuperadas con éxito.');
             } else {
-                setErrorMessage(data.msj);
+                setErrorMessage('Error al recuperar marcas.');
             }
         } catch (error) {
             setErrorMessage('Error al recuperar marcas.');
@@ -78,8 +78,9 @@ const ClientCatalogo = () => {
             const data = await response.json();
             if (response.ok) {
                 setAutos(data.data); // Guardar los autos en el estado
+                setSuccessMessage('Autos recuperados con éxito.');
             } else {
-                setErrorMessage(data.msj);
+                setErrorMessage('Error al recuperar los autos.');
             }
         } catch (error) {
             setErrorMessage('Error al recuperar los autos.');
@@ -221,6 +222,7 @@ const ClientCatalogo = () => {
             if (response.ok) {
                 const juntaData = await response.json();
                 setJuntaInfo(juntaData.data); // Guardar la información de la junta
+                setSuccessMessage('Información de la junta obtenida con éxito.');
                 setIsModalOpen(true); // Abrir el modal
             } else {
                 setErrorMessage('Error al obtener información de la junta.');

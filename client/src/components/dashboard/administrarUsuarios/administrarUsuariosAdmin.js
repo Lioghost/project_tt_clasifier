@@ -86,7 +86,7 @@ const AdministrarUsuariosAdmin = () => {
                 setErrorMessage("Hubo un error al obtener los usuarios.");
             }
         } catch (error) {
-            setErrorMessage('No hay usuarios para mostrar');
+            setErrorMessage('No hay usuarios para mostrar.');
         }
     };
 
@@ -111,7 +111,7 @@ const AdministrarUsuariosAdmin = () => {
                 body: JSON.stringify({ role: newRole })
             });
             if (response.ok) {
-                setSuccessEditMessage(`Rol de usuario actualizado a ${newRole}`);
+                setSuccessEditMessage(`Rol de usuario actualizado a ${newRole}.`);
                 fetchUsers(); // Refresca la lista de usuarios
             } else {
                 setErrorEditMessage('Hubo un error al actualizar el rol.');

@@ -125,18 +125,18 @@ const AdministrarCuentaAdmin = () => {
                     if (response.ok) {
                         console.log("Datos guardados:", formData);
                         setIsEditing(false);
-                        setSuccessMessage('Datos guardados exitosamente');
+                        setSuccessMessage('Datos guardados exitosamente.');
                         setErrorMessage('');
                         updateUser(formData.id); // Actualizar el contexto después de guardar
                     } else {
                         const data = await response.json();
                         console.log("Errores de validación del servidor:", data);
                         setSuccessMessage('');
-                        setErrorMessage('Error al guardar los datos');
+                        setErrorMessage('Error al guardar los datos.');
                     }
                 } catch (error) {
                     console.error('Error al conectar con el servidor:', error);
-                    setErrorMessage('Error al conectar con el servidor');
+                    setErrorMessage('Error al conectar con el servidor.');
                 } finally {
                     setIsSaving(false);
                 }

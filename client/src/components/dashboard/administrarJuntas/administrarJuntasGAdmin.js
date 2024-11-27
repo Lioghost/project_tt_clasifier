@@ -130,12 +130,12 @@ const AdministrarJuntasGAdmin = () => {
                 // Ordenar las juntas g alfabéticamente por 'id_junta'
                 const sortedJuntasg = data.data.sort((a , b) => a.id_junta.localeCompare(b.id_junta));
                 setJuntasg(sortedJuntasg);
-                setSuccessMessage(data.msj);
+                setSuccessMessage('Juntas GasketGenius cargadas correctamente.');
             } else {
-                setErrorMessage(data.msj);
+                setErrorMessage('Error al cargar las juntas GasketGenius.');
             }
         } catch (error) {
-            setErrorMessage('No hay juntas GasketGenius para mostrar');
+            setErrorMessage('No hay juntas GasketGenius para mostrar.');
         }
     };
 
@@ -172,17 +172,17 @@ const AdministrarJuntasGAdmin = () => {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            const data = await response.json();
+            
             if (response.ok) {
-                setSuccessDeleteMessage(data.msj);
+                setSuccessDeleteMessage('Junta GasketGenius eliminada correctamente.');
                 setJuntasg(juntasg.filter(juntag => juntag.id_junta !== juntagToDelete));
                 setJuntagToDelete('');
                 fetchJuntasg(); // Fetch the updated list of junta g
             } else {
-                setErrorDeleteMessage(data.mj);
+                setErrorDeleteMessage('Error al eliminar junta GasketGenius.');
             }
         } catch (error) {
-            setErrorDeleteMessage('Error el eliminar junta gasketgenius');
+            setErrorDeleteMessage('Error el eliminar junta GasketGenius.');
         } finally {
             setShowDeleteModal(false);
             setJuntagToDelete('');
@@ -212,11 +212,12 @@ const AdministrarJuntasGAdmin = () => {
             if (response.ok) {
                 setNewJuntagId(data.junta_id); // Establecer el ID en el estado
                 setNewJuntagIdImage(`${data.junta_id}.jpg`);  // Establecer el ID de la imagen con la extensión .jpg
+                setSuccessMessage('ID de junta GasketGenius obtenido correctamente.');
             } else {
-                console.error("Error al obtener el ID de la junta");
+                setErrorAddMessage('Error al obtener el ID de la junta GasketGenius.');
             }
         } catch (error) {
-            console.error("Error al hacer la petición GET", error);
+            setErrorAddMessage('Error al obtener el ID de la junta GasketGenius.');
         }
     };
 
@@ -271,16 +272,15 @@ const AdministrarJuntasGAdmin = () => {
                 body: formData
             });
         
-            const data = await response.json();
             if (response.ok) {
-                setSuccessAddMessage(data.msg);
+                setSuccessAddMessage('Junta GasketGenius agregada correctamente.');
                 fetchJuntasg(); // Refresca la lista de juntas
                 closeAddModal();
             } else {
-                setErrorAddMessage({ form: data.msg || 'Error al agregar junta GasketGenius.' });
+                setErrorAddMessage('Error al agregar junta GasketGenius.');
             }
         } catch (error) {
-            setErrorAddMessage({ form: 'Error al conectar con el servidor.' });
+            setErrorAddMessage('Error al conectar con el servidor.');
         }
     };
 
@@ -315,6 +315,7 @@ const AdministrarJuntasGAdmin = () => {
         setSelectedEditJuntagImagePreview(ImgURL);
         setSelectedEditJuntagImageFile();
         setShowEditModal(true);
+        setSuccessEditMessage('Junta GasketGenius lista para editar.');
     };
 
     // Función para manejar el drop de las imágenes
@@ -364,16 +365,15 @@ const AdministrarJuntasGAdmin = () => {
                 body: formData
             });
 
-            const data = await response.json();
             if (response.ok) {
-                setSuccessEditMessage(data.msg);
+                setSuccessEditMessage('Imagen de junta GasketGenius editada correctamente.');
                 fetchJuntasg(); // Refresca la lista de juntas
                 closeEditModal();
             } else {
-                setErrorEditMessage(data.msg || 'Error al editar la junta.');
+                setErrorEditMessage('Error al editar la imagen de la junta GasketGenius.');
             }
         } catch (error) {
-            setErrorEditMessage('Error al conectar con el servidor.');
+            setErrorEditMessage('Error al editar la imagen de la junta GasketGenius.');
         }
     };
 
@@ -579,7 +579,7 @@ const AdministrarJuntasGAdmin = () => {
             {showEditModal && (
                 <div className="edit-juntag-modal-overlay">
                     <div className="edit-juntag-modal-content">
-                        <h2>Editar {juntagToEdit?.id_image}</h2>
+                        <h2>Editar {editJuntagId}</h2>
                         <input 
                             type="text" 
                             placeholder="Identificador de la junta" 

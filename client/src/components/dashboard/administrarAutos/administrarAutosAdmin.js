@@ -157,12 +157,12 @@ const AdministrarAutosAdmin = () => {
                 // Ordenar los autos alfabéticamente por 'id_auto'
                 const sortedAutos = data.data.sort((a, b) => a.id_auto.localeCompare(b.id_auto));
                 setAutos(sortedAutos);  // Guardar los autos ordenados
-                setSuccessMessage(data.msj);
+                setSuccessMessage('Autos cargados correctamente.');
             } else {
-                setErrorMessage(data.msj);
+                setErrorMessage('Error al cargar los autos.');
             }
         } catch (error) {
-            setErrorMessage('No hay autos para mostrar');
+            setErrorMessage('No hay autos para mostrar.');
         }
     };
 
@@ -199,17 +199,17 @@ const AdministrarAutosAdmin = () => {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            const data = await response.json();
+            
             if (response.ok) {
-                setSuccessDeleteMessage(data.msj);
+                setSuccessDeleteMessage('Auto eliminado correctamente.');
                 setAutos(autos.filter(auto => auto.id !== autoToDelete));
                 setAutoToDelete('');
                 fetchAutos(); // Fetch the updated list of autos
             } else {
-                setErrorDeleteMessage(data.msj);
+                setErrorDeleteMessage('No se pudo eliminar el auto.');
             }
         } catch (error) {
-            setErrorDeleteMessage('Error al eliminar auto');
+            setErrorDeleteMessage('Error al eliminar auto.');
         } finally {
             setShowDeleteModal(false);
             setAutoToDelete('');
@@ -234,13 +234,13 @@ const AdministrarAutosAdmin = () => {
                 if (response.ok) {
                     // Ordenar las marcas alfabéticamente por el campo "marca"
                     const sortedMarcas = data.data.sort((a, b) => a.marca.localeCompare(b.marca));
-                    
+                    setSuccessMessage('Marcas cargadas correctamente.');
                     setNewAutoMarca(sortedMarcas); // Guarda las marcas ordenadas en el estado
                 } else {
-                    setErrorAddMessage(data.msj);
+                    setErrorMessage('No se pudo obtener las marcas.');
                 }
             } catch (error) {
-                setErrorAddMessage('Error al obtener marcas');
+                setErrorMessage('Error al obtener marcas.');
             }
         };
         
@@ -347,13 +347,13 @@ const AdministrarAutosAdmin = () => {
                     marca_id: parseInt(selectedNewMarcaId)
                 })
             });
-            const data = await response.json();
+            
             if (response.ok) {
-                setSuccessAddMessage(data.msg);
+                setSuccessAddMessage('Auto agregado correctamente.');
                 fetchAutos(); // Refresca la lista de autos
                 closeAddModal();
             } else {
-                setErrorAddMessage({ form: data.msg || 'Error al agregar auto.' });
+                setErrorAddMessage('Error al agregar auto.');
             }
         } catch (error) {
             setErrorAddMessage({ form: 'Error al conectar con el servidor.' });
@@ -379,13 +379,13 @@ const AdministrarAutosAdmin = () => {
                 if (response.ok) {
                     // Ordenar las marcas alfabéticamente por el campo "marca"
                     const sortedMarcas = data.data.sort((a, b) => a.marca.localeCompare(b.marca));
-                    
+                    setSuccessMessage('Marcas cargadas correctamente.');
                     setEditAutoMarca(sortedMarcas); // Guarda las marcas ordenadas en el estado
                 } else {
-                    setErrorEditMessage(data.msj);
+                    setErrorEditMessage('Error al obtener marcas.');	
                 }
             } catch (error) {
-                setErrorEditMessage('Error al obtener marcas');
+                setErrorEditMessage('Error al obtener marcas.');
             }
         };
     
@@ -409,10 +409,10 @@ const AdministrarAutosAdmin = () => {
                     setEditAutoLitros(autoData.litros);
                     setSelectedEditMarcaId(autoData.marca_id);
                     setSelectedEditMarca(autoData.marca.marca);
-
+                    setSuccessEditMessage('Datos del auto cargados correctamente.');
                     setShowEditModal(true);
                 } else {
-                    setErrorEditMessage(data.msj);
+                    setErrorEditMessage('No se pudo obtener la información del auto seleccionado.');	
                 }
             } catch (error) {
                 setErrorEditMessage('No se pudo obtener la información del auto seleccionado.');
@@ -524,14 +524,12 @@ const AdministrarAutosAdmin = () => {
                 })
             });
 
-            const data = await response.json();
-
             if (response.ok) {
-                setSuccessEditMessage(data.msg);
+                setSuccessEditMessage('Auto editado correctamente.');
                 fetchAutos(); // Fetch the updated list of autos
                 closeEditModal();
             } else {
-                setErrorEditMessage(data.msg);
+                setErrorEditMessage('Error al editar auto.');
             }
         } catch (error) {
             setErrorEditMessage('Error al editar auto');
@@ -557,9 +555,10 @@ const AdministrarAutosAdmin = () => {
                 if (response.ok) {
                     // Filtrar los motores que coinciden con el numero_litros del auto seleccionado
                     const filteredMotors = data.data.filter(motor => motor.numero_litros === litros);
+                    setSuccessMessage('Motores cargados correctamente.');
                     setAssignAutoMotores(filteredMotors); // Asignamos los motores filtrados
                 } else {
-                    setErrorAssignMessage(data.msj);
+                    setErrorAssignMessage('Error al obtener los motores.');	
                 }
             } catch (error) {
                 setErrorAssignMessage('Error al obtener los motores.');
@@ -591,11 +590,11 @@ const AdministrarAutosAdmin = () => {
                     const selectedMotorIds = autoData.motores.map(motor => motor.id_motor);
                     setSelectedMotors(selectedMotorIds); // Aquí guardamos los motores asignados
     
-                    setSuccessAssignMessage(data.msj);
+                    setSuccessAssignMessage('Datos del auto cargados correctamente.');	
                     fetchFilteredMotors(autoData.litros); // Filtrar los motores con la cantidad de litros del auto
                     setShowAssignModal(true);
                 } else {
-                    setErrorAssignMessage(data.msj);
+                    setErrorAssignMessage('No se pudo obtener la información del auto seleccionado.');	
                 }
             } catch (error) {
                 setErrorAssignMessage('No se pudo obtener la información del auto seleccionado');
@@ -632,17 +631,15 @@ const AdministrarAutosAdmin = () => {
                 })
             });
     
-            const data = await response.json();
-    
             if (response.ok) {
-                setSuccessAssignMessage(data.msj);
+                setSuccessAssignMessage('Motores asignados correctamente.');	
                 fetchAutos(); // Fetch the updated list of autos
                 closeAssignModal();
             } else {
-                setErrorAssignMessage(data.msj);
+                setErrorAssignMessage('Error al asignar motores.');
             }
         } catch (error) {
-            setErrorAssignMessage('Error al editar auto');
+            setErrorAssignMessage('Error al asignar motores.');
         }
     };
 

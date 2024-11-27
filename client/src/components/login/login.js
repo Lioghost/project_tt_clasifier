@@ -40,7 +40,7 @@ const Login = () => {
                     navigate('/admin/dashboard');
                 }
             } else {
-                setErrorMessage(data.msg || 'Error al iniciar sesión.');
+                setErrorMessage('Error al iniciar sesión, verifique sus credenciales.');
             }
         } catch (error) {
             console.error('Error al conectar con el servidor:', error);

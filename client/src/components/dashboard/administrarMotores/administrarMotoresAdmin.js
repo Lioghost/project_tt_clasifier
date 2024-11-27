@@ -164,12 +164,12 @@ const AdministrarMotoresAdmin = () => {
                 // Ordenar los motores alfabéticamente por 'id_motor'
                 const sortedMotores = data.data.sort((a , b) => a.id_motor.localeCompare(b.id_motor));
                 setMotores(sortedMotores);
-                setSuccessMessage(data.msj)
+                setSuccessMessage('Motores cargados correctamente.');
             } else {
                 setErrorMessage(data.msj);
             }
         } catch (error) {
-            setErrorMessage('No hay motores para mostrar');
+            setErrorMessage('No hay motores para mostrar.');
         }
     };
 
@@ -206,18 +206,18 @@ const AdministrarMotoresAdmin = () => {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            const data = await response.json();
+            
             if (response.ok) {
-                setSuccessDeleteMessage(data.msg);
+                setSuccessDeleteMessage('Motor eliminado correctamente.');
                 setMotores(motores.filter(motor => motor.id !== motorToDelete));
                 setMotorToDelete('');
                 fetchMotores(); // Fetch the updated list of motores
             } else {
-                setErrorDeleteMessage(data.msj);
+                setErrorDeleteMessage('Error al eliminar motor.');
                 console.log(`No se pudo eliminar el motor con id: ${motorToDelete}`);
             }
         } catch (error) {
-            setErrorDeleteMessage('Error el eliminar motor');
+            setErrorDeleteMessage('Error el eliminar motor.');
         } finally {
             setShowDeleteModal(false);
             setMotorToDelete('');
@@ -322,16 +322,16 @@ const AdministrarMotoresAdmin = () => {
                     range_year_f: newMotorRangeYearF
                 })
             });
-            const data = await response.json();
+            
             if (response.ok) {
-                setSuccessAddMessage(data.msg);
+                setSuccessAddMessage('Motor agregado correctamente.');
                 fetchMotores(); // Refresca la lista de motores
                 closeAddModal();
             } else {
-                setErrorAddMessage({ form: data.msg || 'Error al agregar motor.' });
+                setErrorAddMessage('Error al agregar motor.');
             }
         } catch (error) {
-            setErrorAddMessage({ form: 'Error al conectar con el servidor.' });
+            setErrorAddMessage('Error al agregar motor.');
         }
     };
     
@@ -414,10 +414,11 @@ const AdministrarMotoresAdmin = () => {
                     setEditMotorInfoAdicional(motorData.info_adicional.join(", "));
                     setEditMotorRangeYearI(motorData.range_year_i);
                     setEditMotorRangeYearF(motorData.range_year_f);
+                    setSuccessEditMessage('Motor cargado correctamente.');
 
                     setShowEditModal(true);
                 } else {
-                    setErrorEditMessage(data.msj);
+                    setErrorEditMessage('No se pudo obtener la información del motor seleccionado para editar.');
                 }
             } catch (error) {
                 setErrorEditMessage('No se pudo obtener la información del motor seleccionado para editar.');
@@ -561,16 +562,16 @@ const AdministrarMotoresAdmin = () => {
                     range_year_f: editMotorRangeYearF
                 })
             });
-            const data = await response.json();
+        
             if (response.ok) {
-                setSuccessEditMessage(data.msj);
+                setSuccessEditMessage('Motor editado correctamente.');
                 fetchMotores(); // Refresca la lista de motores
                 closeEditModal();
             } else {
-                setErrorEditMessage(data.msg);
+                setErrorEditMessage('Error al editar motor.');
             }
         } catch (error) {
-            setErrorEditMessage('Error al editar motor');
+            setErrorEditMessage('Error al editar motor.');
         }
     };
 
@@ -593,9 +594,10 @@ const AdministrarMotoresAdmin = () => {
                 if (response.ok) {
                     // Filtrar las juntas GasketGenius en orden alfabetico
                     const filteredJuntasG = data.data.sort((a, b) => a.id_junta.localeCompare(b.id_junta));
+                    setSuccessMessage('Juntas GasketGenius cargadas correctamente.');
                     setAssignMotorJuntasG(filteredJuntasG); // Asignamos los motores filtrados
                 } else {
-                    setErrorAssignMessage(data.msj);
+                    setErrorAssignMessage('Error al obtener las Juntas GasketGenius.');
                 }
             } catch (error) {
                 setErrorAssignMessage('Error al obtener las Juntas GasketGenius.');
@@ -630,11 +632,11 @@ const AdministrarMotoresAdmin = () => {
                     const selectedJuntasgIds = motorData.juntas.map(juntag => juntag.id_junta);
                     setSelectedJuntasg(selectedJuntasgIds);
     
-                    setSuccessAssignMessage(data.msj);
+                    setSuccessAssignMessage('Motor cargado correctamente.');
                     fetchJuntasG();
                     setShowAssignModal(true);
                 } else {
-                    setErrorAssignMessage(data.msj);
+                    setErrorAssignMessage('No se pudo obtener la información del motor seleccionado para asignar Juntas GasketGenius.');
                 }
             } catch (error) {
                 setErrorAssignMessage('No se pudo obtener la información del motor seleccionado para asignar Juntas GasketGenius.');
@@ -678,18 +680,16 @@ const AdministrarMotoresAdmin = () => {
                     junta_ids: juntasgIdsToSend // Aquí enviamos [""] si no hay motores seleccionados
                 })
             });
-    
-            const data = await response.json();
-    
+        
             if (response.ok) {
-                setSuccessAssignMessage(data.msj);
+                setSuccessAssignMessage('Juntas GasketGenius asignada correctamente.');
                 fetchMotores(); // Fetch the updated list of autos
                 closeAssignModal();
             } else {
-                setErrorAssignMessage(data.msj);
+                setErrorAssignMessage('Error al asignar Juntas GasketGenius.');
             }
         } catch (error) {
-            setErrorAssignMessage('Error al editar motor');
+            setErrorAssignMessage('Error al asignar Juntas GasketGenius.');
         }
     };
 

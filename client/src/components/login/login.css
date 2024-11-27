@@ -4,22 +4,19 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* Asegura que el contenedor cubra toda la altura de la pantalla */
-    background-image: url("../../assets/img/background.png");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-attachment: fixed;
-    padding: 0; /* Elimina cualquier padding que pueda estar afectando */
+    min-height: 80vh; /* Asegura que el contenedor cubra toda la pantalla */
+    margin-top: 20px; /* Espaciado interno para evitar que los elementos se peguen a los bordes */
 }
 
 .login-content {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    max-width: 1100px;
-    width: 100%;
     flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
     gap: 20px;
+    max-width: 1200px;
+    width: 100%;
+    margin: auto;
 }
 
 .login-image {
@@ -85,20 +82,12 @@
     display: block; /* Ocultar el mensaje por defecto */
 }
 
-/* Estilos responsivos para pantallas medianas */
-@media (max-width: 1300px) {
-    .login-form {
-        max-width: 450px;
-    }
-
-    .login-image {
-        max-width: 400px;
-        margin-right: 0px;
-    }
-}
-
 /* Estilos responsivos para pantallas pequeñas */
-@media (max-width: 700px) {
+@media (max-width: 1200px) {
+    .login-view{
+        margin: 100px auto;
+    }
+
     .login-form {
         max-width: 350px;
     }
@@ -125,6 +114,8 @@
 
 /* Estilos responsivos para pantallas extra pequeñas */
 @media (max-width: 500px) {
+    
+
     .login-form {
         max-width: 300px;
     }

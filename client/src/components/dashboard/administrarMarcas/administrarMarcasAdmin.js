@@ -108,12 +108,12 @@ const AdministrarMarcasAdmin = () => {
                 // Ordenar las marcas alfabéticamente por 'marca'
                 const sortedBrands = data.data.sort((a, b) => a.marca.localeCompare(b.marca));
                 setBrands(sortedBrands);  // Guardar las marcas ordenadas
-                setSuccessMessage(data.msj);
+                setSuccessMessage('Marcas cargadas correctamente.');
             } else {
-                setErrorMessage(data.msj);
+                setErrorMessage('Error al cargar las marcas.');
             }
         } catch (error) {
-            setErrorMessage('No hay marcas para mostrar');
+            setErrorMessage('No hay marcas para mostrar.');
         }
     };
 
@@ -160,17 +160,17 @@ const AdministrarMarcasAdmin = () => {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            const data = await response.json();
+            
             if (response.ok) {
-                setSuccessDeleteMessage(data.msj);
+                setSuccessDeleteMessage('Marca eliminada correctamente.');
                 setBrands(brands.filter(brand => brand.id !== brandToDelete));
                 setBrandToDelete('');
                 fetchBrands(); // Fetch the updated list of brands
             } else {
-                setErrorDeleteMessage(data.msj);
+                setErrorDeleteMessage('Error al eliminar la marca.');
             }
         } catch (error) {
-            setErrorDeleteMessage('Error al eliminar la marca');
+            setErrorDeleteMessage('Error al eliminar la marca.');
         } finally {
             setShowDeleteModal(false);
             setBrandToDelete('');
@@ -250,11 +250,12 @@ const AdministrarMarcasAdmin = () => {
                     setBrandToEdit(brandData);
                     setEditBrandName(brandData.marca);
                     setShowEditModal(true);
+                    setSuccessMessage('Marca cargada correctamente.');
                 } else {
-                    setErrorEditMessage(data.msj);
+                    setErrorEditMessage('Error al obtener la información de la marca.');
                 }
             } catch (error) {
-                setErrorEditMessage('Error al obtener la información de la marca');
+                setErrorEditMessage('Error al obtener la información de la marca.');
             }
         };
 
@@ -296,14 +297,14 @@ const AdministrarMarcasAdmin = () => {
             });
             const data = await response.json();
             if (response.ok) {
-                setSuccessEditMessage(data.msj);
+                setSuccessEditMessage('Marca editada correctamente.');
                 fetchBrands(); // Fetch the updated list of brands
                 closeEditModal();
             } else {
                 if (data.msj === "El nombre de la marca ya existe") {
                     setErrorEditMessage("El nombre de la marca ya existe. Por favor, elige un nombre diferente.");
                 } else {
-                    setErrorEditMessage(data.msj);
+                    setErrorEditMessage('Error al editar la marca.');
                 }
             }
         } catch (error) {
