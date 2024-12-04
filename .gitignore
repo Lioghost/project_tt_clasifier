@@ -6,7 +6,6 @@ client/node_modules/
 
 public/idenfifier/*
 */public/uploads/*
-*/public/juntas/*
 
 classifier/Binary
 classifier/server
