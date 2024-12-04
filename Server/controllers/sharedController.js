@@ -1,3 +1,4 @@
+import axios from 'axios'
 import Usuario from '../models/Usuario.js'
 
 const edit = async (req, res) => {
@@ -39,24 +40,23 @@ const saveChange = async (req, res) => {
 }
 
 const identificador = async(req, res, next) => {
-
+    console.log("inicio de petición")
     try {
-        console.log(req.file);  //req.file lo registra multer y ya se tiene acceso en el req, y res
-         
-        //Almacenar la imagen y publicar la propiedad
-        const test_image = req.file.filename
-        console.log(test_image)
-        //await propiedad.save()
+    //const datos = {
+    //    id_imagen: req.body.id_imagen
+    //}
+        const {id_image} = req.body
+        console.log(id_image)
 
-        //res.redirect('/mis-propiedades') No se ejecuta porque se esta ejecutando codigo javascript en propiedad
-            //init de dropzone, por lo que se podria decir estamos trabajando aparte
-            //se tiene que enviar al usuario al siguiente middleware o regresarlo al codigo a través de next()
-        next()
+        console.log("inicio de petición")
+        const probability_predictions = await axios.get(`http://127.0.0.1:5000/classification/${id_image}`)
+        //const resp_class = await axios.get("http://127.0.0.1:5000/classification/123456")
+        //console.log(resp_class)
+        return res.status(200).json({probability: probability_predictions.data});    
 
-    } catch (error) {
-        //Para debuggear
-        console.error(error);
-    }
+   } catch (error) {
+    
+   }
 
 }
 

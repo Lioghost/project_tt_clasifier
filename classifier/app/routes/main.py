@@ -44,8 +44,8 @@ def test_binarized():
 
     #return send_file(image_bytes, mimetype='image/jpeg')
 
-@bp.route('/test-binarized/<id_image>', methods=['DELETE'])
-def test_binarized_delete(id_image):
+@bp.route('/classification/<id_image>', methods=['DELETE'])
+def classification(id_image):
 
     image_path = f"./app/uploads_temp/{id_image}.jpg"
     os.remove(image_path)
@@ -53,10 +53,21 @@ def test_binarized_delete(id_image):
     return jsonify({"message": "Archivo eliminados correctamente."}), 200
 
 
-@bp.route('/classification', methods=['POST'])
-def classficator():
-    id_image = request.form.get('id_image')
+@bp.route('/classification/<id_imagen>', methods=['GET'])
+def classification(id_imagen):
+    #id_image = request.form.get('id_image')
 
-    class_image = classifier.get_classification(id_image)
+    image_path = f"./app/uploads_temp/{id_imagen}.jpg"
+
+    class_image = classifier.get_class_image(image_path)
 
     return jsonify(class_image), 200
+
+
+
+@bp.route('/classim/<id_imagen>', methods=['GET'])
+def classification_ssim(id_imagen):
+
+    image_path = f"./app/uploads_temp/{id_imagen}.jpg"
+
+

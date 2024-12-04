@@ -16,7 +16,8 @@ router.get('/cuenta/:id', authenticate, authorize(['Admin', 'Client']), edit);
 
 router.post('/cuenta/:id', authenticate, authorize(['Admin', 'Client']), saveChange);
 
-router.post('/identificador', authenticate, authorize(['Admin', 'Client']), upload.single('imagen'), identificador);
+//router.post('/identificador', authenticate, authorize(['Admin', 'Client']), upload.single('imagen'), identificador);
+router.post('/identificador', upload.single('imagen'), identificador);
 
 
 
