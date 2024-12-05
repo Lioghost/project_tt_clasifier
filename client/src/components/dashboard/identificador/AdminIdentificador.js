@@ -23,11 +23,16 @@ const AdminIdentificador = () => {
 
     // Estados de manejo de la imagen y proceso de verificación
     const [image, setImage] = useState(null);
+    const [imageFile, setImageFile] = useState(null); // Almacena el archivo real
+    const [imageBinarized, setImageBinarized] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [isProcessing, setIsProcessing] = useState(false);
     const [isVerifying, setIsVerifying] = useState(false);
     const [isVerified, setIsVerified] = useState(false);
     const [showInstructions, setShowInstructions] = useState(true); // Estado para mostrar/ocultar instrucciones
+
+    // Estado para almacenar el junta_id recibido
+    const [juntaId, setJuntaId] = useState(null);
 
     // Estados para mostrar los resultados de las Juntas de Cabeza
     const [showGasketOptions, setShowGasketOptions] = useState(false);
@@ -57,59 +62,224 @@ const AdminIdentificador = () => {
         }
     }, [successMessage, errorMessage]);
 
+    // Función para obtener el junta_id
+    const fetchJuntaId = async () => {
+        const role = localStorage.getItem('role');
+        const token = localStorage.getItem('token');
+
+        try {
+            const response = await fetch('http://localhost:3000/admin/juntas-g-id', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Role': role,
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
+            const data = await response.json();
+            if (response.ok) {
+                setJuntaId(data.junta_id); // Almacena el junta_id recibido
+                console.log(data.junta_id);
+            } else {
+                console.error('Error al obtener el junta_id');
+            }
+        } catch (error) {
+            console.error('Error al obtener el junta_id', error);
+        }
+    };
+
     // Función para manejar la carga de imágenes con DropZone
     const onDrop = acceptedFiles => {
-        setImage(URL.createObjectURL(acceptedFiles[0]));
-        setIsVerified(false); // Resetea el estado de verificación cuando se sube una nueva imagen
-        setShowInstructions(true); // Vuelve a mostrar las instrucciones al subir una nueva imagen
+        const file = acceptedFiles[0];
+        setImage(URL.createObjectURL(file)); // Establece la URL de la imagen
+        setImageFile(file); // Establece el archivo real
+        setIsVerified(false); // Resetea la verificación cuando se sube una nueva imagen
+        setShowInstructions(true); // Muestra las instrucciones nuevamente
+    
+        fetchJuntaId(); // Hacer la petición para obtener el junta_id cuando se suba una imagen
     };
 
     const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
     // Función para iniciar el proceso de identificación
-    const handleIdentify = () => {
+    const handleIdentify = async () => {
         setIsLoading(true);
         setShowInstructions(false); // Oculta las instrucciones al iniciar el proceso
-        // Simulación de solicitud al servidor
-        setTimeout(() => {
+        
+        try {
+            // Crea un FormData con el juntaId y la imagen cargada en el dropzone
+            const formData = new FormData();
+            formData.append("id_image", juntaId); // Asegúrate de que juntaId esté disponible
+            formData.append("imagen", imageFile); // Asumiendo que imageFile es la imagen del dropzone
+    
+            // Realiza la solicitud POST al servidor
+            const response = await fetch("http://127.0.0.1:5000/test-binarized", {
+                method: "POST",
+                body: formData,
+            });
+    
+            if (!response.ok) {
+                throw new Error("Error en la petición");
+            }
+    
+            // Obtén la respuesta binarizada como un Blob
+            const data = await response.blob();
+    
+            // Crea una URL para la imagen binarizada
+            const imageUrl = URL.createObjectURL(data);
+    
+            // Actualiza el estado con la imagen binarizada
+            setImageBinarized(imageUrl);
+    
+            // Actualiza los estados para mostrar la imagen procesada
             setIsLoading(false);
-            setIsProcessing(true);
-        }, 2000); // Simulación de tiempo de espera
+            setIsProcessing(true); // Si es necesario, puedes agregar más lógica para mostrar que se está procesando
+    
+        } catch (error) {
+            console.error("Error al procesar la imagen:", error);
+            setIsLoading(false); // Termina la carga en caso de error
+        }
     };
 
     // Función para verificar la imagen recibida del servidor
-    const handleVerifyImage = () => {
+    const handleVerifyImage = async () => {
         setIsProcessing(false);
         setIsVerifying(true); // Activa el estado de verificación para mostrar el mensaje
-        // Simulación de espera en la verificación
-        setTimeout(() => {
-            setIsVerifying(false);
-            setIsVerified(true);
-
-            // Resultado de la consulta a la base de datos
-            setJuntas([
-                /*{ id_junta: 1, id_image: 'junta1.jpg' },
-                { id_junta: 2, id_image: 'junta2.jpg' },
-                { id_junta: 3, id_image: 'junta3.jpg' },*/
-            ]);
-        }, 3000); // Simula un tiempo de verificación de 3 segundos
+    
+        try {
+            // Realizamos la petición GET al servidor para la clasificación de la imagen
+            const response = await fetch(`http://127.0.0.1:5000/classification/${juntaId}`);
+    
+            if (!response.ok) {
+                throw new Error('Error en la solicitud de clasificación');
+            }
+    
+            // Obtenemos la respuesta de las probabilidades
+            const data = await response.json();
+    
+            // Arreglo con los nombres de los Gaskets
+            const gaskets = [
+                'GasketGenius_05', 'GasketGenius_06', 'GasketGenius_07', 'GasketGenius_08',
+                'GasketGenius_09', 'GasketGenius_10', 'GasketGenius_11', 'GasketGenius_12',
+                'GasketGenius_13', 'GasketGenius_14', 'GasketGenius_15', 'GasketGenius_16',
+                'GasketGenius_17', 'GasketGenius_18', 'GasketGenius_19'
+            ];
+    
+            // Mapear las probabilidades a los nombres de los Gaskets
+            const sortedGaskets = gaskets.map((gasket, index) => ({
+                gasketName: gasket,
+                probability: data[index] || 0 // Asignamos 0 si no hay valor
+            }));
+    
+            // Realizamos la petición para obtener las juntas
+            const role = localStorage.getItem('role');
+            const token = localStorage.getItem('token');
+    
+            const juntasResponse = await fetch('http://localhost:3000/admin/juntas-g', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Role': role,
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+    
+            if (!juntasResponse.ok) {
+                throw new Error('Error en la solicitud de juntas');
+            }
+    
+            const juntasData = await juntasResponse.json();
+    
+            if (juntasResponse.ok) {
+                // Crear un nuevo array con la probabilidad asociada a cada junta
+                const juntasConProbabilidad = juntasData.data.map(junta => {
+                    // Buscar la probabilidad correspondiente al gasketName de la junta
+                    const probabilidad = sortedGaskets.find(
+                        gasket => gasket.gasketName === junta.id_junta // Comparar gasketName con id_junta
+                    );
+                    return {
+                        ...junta,  // Mantener los datos originales de la junta
+                        probability: probabilidad ? probabilidad.probability : 0 // Asignar la probabilidad, si no la encuentra asigna 0
+                    };
+                });
+    
+                // Ordenar las juntas por probabilidad de mayor a menor
+                const juntasOrdenadas = juntasConProbabilidad.sort((a, b) => b.probability - a.probability);
+    
+                // Seleccionar solo las tres juntas con mayor probabilidad
+                const top3Juntas = juntasOrdenadas.slice(0, 3);
+    
+                // Actualizar el estado con las tres juntas más probables
+                setJuntas(top3Juntas);  // Directamente asignamos las tres juntas con la probabilidad más alta
+                setSuccessMessage(juntasData.msj);  // Usamos `data.msj` para el mensaje de éxito
+                setShowGasketOptions(false);
+                setIsVerified(true);
+                console.log("Datos de las tres juntas con mayor probabilidad:", top3Juntas);
+            } else {
+                console.error("Error al recuperar las juntas");
+            }
+    
+            setIsVerifying(false);  // Finaliza la verificación
+        } catch (error) {
+            console.error("Error en la verificación de la imagen o las juntas:", error);
+            setIsVerifying(false); // Termina el estado de verificación si ocurre un error
+            setIsProcessing(false); // Finaliza el estado de procesamiento en caso de error
+        }
+    };
+    
+    // Mostrar las opciones de Juntas de Cabeza si se da en "Continuar"
+    const handleContinue = async () => {
+        setShowGasketOptions(true);
+        setIsVerified(true);
     };
 
-    // Mostrar las opciones de Juntas dde Cabeza si se da en "Continuar"
-    const handleContinue = () => setShowGasketOptions(true);
-
-    // Función para manejar la información de la Junta de Cabeza
-    const handleJuntaInfo = (juntaId) => {
-        // Simulate server data for modal
-        setJuntaInfo([
-            { id: 1, id_cod_marca: '001', marca_refac: 'Marca A', url_marca: 'http://example.com/1' },
-            { id: 2, id_cod_marca: '002', marca_refac: 'Marca B', url_marca: 'http://example.com/2' },
-        ]);
-        setIsModalOpen(true);
+    const handleJuntaInfo = async (id_junta) => {
+        try {
+            const role = localStorage.getItem('role');
+            const token = localStorage.getItem('token');
+    
+            const response = await fetch(`http://localhost:3000/admin/juntas-ms/${id_junta}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Role': role,
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+    
+            if (response.ok) {
+                const juntaData = await response.json();
+                setJuntaInfo(juntaData.data); // Guardar la información de la junta
+                setSuccessMessage('Información de la junta obtenida con éxito.');
+                setIsModalOpen(true); // Abrir el modal
+            } else if (response.status === 404) {
+                setErrorMessage('Información aún no disponible.');
+            }
+        } catch (error) {
+            setErrorMessage('Información aún no disponible.');
+        }
     };
 
     // Función para subir otra imagen y muestra las instrucciones nuevamente
-    const onUploadAnother = () => {
+    const onUploadAnother = async () => {
+        // Asegurarse de que juntaId esté disponible antes de realizar la solicitud DELETE
+        if (juntaId) {
+            try {
+                // Realizar la petición DELETE al servidor para eliminar la junta
+                const response = await fetch(`http://127.0.0.1:5000/classification/${juntaId}`, {
+                    method: 'DELETE'
+                });
+    
+                if (!response.ok) {
+                    throw new Error('Error al eliminar la junta');
+                }
+    
+                // Si la eliminación fue exitosa, mostrar un mensaje
+                console.log('ID de la Junta eliminada exitosamente del servidor de Python.');
+            } catch (error) {
+                console.error('Error en la solicitud DELETE:', error);
+            }
+        }
+    
+        // Restablecer los estados
         setImage(null);
         setIsVerified(false);
         setIsProcessing(false);
@@ -117,6 +287,7 @@ const AdminIdentificador = () => {
         setShowInstructions(true); 
         setShowGasketOptions(false);
     };
+    
 
     return (
         <div className="dashboard">
@@ -215,11 +386,11 @@ const AdminIdentificador = () => {
                         </div>
                     )}
 
-                    {/* Mostrar la imagen procesada y opciones para verificar o cargar otra imagen */}
-                    {isProcessing && (
+                    {/* Mostrar la imagen binarizada procesada y las opciones */}
+                    {isProcessing && imageBinarized && (
                         <div className="processing">
                             <p>¡La imagen está lista!</p>
-                            <img src={image} alt="Resultado del servidor" className="processed-image" />
+                            <img src={imageBinarized} alt="Resultado del servidor" className="processed-image" />
                             <div className="button-container">
                                 <button onClick={handleVerifyImage} className="verify-button">Verificar imagen</button>
                                 <button onClick={onUploadAnother} className="upload-another-button">Subir otra imagen</button>
@@ -265,18 +436,32 @@ const AdminIdentificador = () => {
                     {isVerified && juntas.length > 0 && showGasketOptions && (
                         <div className="juntas-catalogo">
                             <h2>Selecciona una Junta de Cabeza:</h2>
+
+                            {successMessage && <div className="get-success-message-user">{successMessage}</div>}
+                            {errorMessage && <div className="get-error-message-user">{errorMessage}</div>}
+
                             <div className="juntas-grid">
                                 {juntas.map(junta => (
                                     <div key={junta.id_junta} className="junta-card">
-                                        <img src={`http://localhost:3000/juntas/${junta.id_image}`} alt={`Junta ${junta.id_junta}`} className="junta-image" />
+                                        <img 
+                                            src={`http://localhost:3000/juntas/${junta.id_image}`} 
+                                            alt={`Junta ${junta.id_junta}`} 
+                                            className="junta-image" 
+                                        />
                                         <p>Código: {junta.id_junta}</p>
-                                        <button className="junta-info-button" onClick={() => handleJuntaInfo(junta.id_junta)}>
+                                        <p>Probabilidad: {junta.probability}</p> {/* Mostrar la probabilidad con todos los decimales */}
+                                        <button 
+                                            className="junta-info-button" 
+                                            onClick={() => handleJuntaInfo(junta.id_junta)}
+                                        >
                                             Información
                                         </button>
                                     </div>
                                 ))}
                             </div>
-                            <button onClick={onUploadAnother} className="upload-another-button">Subir otra imagen</button>
+                            <button onClick={onUploadAnother} className="upload-another-button">
+                                Subir otra imagen
+                            </button>
                         </div>
                     )}
 

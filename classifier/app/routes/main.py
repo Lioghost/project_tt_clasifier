@@ -45,7 +45,7 @@ def test_binarized():
     #return send_file(image_bytes, mimetype='image/jpeg')
 
 @bp.route('/classification/<id_image>', methods=['DELETE'])
-def classification(id_image):
+def delete_classification(id_image):
 
     image_path = f"./app/uploads_temp/{id_image}.jpg"
     os.remove(image_path)
@@ -54,7 +54,7 @@ def classification(id_image):
 
 
 @bp.route('/classification/<id_imagen>', methods=['GET'])
-def classification(id_imagen):
+def get_classification(id_imagen):
     #id_image = request.form.get('id_image')
 
     image_path = f"./app/uploads_temp/{id_imagen}.jpg"
