@@ -43,7 +43,7 @@ const AdminCatalogo = () => {
         const token = localStorage.getItem('token');
 
         try {
-            const response = await fetch('http://localhost:3000/admin/marcas', {
+            const response = await fetch('http://localhost:3000/shared/marcas', {
                 headers: {
                     'Content-Type': 'application/json',
                     'Role': role, 
@@ -68,7 +68,7 @@ const AdminCatalogo = () => {
         const token = localStorage.getItem('token');
 
         try {
-            const response = await fetch('http://localhost:3000/admin/autos', {
+            const response = await fetch('http://localhost:3000/shared/autos', {
                 headers: {
                     'Content-Type': 'application/json',
                     'Role': role, 
@@ -177,7 +177,7 @@ const AdminCatalogo = () => {
             const role = localStorage.getItem('role');
             const token = localStorage.getItem('token');
             
-            const response = await fetch(`http://localhost:3000/admin/motor/${id}`, {
+            const response = await fetch(`http://localhost:3000/shared/motor/${id}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Role': role,
@@ -211,7 +211,7 @@ const AdminCatalogo = () => {
             const role = localStorage.getItem('role');
             const token = localStorage.getItem('token');
     
-            const response = await fetch(`http://localhost:3000/admin/juntas-ms/${id_junta}`, {
+            const response = await fetch(`http://localhost:3000/shared/juntas-ms/${id_junta}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Role': role,

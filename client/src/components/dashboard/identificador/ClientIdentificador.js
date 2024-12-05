@@ -237,7 +237,7 @@ const ClientIdentificador = () => {
             const role = localStorage.getItem('role');
             const token = localStorage.getItem('token');
     
-            const response = await fetch(`http://localhost:3000/admin/juntas-ms/${id_junta}`, {
+            const response = await fetch(`http://localhost:3000/shared/juntas-ms/${id_junta}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Role': role,

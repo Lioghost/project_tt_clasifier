@@ -145,7 +145,7 @@ const AdministrarAutosAdmin = () => {
         const token = localStorage.getItem('token');
     
         try {
-            const response = await fetch('http://localhost:3000/admin/autos', {
+            const response = await fetch('http://localhost:3000/shared/autos', {
                 headers: {
                     'Content-Type': 'application/json',
                     'Role': role,
@@ -223,7 +223,7 @@ const AdministrarAutosAdmin = () => {
             const token = localStorage.getItem('token');
         
             try {
-                const response = await fetch('http://localhost:3000/admin/marcas', {
+                const response = await fetch('http://localhost:3000/shared/marcas', {
                     headers: {
                         'Content-Type': 'application/json',
                         'Role': role,
@@ -368,7 +368,7 @@ const AdministrarAutosAdmin = () => {
         /* Función para la petición de marcas */
         const fetchMarcasEdit = async () => {
             try {
-                const response = await fetch('http://localhost:3000/admin/marcas', {
+                const response = await fetch('http://localhost:3000/shared/marcas', {
                     headers: {
                         'Content-Type': 'application/json',
                         'Role': role,
