@@ -232,7 +232,7 @@ const ClientCatalogo = () => {
         }
     };
 
-    // Verificar si el usuario está autenticad
+    // Verificar si el usuario está autenticado
     useEffect(() => {
         if (!isAuthenticated) {
             navigate('/login');
@@ -387,7 +387,6 @@ const ClientCatalogo = () => {
                             </tbody>
                         </table>
                     </div>
-
 
                     <div className="juntas-catalogo">
                         <h2>Selecciona una Junta de Cabeza:</h2>

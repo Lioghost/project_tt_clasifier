@@ -288,7 +288,6 @@ const AdminIdentificador = () => {
         setShowGasketOptions(false);
     };
     
-
     return (
         <div className="dashboard">
             <header className="header-dashboard">
@@ -351,6 +350,8 @@ const AdminIdentificador = () => {
                                 <li>De frente con fondo claro y lizo</li>
                                 <li>La mayor iluminación posible</li>
                                 <li>Imagen de la junta completa, como en el ejemplo</li>
+                                <li>Formato de imagen: .jpg, .jpeg, .png</li>
+                                <li>Utilice una escala 9:16 y 16MP</li>
                             </ul>
                             <div className="example-image-container">
                                 <img src={JuntaEjemplo} alt="Ejemplo de Junta de Cabeza" className="example-image" />
