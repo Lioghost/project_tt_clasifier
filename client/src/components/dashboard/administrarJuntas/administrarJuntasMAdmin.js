@@ -112,7 +112,7 @@ const AdministrarJuntasMAdmin = () => {
         const token = localStorage.getItem('token');
 
         try {
-            const response = await fetch(`http://localhost:3000/admin/juntas-ms/${juntagId}`, {
+            const response = await fetch(`http://localhost:3000/shared/juntas-ms/${juntagId}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Role': role,
@@ -201,9 +201,9 @@ const AdministrarJuntasMAdmin = () => {
             newErrors.marca_refac = "La marca es obligatoria y no debe exceder 15 caracteres.";
         }
     
-        const urlPattern = /^(https?:\/\/|www\.)[^\s/$.?#].[^\s]*$/i; // Expresión regular para aceptar 'www.' y 'http'
-        if (!newJuntamUrlMarca || !urlPattern.test(newJuntamUrlMarca) || newJuntamUrlMarca.length > 255) {
-            newErrors.url_marca = "La URL es obligatoria, debe ser válida y no debe exceder 255 caracteres.";
+        const urlPattern = /^(https?:\/\/)?([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})(\/[^\s]*)?$|^No tiene$/;
+        if (!newJuntamUrlMarca || !urlPattern.test(newJuntamUrlMarca) || newJuntamUrlMarca.length > 500) {
+            newErrors.url_marca = "La URL es obligatoria, debe ser válida y no debe exceder 500 caracteres.";
         }
     
         // Si hay errores, no enviar la petición y mostrar los mensajes
@@ -319,9 +319,9 @@ const AdministrarJuntasMAdmin = () => {
             newErrors.marca_refac = "La marca es obligatoria y no debe exceder 15 caracteres.";
         }
     
-        const urlPattern = /^(https?:\/\/)?([a-zA-Z0-9.-]+\.[a-zA-Z]{2,}|No tiene)$/;
+        const urlPattern = /^(https?:\/\/)?([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})(\/[^\s]*)?$|^No tiene$/;
         if (!editJuntamUrlMarca || !urlPattern.test(editJuntamUrlMarca) || editJuntamUrlMarca.length > 255) {
-            newErrors.url_marca = "La URL es obligatoria, debe ser válida y no debe exceder 255 caracteres.";
+            newErrors.url_marca = "La URL es obligatoria, debe ser válida y no debe exceder 500 caracteres.";
         }
     
         if (Object.keys(newErrors).length > 0) {

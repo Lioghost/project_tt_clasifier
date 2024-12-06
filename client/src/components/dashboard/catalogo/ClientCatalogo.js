@@ -37,6 +37,8 @@ const ClientCatalogo = () => {
     // Para el modal de ls información
     const [isModalOpen, setIsModalOpen] = useState(false); // Estado para controlar el modal
     const [juntaInfo, setJuntaInfo] = useState([]); // Estado para almacenar la información de la junta
+    const [isModalImageOpen, setIsModalImageOpen] = useState(false);
+    const [selectedJunta, setSelectedJunta] = useState(null);
 
     const fetchMarcas = async () => {
         const role = localStorage.getItem('role');
@@ -263,6 +265,16 @@ const ClientCatalogo = () => {
         }
     }, [successMessage, errorMessage]);
 
+    const openModalImage = (junta) => {
+        setSelectedJunta(junta);
+        setIsModalImageOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalImageOpen(false);
+        setSelectedJunta(null);
+    };
+
     return (
         <div className="dashboard">
             <header className="header-dashboard">
@@ -394,7 +406,12 @@ const ClientCatalogo = () => {
                             <div className="juntas-grid">
                                 {juntas.map(junta => (
                                     <div key={junta.id_junta} className="junta-card">
-                                        <img src={`http://localhost:3000/juntas/${junta.id_image}`} alt={`Junta ${junta.id_junta}`} className="junta-image" />
+                                        <img
+                                            src={`http://localhost:3000/juntas/${junta.id_image}`}
+                                            alt={`Junta ${junta.id_junta}`}
+                                            className="junta-image"
+                                            onClick={() => openModalImage(junta)}
+                                        />
                                         <p>Código: {junta.id_junta}</p>
                                         <button className="junta-info-button" onClick={() => handleJuntaInfo(junta.id_junta)}>
                                             Información
@@ -444,6 +461,20 @@ const ClientCatalogo = () => {
                         </div>
                     )}
 
+                    {isModalImageOpen && selectedJunta && (
+                        <div className="modal-overlay" onClick={closeModal}>
+                            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                                <img
+                                    src={`http://localhost:3000/juntas/${selectedJunta.id_image}`}
+                                    alt={`Junta ${selectedJunta.id_junta}`}
+                                    className="modal-image"
+                                />
+                                <button className="modal-close-button" onClick={closeModal}>
+                                    Cerrar
+                                </button>
+                            </div>
+                    </div>
+                    )}
 
                 </section>
             </main>

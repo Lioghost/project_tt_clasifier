@@ -196,7 +196,7 @@
 
 /* Imagen de la junta */
 .junta-image {
-    width: 180px; 
+    max-width: 180px; 
     height: auto;
     margin-bottom: 20px;
     transition: transform 0.3s ease;
@@ -204,6 +204,12 @@
 
 .junta-card:hover .junta-image {
     transform: scale(1.1);
+}
+
+.modal-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
 }
 
 /* Texto del código de la junta */

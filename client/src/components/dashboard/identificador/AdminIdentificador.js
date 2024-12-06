@@ -39,6 +39,8 @@ const AdminIdentificador = () => {
     const [juntas, setJuntas] = useState([]); // Array to store gasket results
     const [juntaInfo, setJuntaInfo] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isModalImageOpen, setIsModalImageOpen] = useState(false);
+    const [selectedJunta, setSelectedJunta] = useState(null);
 
     // Verificar si el usuario está autenticado
     useEffect(() => {
@@ -287,6 +289,16 @@ const AdminIdentificador = () => {
         setShowInstructions(true); 
         setShowGasketOptions(false);
     };
+
+    const openModalImage = (junta) => {
+        setSelectedJunta(junta);
+        setIsModalImageOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalImageOpen(false);
+        setSelectedJunta(null);
+    };
     
     return (
         <div className="dashboard">
@@ -444,10 +456,11 @@ const AdminIdentificador = () => {
                             <div className="juntas-grid">
                                 {juntas.map(junta => (
                                     <div key={junta.id_junta} className="junta-card">
-                                        <img 
-                                            src={`http://localhost:3000/juntas/${junta.id_image}`} 
-                                            alt={`Junta ${junta.id_junta}`} 
-                                            className="junta-image" 
+                                        <img
+                                            src={`http://localhost:3000/juntas/${junta.id_image}`}
+                                            alt={`Junta ${junta.id_junta}`}
+                                            className="junta-image"
+                                            onClick={() => openModalImage(junta)}
                                         />
                                         <p>Código: {junta.id_junta}</p>
                                         <p>Probabilidad: {junta.probability}</p> {/* Mostrar la probabilidad con todos los decimales */}
@@ -498,6 +511,21 @@ const AdminIdentificador = () => {
                                 </button>
                             </div>
                         </div>
+                    )}
+
+                    {isModalImageOpen && selectedJunta && (
+                        <div className="modal-overlay" onClick={closeModal}>
+                            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                                <img
+                                    src={`http://localhost:3000/juntas/${selectedJunta.id_image}`}
+                                    alt={`Junta ${selectedJunta.id_junta}`}
+                                    className="modal-image"
+                                />
+                                <button className="modal-close-button" onClick={closeModal}>
+                                    Cerrar
+                                </button>
+                            </div>
+                    </div>
                     )}
 
                 </div>
