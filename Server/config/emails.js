@@ -20,10 +20,10 @@ const emailRegistro = async (datos) => {
       //Enviar email
       //El "transport permite autencacion, y acceder a los servicios de mailtrap y brinda acceso a una funcion 'sendMail'"
     await transport.sendMail({      //Configuracion del email, que cuenta lo envia
-        from: 'GesketGenious.com',
+        from: 'GesketGenius.com',
         to: email,
-        subject: 'Confirma tu Cuenta en GasketGenious.com',
-        text: 'Confirma tu Cuenta en GasketGenious.com',
+        subject: 'Confirma tu Cuenta en GasketGenius.com',
+        text: 'Confirma tu Cuenta en GasketGenius.com',
         html: `
         <head>
           <style>
@@ -81,10 +81,10 @@ const emailOlvidePassword = async (datos) => {
 
     //Enviar email
   await transport.sendMail({      //Configuracion del email, que cuenta lo envia
-      from: 'GaskeGenious.com',
+      from: 'GaskeGenius.com',
       to: email,
-      subject: 'Restablece tu Password en GesketGenious.com',
-      text: 'Restablece tu Password en GasketGenious.com',
+      subject: 'Restablece tu Password en GesketGenius.com',
+      text: 'Restablece tu Password en GasketGenius.com',
       html: `
         <head>
           <style>
@@ -124,7 +124,7 @@ const emailOlvidePassword = async (datos) => {
               <h1>Restablece tu Password</h1>
             </div>
             <div class="content">
-              <p>Hola <b>${username}</b>, has solicitado restablecer tu password en GesketGenious.com</p>
+              <p>Hola <b>${username}</b>, has solicitado restablecer tu password en GesketGenius.com</p>
               <p>Sigue el siguiente enlace para generar un password nuevo:</p>
               <a href="http://localhost:4000/auth/olvide-password/${token}" class="button">Restablecer Password</a>
               <p>Si tu no solicitaste el cambio de password, puedes ignorar este mensaje</p>

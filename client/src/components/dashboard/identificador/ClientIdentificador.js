@@ -70,7 +70,7 @@ const ClientIdentificador = () => {
         const token = localStorage.getItem('token');
 
         try {
-            const response = await fetch('http://localhost:3000/admin/juntas-g-id', {
+            const response = await fetch('http://localhost:3000/shared/juntas-g-id', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -177,7 +177,7 @@ const ClientIdentificador = () => {
             const role = localStorage.getItem('role');
             const token = localStorage.getItem('token');
     
-            const juntasResponse = await fetch('http://localhost:3000/admin/juntas-g', {
+            const juntasResponse = await fetch('http://localhost:3000/shared/juntas-g', {
                 headers: {
                     'Content-Type': 'application/json',
                     'Role': role,
@@ -299,7 +299,7 @@ const ClientIdentificador = () => {
         setIsModalImageOpen(false);
         setSelectedJunta(null);
     };
-
+    
     return (
         <div className="dashboard">
             <header className="header-dashboard">
