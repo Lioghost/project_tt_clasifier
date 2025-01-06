@@ -394,7 +394,7 @@ const AdministrarMotoresAdmin = () => {
         /* Función para la petición de la información del auto a editar */
         const fetchMotorData = async () => {
             try {
-                const response = await fetch(`http://localhost:3000/admin/motor/${motorId}`, {
+                const response = await fetch(`http://localhost:3000/shared/motor/${motorId}`, {
                     headers: {
                         'Content-Type': 'application/json',
                         'Role': role,
